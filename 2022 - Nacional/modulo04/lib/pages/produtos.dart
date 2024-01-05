@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modulo04/controller/api.dart';
 import 'package:modulo04/styles/styles.dart';
+import 'package:modulo04/widgets/modais.dart';
 
 class Produtos extends StatefulWidget {
   const Produtos({super.key});
@@ -220,7 +221,16 @@ class _ProdutosState extends State<Produtos> {
                                                 ),
                                               )
                                             : ElevatedButton.icon(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  Modais.showMyDialogExluir(
+                                                    context,
+                                                    'Excluir produto',
+                                                    'Confirma a exclusão deste produto?',
+                                                    dataProdutos[i]
+                                                        ['id_produto'],
+                                                  );
+                                                  setState(() {});
+                                                },
                                                 icon: Icon(
                                                   Icons.delete,
                                                   color: Cores.ciano,

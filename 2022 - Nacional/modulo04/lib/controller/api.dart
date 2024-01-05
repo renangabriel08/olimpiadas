@@ -56,4 +56,31 @@ class ApiCntroller {
       return {};
     }
   }
+
+  static deleteProdutos(id) async {
+    try {
+      final url = Uri.parse('http://192.168.86.103:3000/tp04/produtos/$id');
+
+      final req = await http.delete(
+        url,
+        headers: {'Authorization': 'Bearer $token'},
+      );
+
+      if (req.statusCode == 200) {
+        MyToast.gerarToast(
+          'Produto apagado com sucesso!',
+        );
+      } else {
+        MyToast.gerarToast(
+          'Falha ao deletar produto..',
+        );
+        return {};
+      }
+    } catch (e) {
+      MyToast.gerarToast(
+        'Falha ao deletar produto.',
+      );
+      print(e);
+    }
+  }
 }

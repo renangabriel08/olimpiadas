@@ -48,4 +48,40 @@ class Modais {
       ),
     );
   }
+
+  static showMyDialogErroCadastrar(context, String titulo, String msg) async {
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text(titulo),
+        content: Text(msg),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context, 'Ok, Entendi');
+            },
+            child: const Text('Ok, Entendi'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static showMyDialogCadastrar(context, String titulo, String msg) async {
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text(titulo),
+        content: Text(msg),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/produtos');
+            },
+            child: const Text('Ok'),
+          ),
+        ],
+      ),
+    );
+  }
 }

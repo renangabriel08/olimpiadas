@@ -18,8 +18,9 @@ class _ProdutosState extends State<Produtos> {
 
     return Scaffold(
       body: FutureBuilder(
-        future:
-            Future.wait([ApiCntroller.getUser(), ApiCntroller.getProdutos()]),
+        future: Future.wait(
+          [ApiCntroller.getUser(), ApiCntroller.getProdutos()],
+        ),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List response = snapshot.data as List;
@@ -28,7 +29,6 @@ class _ProdutosState extends State<Produtos> {
             List dataProdutos = response[1]['resultado'];
 
             var idUser = dataUser['id_usuario'];
-
             return Scaffold(
               body: Container(
                 width: width,
@@ -154,7 +154,8 @@ class _ProdutosState extends State<Produtos> {
                                                 borderRadius:
                                                     BorderRadius.circular(10),
                                                 border: Border.all(
-                                                    color: Cores.cinza),
+                                                  color: Cores.cinza,
+                                                ),
                                               ),
                                               child: Padding(
                                                 padding:
@@ -164,14 +165,33 @@ class _ProdutosState extends State<Produtos> {
                                                       BorderRadius.circular(
                                                     10,
                                                   ),
-                                                  child: Image.network(
-                                                    dataProdutos[i]['img_url']
-                                                        .replaceRange(
-                                                      0,
-                                                      21,
-                                                      'http://192.168.86.103:3000/assets/',
-                                                    ),
-                                                  ),
+                                                  //dataProdutos
+                                                  child: dataProdutos[i]
+                                                                  ['img_url']
+                                                              .toString()
+                                                              .substring(
+                                                                0,
+                                                                28,
+                                                              ) ==
+                                                          'localhost:3000localhost:3000'
+                                                      ? Image.network(
+                                                          dataProdutos[i]
+                                                                  ['img_url']
+                                                              .replaceRange(
+                                                            0,
+                                                            36,
+                                                            'http://192.168.86.103:3000/assets/',
+                                                          ),
+                                                        )
+                                                      : Image.network(
+                                                          dataProdutos[i]
+                                                                  ['img_url']
+                                                              .replaceRange(
+                                                            0,
+                                                            21,
+                                                            'http://192.168.86.103:3000/assets/',
+                                                          ),
+                                                        ),
                                                 ),
                                               ),
                                             ),
@@ -222,7 +242,7 @@ class _ProdutosState extends State<Produtos> {
                                                 dataProdutos[i]
                                                     ['id_usuario_created']
                                             ? ElevatedButton.icon(
-                                                onPressed: () {
+                                                onPressed: () async {
                                                   Modais.showMyDialogComprar(
                                                     context,
                                                     'Comprar produto',
@@ -230,6 +250,9 @@ class _ProdutosState extends State<Produtos> {
                                                     dataProdutos[i]
                                                         ['id_produto'],
                                                     dataProdutos[i]['preco'],
+                                                  );
+                                                  await Future.delayed(
+                                                    const Duration(seconds: 1),
                                                   );
                                                   setState(() {});
                                                 },
@@ -258,13 +281,16 @@ class _ProdutosState extends State<Produtos> {
                                                 ),
                                               )
                                             : ElevatedButton.icon(
-                                                onPressed: () {
+                                                onPressed: () async {
                                                   Modais.showMyDialogExluir(
                                                     context,
                                                     'Excluir produto',
                                                     'Confirma a exclusão deste produto?',
                                                     dataProdutos[i]
                                                         ['id_produto'],
+                                                  );
+                                                  await Future.delayed(
+                                                    const Duration(seconds: 1),
                                                   );
                                                   setState(() {});
                                                 },
@@ -311,7 +337,10 @@ class _ProdutosState extends State<Produtos> {
                   size: 35,
                   color: Colors.white,
                 ),
-                onPressed: () {},
+                onPressed: () => Navigator.popAndPushNamed(
+                  context,
+                  '/cadastro',
+                ),
               ),
             );
           }

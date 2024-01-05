@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modulo04/pages/cadastro.dart';
 import 'package:modulo04/pages/produtos.dart';
 
 void main() {
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         '/produtos': (context) => const Produtos(),
+        '/cadastro': (context) => const Cadastro(),
       },
       initialRoute: '/produtos',
     );

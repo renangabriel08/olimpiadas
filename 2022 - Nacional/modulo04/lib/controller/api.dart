@@ -1,6 +1,7 @@
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:modulo04/widgets/modais.dart';
 import 'package:modulo04/widgets/toast.dart';
 
 class ApiCntroller {
@@ -109,6 +110,49 @@ class ApiCntroller {
     } catch (e) {
       MyToast.gerarToast(
         'Falha ao comprar produto.',
+      );
+      print(e);
+    }
+  }
+
+  static cadastrarProduto(nome, desc, preco, File img, context) async {
+    try {
+      final url = Uri.parse('http://192.168.86.103:3000/tp04/produtos');
+
+      final stream = http.ByteStream(img.openRead());
+      final length = await img.length();
+      final image = http.MultipartFile(
+        'imagem',
+        stream,
+        length,
+        filename: 'oi',
+      );
+      final request = http.MultipartRequest('POST', url);
+
+      request.headers['Authorization'] = 'Bearer $token';
+
+      request.fields['nome'] = nome;
+      request.fields['descricao'] = desc;
+      request.fields['preco'] = preco;
+
+      request.files.add(image);
+
+      final res = await request.send();
+
+      if (res.statusCode == 201) {
+        Modais.showMyDialogCadastrar(
+          context,
+          'Parabéns!',
+          'Produto cadastrado com sucesso!',
+        );
+      } else {
+        MyToast.gerarToast(
+          'Falha ao tentar acessar o sistema, tente novamente mais tarde',
+        );
+      }
+    } catch (e) {
+      MyToast.gerarToast(
+        'Falha ao tentar acessar o sistema, tente novamente mais tarde',
       );
       print(e);
     }

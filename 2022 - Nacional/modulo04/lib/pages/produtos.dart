@@ -47,37 +47,64 @@ class _ProdutosState extends State<Produtos> {
                           bottomRight: Radius.circular(20),
                         ),
                       ),
-                      child: Row(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                width: 140,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(Icons.person),
+                                    Text(
+                                      dataUser['nome'].toString(),
+                                      style: TextStyle(
+                                        fontFamily: Fontes.fonte,
+                                        color: Cores.cinza,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                width: 80,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(Icons.attach_money_rounded),
+                                    Text(
+                                      dataUser['saldoWSCoins'].toString(),
+                                      style: TextStyle(
+                                        fontFamily: Fontes.fonte,
+                                        color: Cores.cinza,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                           Text(
                             'Loja de Produtos',
                             style: TextStyle(
                               fontFamily: Fontes.fonte,
                               color: Colors.white,
                               fontSize: 20,
-                            ),
-                          ),
-                          Container(
-                            width: 80,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(Icons.attach_money_rounded),
-                                Text(
-                                  dataUser['saldoWSCoins'].toString(),
-                                  style: TextStyle(
-                                    fontFamily: Fontes.fonte,
-                                    color: Cores.cinza,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ],
                             ),
                           ),
                         ],
@@ -195,7 +222,17 @@ class _ProdutosState extends State<Produtos> {
                                                 dataProdutos[i]
                                                     ['id_usuario_created']
                                             ? ElevatedButton.icon(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  Modais.showMyDialogComprar(
+                                                    context,
+                                                    'Comprar produto',
+                                                    'Confirma a aquisição deste produto?',
+                                                    dataProdutos[i]
+                                                        ['id_produto'],
+                                                    dataProdutos[i]['preco'],
+                                                  );
+                                                  setState(() {});
+                                                },
                                                 icon: Icon(
                                                   Icons.shopping_cart,
                                                   color: Cores.ciano,

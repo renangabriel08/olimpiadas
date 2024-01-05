@@ -72,13 +72,43 @@ class ApiCntroller {
         );
       } else {
         MyToast.gerarToast(
-          'Falha ao deletar produto..',
+          'Falha ao deletar produto.',
         );
         return {};
       }
     } catch (e) {
       MyToast.gerarToast(
         'Falha ao deletar produto.',
+      );
+      print(e);
+    }
+  }
+
+  static comprarProdutos(id, preco) async {
+    try {
+      final url = Uri.parse(
+        'http://192.168.86.103:3000/tp04/produtos/comprar/$id',
+      );
+
+      final req = await http.post(
+        url,
+        body: {'preco': preco.toString()},
+        headers: {'Authorization': 'Bearer $token'},
+      );
+
+      if (req.statusCode == 200) {
+        MyToast.gerarToast(
+          'Produto comprado com sucesso!',
+        );
+      } else {
+        MyToast.gerarToast(
+          'Falha ao comprar produto.',
+        );
+        return {};
+      }
+    } catch (e) {
+      MyToast.gerarToast(
+        'Falha ao comprar produto.',
       );
       print(e);
     }

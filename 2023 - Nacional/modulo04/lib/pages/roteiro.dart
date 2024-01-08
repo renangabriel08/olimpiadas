@@ -17,6 +17,7 @@ class _RoteiroState extends State<Roteiro> {
           'Tela Roteiro Personalizado',
           style: TextStyle(
             fontFamily: Fontes.fonte,
+          color: Cores.verdeClaro,
           ),
         ),
       ),

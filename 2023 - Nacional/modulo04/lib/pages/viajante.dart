@@ -17,6 +17,7 @@ class _ViajanteState extends State<Viajante> {
           'Tela Viajante Gamificado',
           style: TextStyle(
             fontFamily: Fontes.fonte,
+          color: Cores.verdeClaro,
           ),
         ),
       ),

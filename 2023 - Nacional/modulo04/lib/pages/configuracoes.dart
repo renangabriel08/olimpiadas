@@ -17,6 +17,7 @@ class _ConfiguracoesState extends State<Configuracoes> {
           'Tela Configuraçoes de Usuário.',
           style: TextStyle(
             fontFamily: Fontes.fonte,
+            color: Cores.verdeClaro,
           ),
         ),
       ),

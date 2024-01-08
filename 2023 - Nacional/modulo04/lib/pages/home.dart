@@ -16,6 +16,7 @@ class _HomeState extends State<Home> {
         'Tela Home',
         style: TextStyle(
           fontFamily: Fontes.fonte,
+          color: Cores.verdeClaro,
         ),
       ),
     );

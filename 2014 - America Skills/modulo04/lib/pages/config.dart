@@ -80,8 +80,12 @@ class _ConfigState extends State<Config> {
                                     border: Border.all(color: Cores.cinza),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: const Center(
-                                      child: Icon(Icons.arrow_back)),
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.arrow_back,
+                                      color: Cores.cinza,
+                                    ),
+                                  ),
                                 ),
                               ),
                               Text(
@@ -90,7 +94,7 @@ class _ConfigState extends State<Config> {
                                 style: TextStyle(
                                   fontFamily: Fontes.fonte,
                                   fontSize: 23,
-                                  color: Cores.vermelho,
+                                  color: Cores.cinza,
                                 ),
                               ),
                             ],

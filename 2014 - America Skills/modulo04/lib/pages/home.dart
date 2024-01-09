@@ -73,7 +73,7 @@ class _HomeState extends State<Home> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  onPressed: () => Navigator.pushNamed(context, '/sair'),
+                  onPressed: () {},
                   child: Text(
                     'Sair',
                     style: TextStyle(

@@ -251,14 +251,32 @@ class _ConfigState extends State<Config> {
                             ),
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                await Cache.salvarConfigs(
-                                  tipoPartida!,
-                                  tempoPartida!,
-                                  tempoPalavra!,
-                                  todasCores!,
-                                );
-                                MyToast.gerarToast('Dados salvos com sucesso!');
-                                Navigator.pushNamed(context, '/home');
+                                int verdadeiros = 0;
+                                List a = [];
+                                for (int i = 0; i < todasCores!.length; i++) {
+                                  a.add(todasCores![i]['check']);
+                                }
+                                for (int e = 0; e < a.length; e++) {
+                                  if (a[e]) {
+                                    verdadeiros++;
+                                  }
+                                }
+
+                                if (verdadeiros < 2) {
+                                  MyToast.gerarToast(
+                                    'Selecione no mínimo duas cores',
+                                  );
+                                } else {
+                                  await Cache.salvarConfigs(
+                                    tipoPartida!,
+                                    tempoPartida!,
+                                    tempoPalavra!,
+                                    todasCores!,
+                                  );
+                                  MyToast.gerarToast(
+                                      'Dados salvos com sucesso!');
+                                  Navigator.pushNamed(context, '/home');
+                                }
                               } else {
                                 MyToast.gerarToast('Preencha todos os campos');
                               }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:modulo04/pages/config.dart';
 import 'package:modulo04/pages/home.dart';
 import 'package:modulo04/pages/jogo.dart';
+import 'package:modulo04/pages/score.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const Home(),
         '/config': (context) => const Config(),
         '/jogo': (context) => const Jogo(),
+        Score.routeName: (context) => const Score(),
       },
       initialRoute: '/home',
     );

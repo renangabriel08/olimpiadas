@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:modulo04/controllers/cache.dart';
+import 'package:modulo04/pages/score.dart';
 import 'package:modulo04/styles/styles.dart';
 import 'package:modulo04/widgets/toast.dart';
 
@@ -158,9 +159,21 @@ class _JogoState extends State<Jogo> {
   void fimDeJogo() {
     tipoPartida == 'Por tempo' ? timerJogo!.cancel() : null;
     startedJogo = false;
+    calcularMediaDeReacao();
     MyToast.gerarToast('Fim de jogo!');
 
-    print(temposDeReacao);
+    Navigator.pushNamed(
+      context,
+      Score.routeName,
+      arguments: ScoresArguments(
+        palavrasExibidas.toString(),
+        acertos.toString(),
+        tipoPartida!,
+        porcentagemFormatada.toString(),
+        mediaDeReacaoFormatada.toString(),
+        personalizado!,
+      ),
+    );
   }
 
   String formatarRespostaCerta(Color respostaCerta) {
@@ -377,38 +390,82 @@ class _JogoState extends State<Jogo> {
                     ),
                     Container(height: 20),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            for (int i = 0; i < coresDoJogo.length; i++)
-                              Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () => setState(() {
-                                      if (startedJogo) {
-                                        verificarResposta(
-                                          corPalavra!,
-                                          coresDoJogo[i]['nome'],
-                                        );
-                                        trocarPalavra();
-                                        timerPalavra!.cancel();
-                                        duracaoPalavra();
-                                        tipoPartida == 'Por palavra'
-                                            ? startJogoPorPalavra()
-                                            : null;
-                                      }
-                                    }),
-                                    child: Container(
-                                      width: width * .2,
-                                      height: width * .2,
-                                      color: coresDoJogo[i]['cor'],
-                                    ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                for (int i = 0;
+                                    i < coresDoJogo.length ~/ 2;
+                                    i++)
+                                  Column(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () => setState(() {
+                                          if (startedJogo) {
+                                            verificarResposta(
+                                              corPalavra!,
+                                              coresDoJogo[i]['nome'],
+                                            );
+                                            trocarPalavra();
+                                            timerPalavra!.cancel();
+                                            duracaoPalavra();
+                                            tipoPartida == 'Por palavra'
+                                                ? startJogoPorPalavra()
+                                                : null;
+                                          }
+                                        }),
+                                        child: Container(
+                                          width: width * .2,
+                                          height: width * .2,
+                                          color: coresDoJogo[i]['cor'],
+                                        ),
+                                      ),
+                                      Container(height: 10),
+                                    ],
                                   ),
-                                  Container(height: 10),
-                                ],
-                              ),
+                              ],
+                            ),
+                            Container(width: width * .2),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                for (int i = coresDoJogo.length ~/ 2;
+                                    i < coresDoJogo.length;
+                                    i++)
+                                  Column(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () => setState(() {
+                                          if (startedJogo) {
+                                            verificarResposta(
+                                              corPalavra!,
+                                              coresDoJogo[i]['nome'],
+                                            );
+                                            trocarPalavra();
+                                            timerPalavra!.cancel();
+                                            duracaoPalavra();
+                                            tipoPartida == 'Por palavra'
+                                                ? startJogoPorPalavra()
+                                                : null;
+                                          }
+                                        }),
+                                        child: Container(
+                                          width: width * .2,
+                                          height: width * .2,
+                                          color: coresDoJogo[i]['cor'],
+                                        ),
+                                      ),
+                                      Container(height: 10),
+                                    ],
+                                  ),
+                              ],
+                            )
                           ],
                         ),
                       ],

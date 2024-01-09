@@ -14,6 +14,29 @@ class Config extends StatefulWidget {
 class _ConfigState extends State<Config> {
   final _formKey = GlobalKey<FormState>();
 
+  String? tempoPartida;
+  String? tempoPalavra;
+  String? tipoPartida;
+  bool? personalizado;
+  List<Map>? todasCores;
+
+  void setarVariaveis(Map<String, dynamic> result) {
+    tempoPartida = result['tempoPartida'];
+    tempoPalavra = result['tempoPalavra'];
+    tipoPartida = result['tipoPartida'];
+    todasCores = result['cores'];
+
+    result == Cache.configPadrao ? personalizado = false : personalizado = true;
+  }
+
+  @override
+  void initState() {
+    Future.wait([Cache.getConfigs()]).then((value) {
+      setarVariaveis(value[0]);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -26,19 +49,6 @@ class _ConfigState extends State<Config> {
         future: Cache.getConfigs(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            Map result = snapshot.data as Map;
-
-            String tempoPartida = result['tempoPartida'];
-            String tempoPalavra = result['tempoPalavra'];
-            String tipoPartida = result['tipoPartida'];
-            bool? personalizado = true;
-
-            result == Cache.configPadrao
-                ? personalizado = false
-                : personalizado = true;
-
-            List<Map> todasCores = result['cores'];
-
             return SingleChildScrollView(
               child: Container(
                 width: width,
@@ -185,14 +195,14 @@ class _ConfigState extends State<Config> {
                                     Row(
                                       children: [
                                         Checkbox(
-                                          value: todasCores[col1]['check'],
+                                          value: todasCores![col1]['check'],
                                           onChanged: (value) => setState(() {
-                                            todasCores[col1]['check'] =
-                                                !todasCores[col1]['check'];
+                                            todasCores![col1]['check'] =
+                                                !todasCores![col1]['check'];
                                           }),
                                         ),
                                         Text(
-                                          todasCores[col1]['cor'],
+                                          todasCores![col1]['cor'],
                                           style: TextStyle(
                                             fontFamily: Fontes.fonte,
                                             fontSize: 20,
@@ -210,14 +220,14 @@ class _ConfigState extends State<Config> {
                                     Row(
                                       children: [
                                         Checkbox(
-                                          value: todasCores[col2]['check'],
+                                          value: todasCores![col2]['check'],
                                           onChanged: (value) => setState(() {
-                                            todasCores[col2]['check'] =
-                                                !todasCores[col2]['check'];
+                                            todasCores![col2]['check'] =
+                                                !todasCores![col2]['check'];
                                           }),
                                         ),
                                         Text(
-                                          todasCores[col2]['cor'],
+                                          todasCores![col2]['cor'],
                                           style: TextStyle(
                                             fontFamily: Fontes.fonte,
                                             fontSize: 20,
@@ -242,10 +252,10 @@ class _ConfigState extends State<Config> {
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 await Cache.salvarConfigs(
-                                  tipoPartida,
-                                  tempoPartida,
-                                  tempoPalavra,
-                                  todasCores,
+                                  tipoPartida!,
+                                  tempoPartida!,
+                                  tempoPalavra!,
+                                  todasCores!,
                                 );
                                 MyToast.gerarToast('Dados salvos com sucesso!');
                                 Navigator.pushNamed(context, '/home');
@@ -273,7 +283,14 @@ class _ConfigState extends State<Config> {
 
           if (snapshot.hasError) {
             return Center(
-              child: Text("Ocorreu um erro"),
+              child: Text(
+                "Ocorreu um erro",
+                style: TextStyle(
+                  fontFamily: Fontes.fonte,
+                  fontSize: 25,
+                  color: Cores.vermelho,
+                ),
+              ),
             );
           }
 

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Cache {
-  static Map configPadrao = {
+  static Map<String, dynamic> configPadrao = {
     'tipoPartida': 'Por tempo',
     'tempoPartida': '30',
     'tempoPalavra': '3000',
@@ -42,13 +42,13 @@ class Cache {
     }
   }
 
-  static getConfigs() async {
+  static Future<Map<String, dynamic>> getConfigs() async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final List<String>? configs = prefs.getStringList('configs');
 
       if (configs != null) {
-        Map configsFormatadas = {
+        Map<String, dynamic> configsFormatadas = {
           'tipoPartida': configs[0],
           'tempoPartida': configs[1],
           'tempoPalavra': configs[2],
@@ -68,7 +68,7 @@ class Cache {
         return configPadrao;
       }
     } catch (e) {
-      print(e);
+      return configPadrao;
     }
   }
 

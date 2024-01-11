@@ -32,8 +32,6 @@ class _InicioState extends State<Inicio> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           Map user = snapshot.data as Map;
-          print(user['fotoPerfil']);
-
           return Scaffold(
             appBar: AppBar(
               title: const Center(
@@ -59,11 +57,15 @@ class _InicioState extends State<Inicio> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // Image.network(
-                        //   'https://randomuser.me/api/portraits/men/75.jpg',
-                        //   width: 100,
-                        //   height: 100,
-                        // ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(
+                            '${user['fotoPerfil']}',
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,

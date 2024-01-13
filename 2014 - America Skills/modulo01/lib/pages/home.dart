@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modulo01/controllers/api.dart';
+import 'package:modulo01/controllers/cache.dart';
+import 'package:modulo01/controllers/notificacao.dart';
 import 'package:modulo01/styles/styles.dart';
 
 class Home extends StatefulWidget {
@@ -19,7 +21,24 @@ class _HomeState extends State<Home> {
   List<String> filtros = ['Descrição', 'Participantes', 'Local'];
   String filtroSelecionado = '';
 
-  modal(titulo, desc, local, data, hora, participantes) {
+  modal(titulo, desc, local, data, hora, participantes) async {
+    final List eventosDesejos = await Cache.getEventos();
+    Map eventoIgual = {};
+    bool jaAdicionado = false;
+
+    //Verificando se evento já existe
+    for (int i = 0; i < eventosDesejos.length; i++) {
+      String comparar = '$titulo$data$hora$desc$participantes$local';
+      String comparar2 =
+          '${eventosDesejos[i]['titulo']}${eventosDesejos[i]['data']}${eventosDesejos[i]['horario']}${eventosDesejos[i]['desc']}${eventosDesejos[i]['participantes']}${eventosDesejos[i]['local']}';
+
+      if (comparar == comparar2) {
+        eventoIgual = eventosDesejos[i];
+        jaAdicionado = true;
+      }
+    }
+
+    // ignore: use_build_context_synchronously
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -62,10 +81,38 @@ class _HomeState extends State<Home> {
           ),
         ),
         actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'Adicionar aos desejos'),
-            child: Textos.padrao('Adicionar aos desejos', Cores.azulMedio),
-          ),
+          jaAdicionado
+              ? TextButton(
+                  onPressed: () {
+                    Cache.deletarEventos(eventoIgual);
+                    Navigator.pop(context, 'Remover dos desejos');
+                  },
+                  child: Textos.padrao('Remover dos desejos', Colors.red),
+                )
+              : TextButton(
+                  onPressed: () async {
+                    Map evento = {
+                      "titulo": titulo,
+                      "data": data,
+                      "horario": hora,
+                      "desc": desc,
+                      "participantes": participantes,
+                      "local": local,
+                    };
+
+                    Cache.salvarEvento(evento);
+
+                    await Notificar.showNotification(
+                      '$titulo - $data',
+                      '$desc. Venha conferir',
+                    );
+                    Navigator.pop(context, 'Adicionar aos desejos');
+                  },
+                  child: Textos.padrao(
+                    'Adicionar aos desejos',
+                    Cores.azulMedio,
+                  ),
+                ),
         ],
       ),
     );
@@ -212,8 +259,8 @@ class _HomeState extends State<Home> {
                                     ? limparPesquisa()
                                     : pesquisar(pesquisa),
                                 icon: pesquisou
-                                    ? Icon(Icons.close)
-                                    : Icon(Icons.search),
+                                    ? const Icon(Icons.close)
+                                    : const Icon(Icons.search),
                               ),
                               border: const OutlineInputBorder(),
                               label: Text(

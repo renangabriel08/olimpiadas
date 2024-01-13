@@ -3,45 +3,66 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Cache {
   static salvarEvento(Map evento) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    int? id = prefs.getInt('id');
+      int? id = prefs.getInt('id');
 
-    id == null ? id = 0 : null;
+      id == null ? id = 0 : null;
 
-    if (id == 0) {
-      await prefs.setInt('id', id++);
+      if (id == 0) {
+        await prefs.setInt('id', id + 1);
 
-      await prefs.setStringList(
-        'evento$id',
-        <String>[
-          evento['titulo'].toString(),
-          evento['data'].toString(),
-          evento['horario'].toString(),
-          evento['desc'].toString(),
-          evento['participantes'].toString(),
-          evento['local'].toString(),
-          'evento$id'
-        ],
-      );
-      MyToast.gerarToast('Evento adicionado aos desejos');
-    } else {
-      List<Map> eventos = await getEventos();
+        await prefs.setStringList(
+          'evento$id',
+          <String>[
+            evento['titulo'].toString(),
+            evento['data'].toString(),
+            evento['horario'].toString(),
+            evento['desc'].toString(),
+            evento['participantes'].toString(),
+            evento['local'].toString(),
+            'evento$id'
+          ],
+        );
+        MyToast.gerarToast('Evento adicionado aos desejos');
+      } else {
+        //Pegando eventos já cadastrados para verificação
+        List<Map> eventos = await getEventos();
 
-      for (int i = 0; i < eventos.length; i++) {
-        Map comparar = {
-          "titulo": evento['titulo'],
-          "data": evento['data'],
-          "horario": evento['horario'],
-          "desc": evento['desc'],
-          "participantes": int.parse(evento['participantes']),
-          "local": evento['local'],
-          "chave": eventos[i]['chave']
-        };
-        if (eventos[i] == comparar) {
-          MyToast.gerarToast('Evento já adicionado');
+        //Verificando se evento já existe
+        for (int i = 0; i < eventos.length; i++) {
+          String comparar =
+              '${evento['titulo']}${evento['data']}${evento['horario']}${evento['desc']}${evento['participantes']}${evento['local']}${eventos[i]['chave']}';
+          String comparar2 =
+              '${eventos[i]['titulo']}${eventos[i]['data']}${eventos[i]['horario']}${eventos[i]['desc']}${eventos[i]['participantes']}${eventos[i]['local']}${eventos[i]['chave']}';
+
+          if (comparar == comparar2) {
+            MyToast.gerarToast('Evento já adicionado');
+            return;
+          }
         }
+
+        //Adicionando evento
+        await prefs.setInt('id', id + 1);
+        await prefs.setStringList(
+          'evento$id',
+          <String>[
+            evento['titulo'].toString(),
+            evento['data'].toString(),
+            evento['horario'].toString(),
+            evento['desc'].toString(),
+            evento['participantes'].toString(),
+            evento['local'].toString(),
+            'evento$id'
+          ],
+        );
+
+        //Resposta
+        MyToast.gerarToast('Evento adicionado aos desejos');
       }
+    } catch (e) {
+      MyToast.gerarToast('Erro ao adicionar aos desejos');
     }
   }
 
@@ -54,26 +75,34 @@ class Cache {
       return eventos;
     }
 
-    for (int i = 1; i < id; i++) {
-      List<String>? dados = prefs.getStringList('evento$id');
-      eventos.add({
-        "titulo": dados![0],
-        "data": dados[1],
-        "horario": dados[2],
-        "desc": dados[3],
-        "participantes": int.parse(dados[4]),
-        "local": dados[5],
-        "chave": dados[6]
-      });
+    for (int i = 0; i < id; i++) {
+      List<String>? dados = prefs.getStringList('evento$i');
+      if (dados != null) {
+        eventos.add({
+          "titulo": dados[0],
+          "data": dados[1],
+          "horario": dados[2],
+          "desc": dados[3],
+          "participantes": dados[4],
+          "local": dados[5],
+          "chave": dados[6]
+        });
+      }
     }
 
     return eventos;
   }
 
   static deletarEventos(Map evento) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    await prefs.remove(evento['chave']);
+      await prefs.remove(evento['chave']);
+
+      MyToast.gerarToast('Evento removido com sucesso');
+    } catch (e) {
+      MyToast.gerarToast('Erro ao remover evento');
+    }
   }
 }
 

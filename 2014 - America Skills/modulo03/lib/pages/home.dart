@@ -1,5 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:modulo03/controllers/cache.dart';
+import 'package:modulo03/pages/scores.dart';
 import 'package:modulo03/styles/styles.dart';
 
 class Home extends StatelessWidget {
@@ -32,18 +36,28 @@ class Home extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Textos.subTitulo('Jogar', Cores.azulClasro),
+                child: Textos.subTitulo('Jogar', Cores.azulClaro),
               ),
               SizedBox(height: height * .02),
               ElevatedButton(
-                onPressed: () => Navigator.pushNamed(context, '/scores'),
+                onPressed: () async {
+                  final ultimoScore = await CacheController.getUltimoScore();
+
+                  Navigator.pushNamed(
+                    context,
+                    Scores.routeName,
+                    arguments: ScoresArguments(
+                      ultimoScore == null ? '00:00:00' : ultimoScore[1],
+                    ),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   fixedSize: Size(width, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Textos.subTitulo('Scores', Cores.azulClasro),
+                child: Textos.subTitulo('Scores', Cores.azulClaro),
               ),
             ],
           ),

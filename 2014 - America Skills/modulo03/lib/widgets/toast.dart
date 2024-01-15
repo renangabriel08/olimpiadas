@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 class MyToast {
   static gerarToast(String txt) {
     Fluttertoast.showToast(
-        msg: "This is Center Short Toast",
+        msg: txt,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,

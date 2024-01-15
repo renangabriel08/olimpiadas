@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Cores {
   static Color azulEscuro = const Color(0xFF0E47A1);
-  static Color azulClasro = const Color(0xFF1564BF);
+  static Color azulClaro = const Color(0xFF1564BF);
   static Color amarelo = const Color(0xFFFFEB3C);
   static Color preto = const Color(0xFF272727);
   static Color vermelho = const Color(0xFFF44236);

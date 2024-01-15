@@ -43,11 +43,11 @@ class _ScoresState extends State<Scores> {
                       children: [
                         Container(height: height * .05),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             GestureDetector(
-                              onTap: () => Navigator.pushNamed(
+                              onTap: () => Navigator.pop(
                                 context,
-                                '/jogo',
                               ),
                               child: Container(
                                 width: 35,
@@ -68,7 +68,6 @@ class _ScoresState extends State<Scores> {
                                 ),
                               ),
                             ),
-                            Container(width: width * .25),
                             Text(
                               'Scores',
                               style: TextStyle(
@@ -76,6 +75,30 @@ class _ScoresState extends State<Scores> {
                                 fontSize: 25,
                                 fontWeight: FontWeight.w500,
                                 fontFamily: Fontes.fonte,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () => Navigator.pushNamed(
+                                context,
+                                '/home',
+                              ),
+                              child: Container(
+                                width: 35,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    color: Cores.preto,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.home,
+                                    size: 27,
+                                    color: Cores.azulEscuro,
+                                  ),
+                                ),
                               ),
                             ),
                           ],

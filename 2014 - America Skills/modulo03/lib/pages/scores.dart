@@ -36,7 +36,113 @@ class _ScoresState extends State<Scores> {
               List data = snapshot.data as List;
 
               if (data.isNotEmpty) {
-                return SingleChildScrollView();
+                return SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        Container(height: height * .05),
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () => Navigator.pushNamed(
+                                context,
+                                '/jogo',
+                              ),
+                              child: Container(
+                                width: 35,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    color: Cores.preto,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.arrow_back,
+                                    size: 27,
+                                    color: Cores.azulEscuro,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(width: width * .25),
+                            Text(
+                              'Scores',
+                              style: TextStyle(
+                                color: Cores.azulEscuro,
+                                fontSize: 25,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: Fontes.fonte,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(height: height * .03),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                Textos.titulo(
+                                  'Tempo atual: ',
+                                  Cores.azulEscuro,
+                                ),
+                                Textos.titulo(
+                                  args.tempo,
+                                  Cores.azulClaro,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Container(height: height * .03),
+                        for (int i = 0; i < data.length; i++)
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                            child: Container(
+                              width: width,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: Cores.preto,
+                                ),
+                                borderRadius: BorderRadius.circular(5),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    offset: Offset(1, 1),
+                                    blurRadius: 1,
+                                  )
+                                ],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                child: Row(
+                                  children: [
+                                    Textos.subTitulo(
+                                      '${i + 1}',
+                                      Cores.azulEscuro,
+                                    ),
+                                    Textos.subTitulo(
+                                      ' - ${data[i][2]} - ',
+                                      Cores.azulEscuro,
+                                    ),
+                                    Textos.subTitulo(
+                                      '${data[i][1]}',
+                                      Cores.azulEscuro,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                );
               }
 
               if (data.isEmpty) {

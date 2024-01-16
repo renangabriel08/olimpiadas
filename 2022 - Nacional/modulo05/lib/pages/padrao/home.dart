@@ -56,7 +56,7 @@ class _HomePadraoState extends State<HomePadrao> {
               corDeFundo = Colors.white;
             } else if (data[0] == 'Padrão' ||
                 data[0] == 'Standard' ||
-                data[0] == 'Entrenamientos') {
+                data[0] == 'Estándar') {
               corPrimaria = Cores.ciano;
               corSecundaria = Cores.cinza;
               corDeFundo = Colors.white;

@@ -36,7 +36,7 @@ class Fontes {
   }
 
   static getTamanhoFonteTitulo(String tamanho) {
-   Map<String, double> tamanhos = {
+    Map<String, double> tamanhos = {
       'Normal': 22,
       'Médio': 22 * 1.5,
       'Grande': 22 * 2,
@@ -61,7 +61,7 @@ class Idiomas {
         'Monocromático',
         'Escuro',
         'Menu de Acessibilidade',
-        'Ativar menu de acessibilidade',
+        'Ativar menu',
         'Tamanho da fonte',
         'Normal',
         'Médio',
@@ -84,7 +84,7 @@ class Idiomas {
         'Monochrome',
         'Dark',
         'Accessibility Menu',
-        'Enable accessibility menu',
+        'Activate menu',
         'Font size',
         'Normal',
         'Average',
@@ -114,7 +114,7 @@ class Idiomas {
         'Monocromo',
         'Oscuro',
         'Menú de accesibilidad',
-        'Habilitar menú de accesibilidad',
+        'Activar menú',
         'Tamaño de fuente',
         'Normal',
         'Promedio',

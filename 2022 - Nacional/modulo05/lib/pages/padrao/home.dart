@@ -10,9 +10,9 @@ class HomePadrao extends StatefulWidget {
 }
 
 class _HomePadraoState extends State<HomePadrao> {
-  double? fontePadrao;
-  double? fonteSubtitulo;
-  double? fonteTitulo;
+  double? fontePadrao = 15;
+  double? fonteSubtitulo = 18;
+  double? fonteTitulo = 20;
 
   List palavras = [];
 
@@ -67,67 +67,199 @@ class _HomePadraoState extends State<HomePadrao> {
     return Scaffold(
       appBar: AppBar(),
       drawer: Drawer(
-        child: Column(
-          children: [
-            Container(height: height * .05),
-            ListTile(
-              onTap: () => Navigator.pop(context),
-              leading: const Icon(Icons.home),
-              title: Text(
-                portugues[0][0],
-                style: TextStyle(fontFamily: Fontes.fonte),
-              ),
-            ),
-            ListTile(
-              onTap: () => Navigator.pop(context),
-              leading: const Icon(Icons.accessibility),
-              title: Text(
-                portugues[0][1],
-                style: TextStyle(fontFamily: Fontes.fonte),
-              ),
-            ),
-            ListTile(
-              onTap: () => Navigator.pop(context),
-              leading: const Icon(Icons.monetization_on_outlined),
-              title: Text(
-                portugues[0][2],
-                style: TextStyle(fontFamily: Fontes.fonte),
-              ),
-            ),
-            ListTile(
-              onTap: () => Navigator.pop(context),
-              leading: const Icon(Icons.shopping_cart),
-              title: Text(
-                portugues[0][3],
-                style: TextStyle(fontFamily: Fontes.fonte),
-              ),
-            ),
-            ListTile(
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/configPadrao');
-              },
-              leading: const Icon(Icons.settings),
-              title: Text(
-                portugues[0][4],
-                style: TextStyle(fontFamily: Fontes.fonte),
-              ),
-            ),
-            ListTile(
-              onTap: () => Navigator.pop(context),
-              leading: const Icon(Icons.logout),
-              title: Text(
-                portugues[0][5],
-                style: TextStyle(fontFamily: Fontes.fonte),
-              ),
-            ),
-          ],
+        child: FutureBuilder(
+          future: CacheController.getConfigs(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List data = snapshot.data as List;
+
+              String? corSelecionada;
+              String? idiomaSelecionado;
+              String? tamanhoDeFonteSelecionada;
+              bool? menuAcessibilidade;
+
+              double? fontePadrao = 15;
+              double? fonteSubtitulo = 18;
+              double? fonteTitulo = 20;
+
+              List palavras = [];
+
+              //Setando Variáveis
+              if (data[2] == null) {
+                fontePadrao = Fontes.getTamanhoFontePadrao('Normal');
+                fonteSubtitulo = Fontes.getTamanhoFonteSubtitulo('Normal');
+                fonteTitulo = Fontes.getTamanhoFonteTitulo('Normal');
+              } else {
+                fontePadrao = Fontes.getTamanhoFontePadrao(data[2]);
+                fonteSubtitulo = Fontes.getTamanhoFonteSubtitulo(data[2]);
+                fonteTitulo = Fontes.getTamanhoFonteTitulo(data[2]);
+              }
+
+              //Idioma
+              if (data[3] == null) {
+                palavras = Idiomas.getIdioma('Portugues');
+              } else {
+                palavras = Idiomas.getIdioma(data[3]);
+              }
+
+              return Column(
+                children: [
+                  Container(height: height * .05),
+                  ListTile(
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, '/homePadrao');
+                    },
+                    leading: const Icon(Icons.home),
+                    title: Text(
+                      palavras[0][0],
+                      style: TextStyle(
+                        color: Cores.cinza,
+                        fontFamily: Fontes.fonte,
+                        fontSize: fontePadrao,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () => Navigator.pop(context),
+                    leading: const Icon(Icons.accessibility),
+                    title: Text(
+                      palavras[0][1],
+                      style: TextStyle(
+                        color: Cores.cinza,
+                        fontFamily: Fontes.fonte,
+                        fontSize: fontePadrao,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () => Navigator.pop(context),
+                    leading: const Icon(Icons.monetization_on_outlined),
+                    title: Text(
+                      palavras[0][2],
+                      style: TextStyle(
+                        color: Cores.cinza,
+                        fontFamily: Fontes.fonte,
+                        fontSize: fontePadrao,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () => Navigator.pop(context),
+                    leading: const Icon(Icons.shopping_cart),
+                    title: Text(
+                      palavras[0][3],
+                      style: TextStyle(
+                        color: Cores.cinza,
+                        fontFamily: Fontes.fonte,
+                        fontSize: fontePadrao,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, '/configPadrao');
+                    },
+                    leading: const Icon(Icons.settings),
+                    title: Text(
+                      palavras[0][4],
+                      style: TextStyle(
+                        color: Cores.cinza,
+                        fontFamily: Fontes.fonte,
+                        fontSize: fontePadrao,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () => Navigator.pop(context),
+                    leading: const Icon(Icons.logout),
+                    title: Text(
+                      palavras[0][5],
+                      style: TextStyle(
+                        color: Cores.cinza,
+                        fontFamily: Fontes.fonte,
+                        fontSize: fontePadrao,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }
+
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
         ),
       ),
-      body: Container(
-        child: Center(
-          child: Text('Home'),
-        ),
+      body: FutureBuilder(
+        future: CacheController.getConfigs(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List data = snapshot.data as List;
+
+            String? corSelecionada;
+            String? idiomaSelecionado;
+            bool? menuAcessibilidade;
+
+            double? fontePadrao;
+            double? fonteSubtitulo;
+            double? fonteTitulo;
+
+            List palavras = [];
+
+            //Setando Tamanho de Fonte
+            if (data[2] == null) {
+              fontePadrao = Fontes.getTamanhoFontePadrao('Normal');
+              fonteSubtitulo = Fontes.getTamanhoFonteSubtitulo('Normal');
+              fonteTitulo = Fontes.getTamanhoFonteTitulo('Normal');
+            } else {
+              fontePadrao = Fontes.getTamanhoFontePadrao(data[2]);
+              fonteSubtitulo = Fontes.getTamanhoFonteSubtitulo(data[2]);
+              fonteTitulo = Fontes.getTamanhoFonteTitulo(data[2]);
+            }
+
+            //Setando Palavras pelo idioma
+            if (data[3] == null) {
+              palavras = Idiomas.getIdioma('Portugues');
+            } else {
+              palavras = Idiomas.getIdioma(data[3]);
+            }
+
+            //Setando Radios
+            List temas = [
+              palavras[1][2],
+              palavras[1][3],
+              palavras[1][4],
+              palavras[1][5],
+            ];
+
+            List tamanhosFonte = [
+              palavras[1][9],
+              palavras[1][10],
+              palavras[1][11],
+            ];
+
+            List listaDeIdiomas = [
+              palavras[1][13],
+              palavras[1][14],
+              palavras[1][15],
+            ];
+
+            //Setando menu de acessibilidade
+            if (data[1] == null) {
+              menuAcessibilidade = false;
+            } else {
+              menuAcessibilidade = data[1];
+            }
+
+            return Container();
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
     );
   }

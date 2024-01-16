@@ -10,13 +10,13 @@ class Fontes {
   static String fonte = 'Montserrat';
 
   static getTamanhoFontePadrao(String tamanho) {
-    var tamanhos = {
+    Map<String, double> tamanhos = {
       'Normal': 15,
       'Médio': 15 * 1.5,
       'Grande': 15 * 2,
     };
 
-    return tamanhos[tamanho];
+    return tamanhos[tamanho]!.toDouble();
   }
 
   static getTamanhoFonteSubtitulo(String tamanho) {
@@ -26,7 +26,7 @@ class Fontes {
       'Grande': 18 * 2,
     };
 
-    return tamanhos[tamanho];
+    return tamanhos[tamanho]!.toDouble();
   }
 
   static getTamanhoFonteTitulo(String tamanho) {
@@ -36,7 +36,7 @@ class Fontes {
       'Grande': 22 * 2,
     };
 
-    return tamanhos[tamanho];
+    return tamanhos[tamanho]!.toDouble();
   }
 }
 
@@ -118,7 +118,9 @@ class Idiomas {
       ],
     ];
 
-    if (idioma == 'Portugês' || idioma == 'Portugués' || idioma == 'Portuguese') {
+    if (idioma == 'Portugues' ||
+        idioma == 'Portugués' ||
+        idioma == 'Portuguese') {
       return portugues;
     }
     if (idioma == 'Inglês' || idioma == 'English' || idioma == 'Inglés') {

@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
         '/homePadrao': (context) => const HomePadrao(),
         '/configPadrao': (context) => const ConfigPadrao(),
       },
-      initialRoute: '/homePadrao',
+      initialRoute: '/configPadrao',
     );
   }
 }

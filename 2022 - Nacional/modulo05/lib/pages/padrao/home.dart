@@ -103,7 +103,10 @@ class _HomePadraoState extends State<HomePadrao> {
               ),
             ),
             ListTile(
-              onTap: () => Navigator.pop(context),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/configPadrao');
+              },
               leading: const Icon(Icons.settings),
               title: Text(
                 portugues[0][4],

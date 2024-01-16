@@ -11,6 +11,7 @@ class ConfigPadrao extends StatefulWidget {
 
 class _ConfigPadraoState extends State<ConfigPadrao> {
   String tamanhoDeFonteSelecionada = '';
+  bool menuAcessibilidade = false;
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +152,6 @@ class _ConfigPadraoState extends State<ConfigPadrao> {
 
             String? corSelecionada;
             String? idiomaSelecionado;
-            bool? menuAcessibilidade;
 
             double? fontePadrao;
             double? fonteSubtitulo;
@@ -275,9 +275,12 @@ class _ConfigPadraoState extends State<ConfigPadrao> {
                           Transform.scale(
                             scale: .8,
                             child: Switch(
-                              value: menuAcessibilidade!,
+                              value: menuAcessibilidade,
                               onChanged: (value) => setState(() {
                                 menuAcessibilidade = value;
+                                CacheController.salvarAcessibilidade(
+                                  menuAcessibilidade,
+                                );
                               }),
                             ),
                           )

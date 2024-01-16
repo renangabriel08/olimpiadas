@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modulo05/controllers/cache.dart';
 import 'package:modulo05/styles/styles.dart';
+import 'package:modulo05/widgets/contaniner_home.dart';
 
 class HomePadrao extends StatefulWidget {
   const HomePadrao({super.key});
@@ -227,26 +228,6 @@ class _HomePadraoState extends State<HomePadrao> {
               palavras = Idiomas.getIdioma(data[3]);
             }
 
-            //Setando Radios
-            List temas = [
-              palavras[1][2],
-              palavras[1][3],
-              palavras[1][4],
-              palavras[1][5],
-            ];
-
-            List tamanhosFonte = [
-              palavras[1][9],
-              palavras[1][10],
-              palavras[1][11],
-            ];
-
-            List listaDeIdiomas = [
-              palavras[1][13],
-              palavras[1][14],
-              palavras[1][15],
-            ];
-
             //Setando menu de acessibilidade
             if (data[1] == null) {
               menuAcessibilidade = false;
@@ -254,7 +235,78 @@ class _HomePadraoState extends State<HomePadrao> {
               menuAcessibilidade = data[1];
             }
 
-            return Container();
+            return menuAcessibilidade!
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ContainerHome.gerar(
+                            width,
+                            palavras,
+                            fonteTitulo,
+                            Icons.home,
+                            0,
+                          ),
+                          ContainerHome.gerar(
+                            width,
+                            palavras,
+                            fonteTitulo,
+                            Icons.accessibility,
+                            1,
+                          ),
+                        ],
+                      ),
+                      Container(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ContainerHome.gerar(
+                            width,
+                            palavras,
+                            fonteTitulo,
+                            Icons.monetization_on_outlined,
+                            2,
+                          ),
+                          ContainerHome.gerar(
+                            width,
+                            palavras,
+                            fonteTitulo,
+                            Icons.shopping_cart,
+                            3,
+                          ),
+                        ],
+                      ),
+                      Container(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          GestureDetector(
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              '/configPadrao',
+                            ),
+                            child: ContainerHome.gerar(
+                              width,
+                              palavras,
+                              fonteTitulo,
+                              Icons.settings,
+                              4,
+                            ),
+                          ),
+                          ContainerHome.gerar(
+                            width,
+                            palavras,
+                            fonteTitulo,
+                            Icons.logout,
+                            5,
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                : Container();
           }
           return const Center(
             child: CircularProgressIndicator(),

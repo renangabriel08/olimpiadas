@@ -11,6 +11,7 @@ class ConfigPadrao extends StatefulWidget {
 
 class _ConfigPadraoState extends State<ConfigPadrao> {
   String tamanhoDeFonteSelecionada = '';
+  String? idiomaSelecionado;
   bool menuAcessibilidade = false;
 
   @override
@@ -151,7 +152,6 @@ class _ConfigPadraoState extends State<ConfigPadrao> {
             List data = snapshot.data as List;
 
             String? corSelecionada;
-            String? idiomaSelecionado;
 
             double? fontePadrao;
             double? fonteSubtitulo;
@@ -344,9 +344,10 @@ class _ConfigPadraoState extends State<ConfigPadrao> {
                         ],
                         onChanged: (value) => setState(() {
                           idiomaSelecionado = value!.toString();
+                          CacheController.salvarIdioma(idiomaSelecionado!);
                         }),
                       ),
-                      menuAcessibilidade!
+                      menuAcessibilidade
                           ? ElevatedButton(
                               onPressed: () => Navigator.pushNamed(
                                 context,

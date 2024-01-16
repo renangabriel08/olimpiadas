@@ -58,8 +58,8 @@ class Idiomas {
         'Médio',
         'Grande',
         'Idioma',
-        'Português',
-        'Inglês',
+        'Portugues',
+        'Ingles',
         'Espanhol',
         'Voltar'
       ],
@@ -81,9 +81,9 @@ class Idiomas {
         'Average',
         'Big',
         'Language',
-        'Portuguese',
-        'English',
-        'Spanish',
+        'Portugues',
+        'Ingles',
+        'Espanhol',
         'To go back'
       ],
     ];
@@ -111,9 +111,9 @@ class Idiomas {
         'Promedio',
         'Grande',
         'Idioma',
-        'Portugués',
-        'Inglés',
-        'Español',
+        'Portugues',
+        'Ingles',
+        'Espanhol',
         'Para volver'
       ],
     ];
@@ -123,7 +123,7 @@ class Idiomas {
         idioma == 'Portuguese') {
       return portugues;
     }
-    if (idioma == 'Inglês' || idioma == 'English' || idioma == 'Inglés') {
+    if (idioma == 'Ingles' || idioma == 'English' || idioma == 'Inglés') {
       return ingles;
     }
     return espanhol;

@@ -14,26 +14,35 @@ class Fontes {
       'Normal': 15,
       'Médio': 15 * 1.5,
       'Grande': 15 * 2,
+      'Promedio': 15 * 1.5,
+      'Average': 15 * 1.5,
+      'Big': 15 * 2,
     };
 
     return tamanhos[tamanho]!.toDouble();
   }
 
   static getTamanhoFonteSubtitulo(String tamanho) {
-    var tamanhos = {
+    Map<String, double> tamanhos = {
       'Normal': 18,
       'Médio': 18 * 1.5,
       'Grande': 18 * 2,
+      'Promedio': 18 * 1.5,
+      'Average': 18 * 1.5,
+      'Big': 18 * 2,
     };
 
     return tamanhos[tamanho]!.toDouble();
   }
 
   static getTamanhoFonteTitulo(String tamanho) {
-    var tamanhos = {
+   Map<String, double> tamanhos = {
       'Normal': 22,
       'Médio': 22 * 1.5,
       'Grande': 22 * 2,
+      'Promedio': 22 * 1.5,
+      'Average': 22 * 1.5,
+      'Big': 22 * 2,
     };
 
     return tamanhos[tamanho]!.toDouble();

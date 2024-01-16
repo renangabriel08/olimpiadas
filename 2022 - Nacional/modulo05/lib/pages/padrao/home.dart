@@ -11,54 +11,9 @@ class HomePadrao extends StatefulWidget {
 }
 
 class _HomePadraoState extends State<HomePadrao> {
-  double? fontePadrao = 15;
-  double? fonteSubtitulo = 18;
-  double? fonteTitulo = 20;
-
-  List palavras = [];
-
-  List portugues = [
-    ['Home', 'Exercícios', 'WsCoin', 'Loja', 'Configurações', 'Sair'],
-    [
-      'Configurações de Acessibilidade',
-      'Ajuste de contraste',
-      'Padrão',
-      'Daltônico',
-      'Monocromático',
-      'Escuro',
-      'Menu de Acessibilidade',
-      'Ativar menu de acessibilidade',
-      'Tamanho da fonte',
-      'Normal',
-      'Médio',
-      'Grande',
-      'Idioma',
-      'Português',
-      'Inglês',
-      'Espanhol',
-      'Voltar'
-    ],
-  ];
-
-  void setarVariaveis(value) {
-    //Tamanho da fonte
-    if (value[2] == null) {
-      fontePadrao = Fontes.getTamanhoFontePadrao('Normal');
-      fonteSubtitulo = Fontes.getTamanhoFonteSubtitulo('Normal');
-      fonteTitulo = Fontes.getTamanhoFonteTitulo('Normal');
-    } else {
-      fontePadrao = Fontes.getTamanhoFontePadrao(value[2]);
-      fonteSubtitulo = Fontes.getTamanhoFonteSubtitulo(value[2]);
-      fonteTitulo = Fontes.getTamanhoFonteTitulo(value[2]);
-    }
-
-    //Idioma
-    if (value[3] == null) {
-      palavras = Idiomas.getIdioma('Portugês');
-    } else {
-      palavras = Idiomas.getIdioma(value[3]);
-    }
-  }
+  Color? corPrimaria;
+  Color? corSecundaria;
+  Color? corDeFundo;
 
   @override
   Widget build(BuildContext context) {
@@ -66,44 +21,64 @@ class _HomePadraoState extends State<HomePadrao> {
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(),
-      drawer: Drawer(
-        child: FutureBuilder(
-          future: CacheController.getConfigs(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List data = snapshot.data as List;
+      appBar: AppBar(backgroundColor: Colors.white),
+      drawer: FutureBuilder(
+        future: CacheController.getConfigs(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List data = snapshot.data as List;
 
-              String? corSelecionada;
-              String? idiomaSelecionado;
-              String? tamanhoDeFonteSelecionada;
-              bool? menuAcessibilidade;
+            double? fontePadrao = 15;
 
-              double? fontePadrao = 15;
-              double? fonteSubtitulo = 18;
-              double? fonteTitulo = 20;
+            List palavras = [];
 
-              List palavras = [];
+            if (data[0] == null) {
+              corPrimaria = Cores.ciano;
+              corSecundaria = Cores.cinza;
+              corDeFundo = Colors.white;
+            } else if (data[0] == 'Daltônico' ||
+                data[0] == 'Color blind' ||
+                data[0] == 'daltónico') {
+              corPrimaria = const Color(0xFF3E80FB);
+              corSecundaria = const Color(0xFF5B7DDF);
+              corDeFundo = Colors.white;
+            } else if (data[0] == 'Escuro' ||
+                data[0] == 'Dark' ||
+                data[0] == 'Oscuro') {
+              corPrimaria = Colors.white;
+              corDeFundo = Colors.black;
+              corSecundaria = Colors.white;
+            } else if (data[0] == 'Monocromático' ||
+                data[0] == 'Monochrome' ||
+                data[0] == 'Monocromo') {
+              corPrimaria = Colors.black;
+              corSecundaria = Cores.cinza;
+              corDeFundo = Colors.white;
+            } else if (data[0] == 'Padrão' ||
+                data[0] == 'Standard' ||
+                data[0] == 'Entrenamientos') {
+              corPrimaria = Cores.ciano;
+              corSecundaria = Cores.cinza;
+              corDeFundo = Colors.white;
+            }
 
-              //Setando Variáveis
-              if (data[2] == null) {
-                fontePadrao = Fontes.getTamanhoFontePadrao('Normal');
-                fonteSubtitulo = Fontes.getTamanhoFonteSubtitulo('Normal');
-                fonteTitulo = Fontes.getTamanhoFonteTitulo('Normal');
-              } else {
-                fontePadrao = Fontes.getTamanhoFontePadrao(data[2]);
-                fonteSubtitulo = Fontes.getTamanhoFonteSubtitulo(data[2]);
-                fonteTitulo = Fontes.getTamanhoFonteTitulo(data[2]);
-              }
+            //Setando Variáveis
+            if (data[2] == null) {
+              fontePadrao = Fontes.getTamanhoFontePadrao('Normal');
+            } else {
+              fontePadrao = Fontes.getTamanhoFontePadrao(data[2]);
+            }
 
-              //Idioma
-              if (data[3] == null) {
-                palavras = Idiomas.getIdioma('Portugues');
-              } else {
-                palavras = Idiomas.getIdioma(data[3]);
-              }
+            //Idioma
+            if (data[3] == null) {
+              palavras = Idiomas.getIdioma('Portugues');
+            } else {
+              palavras = Idiomas.getIdioma(data[3]);
+            }
 
-              return Column(
+            return Drawer(
+              backgroundColor: corDeFundo,
+              child: Column(
                 children: [
                   Container(height: height * .05),
                   ListTile(
@@ -115,7 +90,7 @@ class _HomePadraoState extends State<HomePadrao> {
                     title: Text(
                       palavras[0][0],
                       style: TextStyle(
-                        color: Cores.cinza,
+                        color: corSecundaria,
                         fontFamily: Fontes.fonte,
                         fontSize: fontePadrao,
                       ),
@@ -127,7 +102,7 @@ class _HomePadraoState extends State<HomePadrao> {
                     title: Text(
                       palavras[0][1],
                       style: TextStyle(
-                        color: Cores.cinza,
+                        color: corSecundaria,
                         fontFamily: Fontes.fonte,
                         fontSize: fontePadrao,
                       ),
@@ -139,7 +114,7 @@ class _HomePadraoState extends State<HomePadrao> {
                     title: Text(
                       palavras[0][2],
                       style: TextStyle(
-                        color: Cores.cinza,
+                        color: corSecundaria,
                         fontFamily: Fontes.fonte,
                         fontSize: fontePadrao,
                       ),
@@ -151,7 +126,7 @@ class _HomePadraoState extends State<HomePadrao> {
                     title: Text(
                       palavras[0][3],
                       style: TextStyle(
-                        color: Cores.cinza,
+                        color: corSecundaria,
                         fontFamily: Fontes.fonte,
                         fontSize: fontePadrao,
                       ),
@@ -166,7 +141,7 @@ class _HomePadraoState extends State<HomePadrao> {
                     title: Text(
                       palavras[0][4],
                       style: TextStyle(
-                        color: Cores.cinza,
+                        color: corSecundaria,
                         fontFamily: Fontes.fonte,
                         fontSize: fontePadrao,
                       ),
@@ -178,21 +153,21 @@ class _HomePadraoState extends State<HomePadrao> {
                     title: Text(
                       palavras[0][5],
                       style: TextStyle(
-                        color: Cores.cinza,
+                        color: corSecundaria,
                         fontFamily: Fontes.fonte,
                         fontSize: fontePadrao,
                       ),
                     ),
                   ),
                 ],
-              );
-            }
-
-            return const Center(
-              child: CircularProgressIndicator(),
+              ),
             );
-          },
-        ),
+          }
+
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
       body: FutureBuilder(
         future: CacheController.getConfigs(),
@@ -200,24 +175,45 @@ class _HomePadraoState extends State<HomePadrao> {
           if (snapshot.hasData) {
             List data = snapshot.data as List;
 
-            String? corSelecionada;
-            String? idiomaSelecionado;
             bool? menuAcessibilidade;
-
-            double? fontePadrao;
-            double? fonteSubtitulo;
             double? fonteTitulo;
+
+            if (data[0] == null) {
+              corPrimaria = Cores.ciano;
+              corSecundaria = Cores.cinza;
+              corDeFundo = Colors.white;
+            } else if (data[0] == 'Daltônico' ||
+                data[0] == 'Color blind' ||
+                data[0] == 'daltónico') {
+              corPrimaria = const Color(0xFF3E80FB);
+              corSecundaria = const Color(0xFF5B7DDF);
+              corDeFundo = Colors.white;
+            } else if (data[0] == 'Escuro' ||
+                data[0] == 'Dark' ||
+                data[0] == 'Oscuro') {
+              corPrimaria = Colors.white;
+              corDeFundo = Colors.black;
+              corSecundaria = Colors.white;
+            } else if (data[0] == 'Monocromático' ||
+                data[0] == 'Monochrome' ||
+                data[0] == 'Monocromo') {
+              corPrimaria = Colors.black;
+              corSecundaria = Cores.cinza;
+              corDeFundo = Colors.white;
+            } else if (data[0] == 'Padrão' ||
+                data[0] == 'Standard' ||
+                data[0] == 'Entrenamientos') {
+              corPrimaria = Cores.ciano;
+              corSecundaria = Cores.cinza;
+              corDeFundo = Colors.white;
+            }
 
             List palavras = [];
 
             //Setando Tamanho de Fonte
             if (data[2] == null) {
-              fontePadrao = Fontes.getTamanhoFontePadrao('Normal');
-              fonteSubtitulo = Fontes.getTamanhoFonteSubtitulo('Normal');
               fonteTitulo = Fontes.getTamanhoFonteTitulo('Normal');
             } else {
-              fontePadrao = Fontes.getTamanhoFontePadrao(data[2]);
-              fonteSubtitulo = Fontes.getTamanhoFonteSubtitulo(data[2]);
               fonteTitulo = Fontes.getTamanhoFonteTitulo(data[2]);
             }
 
@@ -236,75 +232,92 @@ class _HomePadraoState extends State<HomePadrao> {
             }
 
             return menuAcessibilidade!
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          ContainerHome.gerar(
-                            width,
-                            palavras,
-                            fonteTitulo,
-                            Icons.home,
-                            0,
-                          ),
-                          ContainerHome.gerar(
-                            width,
-                            palavras,
-                            fonteTitulo,
-                            Icons.accessibility,
-                            1,
-                          ),
-                        ],
-                      ),
-                      Container(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          ContainerHome.gerar(
-                            width,
-                            palavras,
-                            fonteTitulo,
-                            Icons.monetization_on_outlined,
-                            2,
-                          ),
-                          ContainerHome.gerar(
-                            width,
-                            palavras,
-                            fonteTitulo,
-                            Icons.shopping_cart,
-                            3,
-                          ),
-                        ],
-                      ),
-                      Container(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          GestureDetector(
-                            onTap: () => Navigator.pushNamed(
-                              context,
-                              '/configPadrao',
-                            ),
-                            child: ContainerHome.gerar(
+                ? Container(
+                    width: width,
+                    height: height,
+                    color: corDeFundo,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ContainerHome.gerar(
                               width,
                               palavras,
                               fonteTitulo,
-                              Icons.settings,
-                              4,
+                              Icons.home,
+                              0,
+                              corSecundaria,
+                              corDeFundo,
                             ),
-                          ),
-                          ContainerHome.gerar(
-                            width,
-                            palavras,
-                            fonteTitulo,
-                            Icons.logout,
-                            5,
-                          ),
-                        ],
-                      ),
-                    ],
+                            ContainerHome.gerar(
+                              width,
+                              palavras,
+                              fonteTitulo,
+                              Icons.accessibility,
+                              1,
+                              corSecundaria,
+                              corDeFundo,
+                            ),
+                          ],
+                        ),
+                        Container(height: 30),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ContainerHome.gerar(
+                              width,
+                              palavras,
+                              fonteTitulo,
+                              Icons.monetization_on_outlined,
+                              2,
+                              corSecundaria,
+                              corDeFundo,
+                            ),
+                            ContainerHome.gerar(
+                              width,
+                              palavras,
+                              fonteTitulo,
+                              Icons.shopping_cart,
+                              3,
+                              corSecundaria,
+                              corDeFundo,
+                            ),
+                          ],
+                        ),
+                        Container(height: 30),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            GestureDetector(
+                              onTap: () => Navigator.pushNamed(
+                                context,
+                                '/configPadrao',
+                              ),
+                              child: ContainerHome.gerar(
+                                width,
+                                palavras,
+                                fonteTitulo,
+                                Icons.settings,
+                                4,
+                                corSecundaria,
+                                corDeFundo,
+                              ),
+                            ),
+                            ContainerHome.gerar(
+                              width,
+                              palavras,
+                              fonteTitulo,
+                              Icons.logout,
+                              5,
+                              corSecundaria,
+                              corDeFundo,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   )
                 : Container();
           }

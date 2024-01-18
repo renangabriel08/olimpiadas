@@ -21,6 +21,7 @@ class FirebaseController {
         "comentario": comentario,
         "estrelas": estrelas,
         "image": image.path,
+        "data": "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
         "status": "Em análise",
       });
       MyToast.gerarToast('Avaliação cadastrada com sucesso!');
@@ -49,6 +50,7 @@ class FirebaseController {
     String comentario,
     int estrelas,
     String image,
+    String data,
     String status,
     context,
   ) async {
@@ -67,6 +69,7 @@ class FirebaseController {
         "comentario": comentario,
         "estrelas": estrelas,
         "image": image,
+        "data": data,
         "status": status,
       });
       MyToast.gerarToast('Avaliação $status com sucesso!');

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:modulo07/controllers/firebase.dart';
 import 'package:modulo07/styles/styles.dart';
@@ -20,6 +19,7 @@ class ScreenArguments {
   final String comentario;
   final int estrelas;
   final String image;
+  final String data;
   final String status;
 
   ScreenArguments(
@@ -30,6 +30,7 @@ class ScreenArguments {
     this.comentario,
     this.estrelas,
     this.image,
+    this.data,
     this.status,
   );
 }
@@ -62,6 +63,7 @@ class _AdminState extends State<Admin> {
         args.comentario,
         args.estrelas,
         args.image,
+        args.data,
         status,
         context,
       );
@@ -199,10 +201,31 @@ class _AdminState extends State<Admin> {
                   ),
                   Container(height: height * .02),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      for (int i = 0; i < estrelas.length; i++) estrelas[i]
+                      Row(
+                        children: [
+                          for (int i = 0; i < estrelas.length; i++) estrelas[i]
+                        ],
+                      ),
+                      Container(
+                        width: width * .35,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Cores.azulEscuro),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Textos.padrao(args.data, Cores.verdeEscuro),
+                            const Icon(Icons.calendar_month)
+                          ],
+                        ),
+                      ),
                     ],
                   ),
+                  Container(height: height * .02),
                   //
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -210,19 +233,21 @@ class _AdminState extends State<Admin> {
                       OutlinedButton(
                         onPressed: () => aprovarErejeitar('Rejeitada'),
                         style: ElevatedButton.styleFrom(
-                            fixedSize: Size(width * .4, 30),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )),
+                          fixedSize: Size(width * .4, 30),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
                         child: Textos.padrao('Rejeitar', Cores.azulEscuro),
                       ),
                       ElevatedButton(
                         onPressed: () => aprovarErejeitar('Aprovada'),
                         style: ElevatedButton.styleFrom(
-                            fixedSize: Size(width * .4, 30),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )),
+                          fixedSize: Size(width * .4, 30),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
                         child: Textos.padrao('Aprovar', Cores.azulEscuro),
                       ),
                     ],

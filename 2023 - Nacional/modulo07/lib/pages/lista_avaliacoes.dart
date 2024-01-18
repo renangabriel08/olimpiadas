@@ -37,6 +37,7 @@ class _ListaAvaliacoesState extends State<ListaAvaliacoes> {
                   child: Column(
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
                             width: width * .43,
@@ -101,6 +102,7 @@ class _ListaAvaliacoesState extends State<ListaAvaliacoes> {
                   child: Column(
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
                             width: width * .43,
@@ -182,6 +184,7 @@ class _ListaAvaliacoesState extends State<ListaAvaliacoes> {
                                   data[i]['comentario'],
                                   data[i]['estrelas'],
                                   data[i]['image'],
+                                  data[i]['data'],
                                   data[i]['status'],
                                 ),
                               ),

@@ -23,13 +23,19 @@ class Textos {
   static titulo(String txt, Color cor) {
     return Text(
       txt,
-      style: TextStyle(fontFamily: Fontes.fonte, fontSize: 24, color: cor),
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontFamily: Fontes.fonte,
+        fontSize: 24,
+        color: cor,
+      ),
     );
   }
 
   static subtitulo(String txt, Color cor) {
     return Text(
       txt,
+      textAlign: TextAlign.center,
       style: TextStyle(fontFamily: Fontes.fonte, fontSize: 20, color: cor),
     );
   }

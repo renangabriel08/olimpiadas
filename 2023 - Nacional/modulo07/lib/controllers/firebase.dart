@@ -10,7 +10,7 @@ class FirebaseController {
       final itens = await getAvaliacoes();
 
       DatabaseReference ref = FirebaseDatabase.instance.ref(
-        "avaliacoes/Avaliação ${itens.length + 1}",
+        "avaliacoes/${itens.length + 1}",
       );
 
       await ref.set({
@@ -52,13 +52,15 @@ class FirebaseController {
     String status,
     context,
   ) async {
+    id = id.substring(id.indexOf(' ') + 1);
+
     try {
       DatabaseReference ref = FirebaseDatabase.instance.ref(
         "avaliacoes/$id",
       );
 
       await ref.set({
-        "id": id,
+        "id": "Avaliação $id",
         "user": user,
         "local": local,
         "cidade": cidade,
@@ -72,6 +74,19 @@ class FirebaseController {
     } catch (e) {
       MyToast.gerarToast('Erro ao atualizar avaliação!');
       print(e);
+    }
+  }
+
+  static deletar(id) {
+    try {
+      id = id.substring(id.indexOf(' ') + 1);
+      DatabaseReference ref = FirebaseDatabase.instance.ref("avaliacoes/$id");
+
+      ref.remove();
+
+      MyToast.gerarToast('Avaliação deletada com sucesso!');
+    } catch (e) {
+      MyToast.gerarToast('Erro ao deletar avaliação!');
     }
   }
 }

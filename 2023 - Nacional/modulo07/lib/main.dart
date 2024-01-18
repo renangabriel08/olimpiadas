@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:modulo07/firebase_options.dart';
+import 'package:modulo07/pages/admin.dart';
 import 'package:modulo07/pages/criar_avaliacao.dart';
+import 'package:modulo07/pages/lista_avaliacoes.dart';
 import 'package:modulo07/styles/styles.dart';
 
 void main() async {
@@ -25,8 +27,10 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/criarAvaliacao': (context) => CriarAvaliacao(),
+        Admin.routeName: (context) => Admin(),
+        '/listaAvaliacoes': (context) => ListaAvaliacoes()
       },
-      initialRoute: '/criarAvaliacao',
+      initialRoute: '/listaAvaliacoes',
     );
   }
 }

@@ -1,21 +1,90 @@
 import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:modulo07/controllers/validator.dart';
+import 'package:modulo07/controllers/firebase.dart';
 import 'package:modulo07/styles/styles.dart';
 
 class Admin extends StatefulWidget {
   const Admin({super.key});
+  static const routeName = '/admin';
 
   @override
   State<Admin> createState() => _AdminState();
 }
 
+class ScreenArguments {
+  final String id;
+  final String user;
+  final String local;
+  final String cidade;
+  final String comentario;
+  final int estrelas;
+  final String image;
+  final String status;
+
+  ScreenArguments(
+    this.id,
+    this.user,
+    this.local,
+    this.cidade,
+    this.comentario,
+    this.estrelas,
+    this.image,
+    this.status,
+  );
+}
+
 class _AdminState extends State<Admin> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _nomeController = TextEditingController();
+  final TextEditingController _cidadeController = TextEditingController();
+  final TextEditingController _localController = TextEditingController();
+  final TextEditingController _comentarioController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
+    final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+
+    _cidadeController.text = args.cidade;
+    _nomeController.text = args.user;
+    _localController.text = args.local;
+    _comentarioController.text = args.comentario;
+
+    aprovarErejeitar(status) {
+      FirebaseController.atualizarAvaliacao(
+        args.id,
+        args.user,
+        args.local,
+        args.cidade,
+        args.comentario,
+        args.estrelas,
+        args.image,
+        status,
+        context,
+      );
+    }
+
+    List estrelas = [];
+
+    for (int e = 0; e < args.estrelas; e++) {
+      estrelas.add(
+        const Icon(
+          Icons.star,
+          color: Colors.yellow,
+        ),
+      );
+    }
+
+    if (estrelas.length < 5) {
+      for (int a = estrelas.length; a < 5; a++) {
+        estrelas.add(
+          const Icon(Icons.star_border),
+        );
+      }
+    }
 
     return Scaffold(
       body: Padding(
@@ -28,21 +97,57 @@ class _AdminState extends State<Admin> {
               key: _formKey,
               child: Column(
                 children: [
+                  Row(
+                    children: [
+                      Container(
+                        width: width * .43,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Cores.azulEscuro),
+                          color: Cores.azulEscuro,
+                        ),
+                        child: Center(
+                          child: Textos.padrao('Admin', Cores.verdeEscuro),
+                        ),
+                      ),
+                      Container(
+                        width: width * .43,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Cores.azulEscuro),
+                        ),
+                        child: Center(
+                          child: Textos.padrao(
+                            'Lista de avaliações',
+                            Cores.verdeEscuro,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
                   Textos.titulo(
                     'Admin',
                     Cores.azulEscuro,
                   ),
                   Container(height: height * .05),
-                  ClipRRect(
-                    borderRadius: BorderRadiusDirectional.circular(8),
-                    child: Image.file(args.image),
+                  SizedBox(
+                    width: width * .5,
+                    height: width * .50,
+                    child: ClipRRect(
+                      borderRadius: BorderRadiusDirectional.circular(8),
+                      child: Image.file(
+                        File(args.image),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                   Container(height: height * .05),
                   //
                   TextFormField(
-                    onChanged: (value) => local = value,
-                    validator: (value) => ValidarForm.validar(local),
                     keyboardType: TextInputType.text,
+                    controller: _localController,
+                    enabled: false,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -54,8 +159,8 @@ class _AdminState extends State<Admin> {
                   Container(height: height * .02),
                   //
                   TextFormField(
-                    onChanged: (value) => cidade = value,
-                    validator: (value) => ValidarForm.validar(cidade),
+                    controller: _cidadeController,
+                    enabled: false,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -68,8 +173,8 @@ class _AdminState extends State<Admin> {
                   Container(height: height * .02),
                   //
                   TextFormField(
-                    onChanged: (value) => nomeUser = value,
-                    validator: (value) => ValidarForm.validar(nomeUser),
+                    controller: _nomeController,
+                    enabled: false,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -82,8 +187,8 @@ class _AdminState extends State<Admin> {
                   Container(height: height * .02),
                   //
                   TextFormField(
-                    onChanged: (value) => comentario = value,
-                    validator: (value) => ValidarForm.validar(comentario),
+                    controller: _comentarioController,
+                    enabled: false,
                     keyboardType: TextInputType.text,
                     maxLines: 7,
                     decoration: InputDecoration(
@@ -93,27 +198,32 @@ class _AdminState extends State<Admin> {
                     ),
                   ),
                   Container(height: height * .02),
+                  Row(
+                    children: [
+                      for (int i = 0; i < estrelas.length; i++) estrelas[i]
+                    ],
+                  ),
                   //
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       OutlinedButton(
-                        onPressed: () => voltar(),
+                        onPressed: () => aprovarErejeitar('Rejeitada'),
                         style: ElevatedButton.styleFrom(
                             fixedSize: Size(width * .4, 30),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             )),
-                        child: Textos.padrao('Voltar', Cores.azulEscuro),
+                        child: Textos.padrao('Rejeitar', Cores.azulEscuro),
                       ),
                       ElevatedButton(
-                        onPressed: () => enviar(),
+                        onPressed: () => aprovarErejeitar('Aprovada'),
                         style: ElevatedButton.styleFrom(
                             fixedSize: Size(width * .4, 30),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             )),
-                        child: Textos.padrao('Enviar', Cores.azulEscuro),
+                        child: Textos.padrao('Aprovar', Cores.azulEscuro),
                       ),
                     ],
                   )

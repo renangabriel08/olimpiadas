@@ -84,6 +84,36 @@ class _AdminState extends State<Admin> {
                   return Column(
                     children: [
                       Container(height: height * .03),
+                      Row(
+                        children: [
+                          Container(
+                            width: width * .43,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Cores.azulEscuro,
+                              border: Border.all(color: Cores.azulClaro),
+                            ),
+                            child: Center(
+                              child: Textos.padrao('Admin', Cores.azulClaro),
+                            ),
+                          ),
+                          Container(
+                            width: width * .43,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Cores.azulClaro),
+                            ),
+                            child: Center(
+                              child: Textos.padrao(
+                                'Lista de feedbacks',
+                                Cores.azulClaro,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(height: height * .03),
                       Container(
                         width: 150,
                         height: 150,

@@ -114,18 +114,10 @@ class _FeedbacksState extends State<Feedbacks> {
                                           );
                                           setState(() {});
                                         },
-                                        backgroundColor: Color(0xFFFE4A49),
+                                        backgroundColor: const Color(0xFFFE4A49),
                                         foregroundColor: Colors.white,
                                         icon: Icons.delete,
                                         label: 'Delete',
-                                      ),
-                                      SlidableAction(
-                                        onPressed: (context) => (),
-                                        backgroundColor:
-                                            const Color(0xFF21B7CA),
-                                        foregroundColor: Colors.white,
-                                        icon: Icons.share,
-                                        label: 'Share',
                                       ),
                                     ],
                                   ),

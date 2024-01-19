@@ -132,7 +132,6 @@ class _CriarState extends State<Criar> {
                       ),
                       Container(height: height * .02),
 
-                      //Cidade
                       TextFormField(
                         onChanged: (value) => cidade = value,
                         validator: (value) => Validator.validar(cidade),

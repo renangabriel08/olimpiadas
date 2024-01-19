@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modulo07/controllers/firebase.dart';
@@ -26,11 +24,11 @@ class _CriarState extends State<Criar> {
   int estrelas = 0;
 
   List listaEstrelas = [
-    Icon(Icons.star_border),
-    Icon(Icons.star_border),
-    Icon(Icons.star_border),
-    Icon(Icons.star_border),
-    Icon(Icons.star_border),
+    const Icon(Icons.star_border),
+    const Icon(Icons.star_border),
+    const Icon(Icons.star_border),
+    const Icon(Icons.star_border),
+    const Icon(Icons.star_border),
   ];
 
   tirarFoto() async {

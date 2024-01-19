@@ -5,14 +5,27 @@ import 'package:flutter/material.dart';
 import 'package:modulo07/widgets/toast.dart';
 
 class FirebaseController {
-  static deletarAvaliacao() async {}
+  static deletarAvaliacao(int id) async {
+    try {
+      DatabaseReference ref = FirebaseDatabase.instance.ref("avaliacoes/$id");
 
-  static atualizarAvaliacao(int id, String status) async {
-    DatabaseReference ref = FirebaseDatabase.instance.ref("avaliacoes/$id");
+      ref.remove();
+      MyToast.gerarToast('Avaliação deletada com sucesso!');
+    } catch (e) {}
+  }
 
-    await ref.update({
-      "status": status,
-    });
+  static atualizarAvaliacao(int id, String status, context) async {
+    try {
+      DatabaseReference ref = FirebaseDatabase.instance.ref("avaliacoes/$id");
+
+      await ref.update({
+        "status": status,
+      });
+      MyToast.gerarToast('Avaliação atualizada com sucesso!');
+      Navigator.pushNamed(context, '/feedbacks');
+    } catch (e) {
+      MyToast.gerarToast('Erro ao atualizar avaliação!');
+    }
   }
 
   static criarAvaliacao(
@@ -45,6 +58,29 @@ class FirebaseController {
         });
         MyToast.gerarToast('Avaliação enviada com sucesso!');
         Navigator.pushNamed(context, '/feedbacks');
+      } else {
+        List data = await formatarData();
+
+        int ultimoId = data[data.length - 1]['id'];
+
+        DatabaseReference ref = FirebaseDatabase.instance.ref(
+          "avaliacoes/${ultimoId + 1}",
+        );
+
+        await ref.set({
+          "id": ultimoId + 1,
+          "nome": nome,
+          "local": local,
+          "cidade": cidade,
+          "image": image.path,
+          "comentario": comentario,
+          "estrelas": estrelas,
+          "data":
+              '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+          "status": "Aguardando"
+        });
+        MyToast.gerarToast('Avaliação enviada com sucesso!');
+        Navigator.pushNamed(context, '/feedbacks');
       }
     } catch (e) {
       MyToast.gerarToast('Erro ao enviar avaliação!');
@@ -52,19 +88,32 @@ class FirebaseController {
   }
 
   static getAvaliacoes() async {
-    final ref = FirebaseDatabase.instance.ref();
-    final snapshot = await ref.child('avaliacoes').get();
-    if (snapshot.exists) {
-      print(snapshot.value);
-      return snapshot.value;
-    } else {
-      return [];
+    try {
+      final ref = FirebaseDatabase.instance.ref();
+      final snapshot = await ref.child('avaliacoes').get();
+      if (snapshot.exists) {
+        return snapshot.value;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      print('oi');
     }
   }
 
   static formatarData() async {
     final data = await getAvaliacoes();
 
-    return data;
+    print(data);
+
+    List dataFormatada = [];
+
+    for (int i = 0; i < data.length; i++) {
+      if (data[i] != null) {
+        dataFormatada.add(data[i]);
+      }
+    }
+
+    return dataFormatada;
   }
 }

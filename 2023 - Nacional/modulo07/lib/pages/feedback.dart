@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:modulo07/controllers/firebase.dart';
+import 'package:modulo07/pages/admin.dart';
 import 'package:modulo07/styles/styles.dart';
 
 class Feedbacks extends StatefulWidget {
@@ -19,7 +20,7 @@ class _FeedbacksState extends State<Feedbacks> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: Container(
+        child: SizedBox(
           width: width,
           height: height,
           child: Column(
@@ -87,44 +88,94 @@ class _FeedbacksState extends State<Feedbacks> {
                         child: Column(
                           children: [
                             for (int i = 0; i < data.length; i++)
-                              Slidable(
-                                key: const ValueKey(0),
-                                startActionPane: ActionPane(
-                                  motion: const ScrollMotion(),
-                                  dismissible:
-                                      DismissiblePane(onDismissed: () {}),
-                                  children: [
-                                    SlidableAction(
-                                      onPressed: (context) => (),
-                                      backgroundColor: Color(0xFFFE4A49),
-                                      foregroundColor: Colors.white,
-                                      icon: Icons.delete,
-                                      label: 'Delete',
-                                    ),
-                                    SlidableAction(
-                                      onPressed: (context) => (),
-                                      backgroundColor: Color(0xFF21B7CA),
-                                      foregroundColor: Colors.white,
-                                      icon: Icons.share,
-                                      label: 'Share',
-                                    ),
-                                  ],
+                              GestureDetector(
+                                onTap: () => Navigator.pushNamed(
+                                  context,
+                                  Admin.routeName,
+                                  arguments: ScreenArguments(i, data[i]['id']),
                                 ),
-                                child: Container(
-                                  width: width,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Cores.azulClaro),
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 1,
-                                        offset: Offset(1, 1),
-                                        color: Cores.azulClaro,
-                                        spreadRadius: 1,
-                                      )
+                                child: Slidable(
+                                  key: ValueKey(i),
+                                  startActionPane: ActionPane(
+                                    motion: const ScrollMotion(),
+                                    dismissible:
+                                        DismissiblePane(onDismissed: () async {
+                                      await FirebaseController.deletarAvaliacao(
+                                        data[i]['id'],
+                                      );
+                                      setState(() {});
+                                    }),
+                                    children: [
+                                      SlidableAction(
+                                        onPressed: (context) async {
+                                          await FirebaseController
+                                              .deletarAvaliacao(
+                                            data[i]['id'],
+                                          );
+                                          setState(() {});
+                                        },
+                                        backgroundColor: Color(0xFFFE4A49),
+                                        foregroundColor: Colors.white,
+                                        icon: Icons.delete,
+                                        label: 'Delete',
+                                      ),
+                                      SlidableAction(
+                                        onPressed: (context) => (),
+                                        backgroundColor:
+                                            const Color(0xFF21B7CA),
+                                        foregroundColor: Colors.white,
+                                        icon: Icons.share,
+                                        label: 'Share',
+                                      ),
                                     ],
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                      0,
+                                      7,
+                                      0,
+                                      7,
+                                    ),
+                                    child: Container(
+                                      width: width,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        border:
+                                            Border.all(color: Cores.azulClaro),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            blurRadius: 1,
+                                            offset: const Offset(1, 1),
+                                            color: Cores.azulClaro,
+                                            spreadRadius: 1,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                          10,
+                                          0,
+                                          10,
+                                          0,
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Textos.padrao(
+                                              'Avaliação ${i + 1}',
+                                              Cores.azulEscuro,
+                                            ),
+                                            Textos.padrao(
+                                              '${data[i]['status']}',
+                                              Cores.azulEscuro,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),

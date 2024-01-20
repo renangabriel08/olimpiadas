@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:simulado06_02/pages/cadastro.dart';
+import 'package:simulado06_02/pages/login.dart';
 import 'package:simulado06_02/pages/splash.dart';
 
 void main() {
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/splash': (context) => const Splash(),
         '/cadastro': (context) => const Cadastro(),
+        '/login': (context) => const Login(),
       },
       initialRoute: '/splash',
     );

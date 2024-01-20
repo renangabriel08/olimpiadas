@@ -37,6 +37,7 @@ class _CadastroState extends State<Cadastro> {
           child: Column(
             children: [
               TextFormField(
+                onChanged: (value) => email = value,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),

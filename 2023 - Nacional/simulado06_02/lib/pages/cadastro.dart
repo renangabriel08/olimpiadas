@@ -37,10 +37,10 @@ class _CadastroState extends State<Cadastro> {
         height: height,
         child: Padding(
           padding: const EdgeInsets.all(20),
-          child: SingleChildScrollView(
-            child: SizedBox(
-              width: width,
-              height: height,
+          child: SizedBox(
+            width: width,
+            height: height,
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -174,7 +174,7 @@ class _CadastroState extends State<Cadastro> {
                             context,
                             '/login',
                           ),
-                          child: Textos.padrao('logar'),
+                          child: Textos.padrao('Voltar'),
                         ),
                       ],
                     ),

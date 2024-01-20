@@ -24,6 +24,8 @@ class Mapa extends StatelessWidget {
                   width: width * .8,
                   height: width * .8,
                   child: const GoogleMap(
+                    indoorViewEnabled: false,
+                    zoomControlsEnabled: false,
                     initialCameraPosition: CameraPosition(
                       target: LatLng(-12.976390858297673, -38.48058858492815),
                       zoom: 14,

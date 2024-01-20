@@ -21,7 +21,7 @@ class Mapa extends StatelessWidget {
                 Textos.titulo('GoGo Trip'),
                 Container(height: height * .02),
                 SizedBox(
-                  width: width * .8,
+                  width: width,
                   height: width * .8,
                   child: const GoogleMap(
                     indoorViewEnabled: false,

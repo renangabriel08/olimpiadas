@@ -81,8 +81,9 @@ class _TutorialState extends State<Tutorial> {
                       ? Row(
                           children: [
                             TextButton(
-                              onPressed: () => setState(
-                                () => Navigator.pushNamed(context, '/login'),
+                              onPressed: () => Navigator.pushNamed(
+                                context,
+                                '/login',
                               ),
                               child: Text(
                                 'Pular',
@@ -124,8 +125,9 @@ class _TutorialState extends State<Tutorial> {
                                 ),
                                 backgroundColor: Cores.cinza1,
                               ),
-                              onPressed: () => setState(
-                                () => Navigator.pushNamed(context, '/login'),
+                              onPressed: () => Navigator.pushNamed(
+                                context,
+                                '/login',
                               ),
                               child: const Text(
                                 'Acessar',

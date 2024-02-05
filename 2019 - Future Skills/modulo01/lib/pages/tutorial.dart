@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:modulo01/pages/slide.dart';
+import 'package:modulo01/styles/styles.dart';
 
 class Tutorial extends StatefulWidget {
   const Tutorial({super.key});
@@ -34,26 +36,111 @@ class _TutorialState extends State<Tutorial> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Container(
-        child: CarouselSlider(
-          carouselController: _controller,
-          items: items,
-          options: CarouselOptions(
-            height: 400,
-            aspectRatio: 16 / 9,
-            viewportFraction: 0.8,
-            initialPage: 0,
-            enableInfiniteScroll: true,
-            reverse: false,
-            autoPlay: true,
-            autoPlayInterval: const Duration(seconds: 3),
-            autoPlayAnimationDuration: const Duration(milliseconds: 800),
-            autoPlayCurve: Curves.fastOutSlowIn,
-            enlargeCenterPage: true,
-            enlargeFactor: 0.3,
-            onPageChanged: (index, reason) => setState(() => pg = index),
-            scrollDirection: Axis.horizontal,
+        width: width,
+        height: height,
+        color: Cores.ciano,
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              CarouselSlider(
+                carouselController: _controller,
+                items: items,
+                options: CarouselOptions(
+                  height: height * .85,
+                  viewportFraction: 1,
+                  initialPage: 0,
+                  enableInfiniteScroll: false,
+                  reverse: false,
+                  autoPlay: false,
+                  enlargeCenterPage: true,
+                  enlargeFactor: 0.3,
+                  onPageChanged: (index, reason) => setState(() => pg = index),
+                  scrollDirection: Axis.horizontal,
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DotsIndicator(
+                    dotsCount: 3,
+                    position: pg,
+                    decorator: DotsDecorator(
+                      activeColor: Cores.cinza1,
+                      color: Cores.cinza2,
+                      size: const Size(15, 15),
+                      activeSize: const Size(15, 15),
+                    ),
+                  ),
+                  pg != 2
+                      ? Row(
+                          children: [
+                            TextButton(
+                              onPressed: () => setState(
+                                () => Navigator.pushNamed(context, '/login'),
+                              ),
+                              child: Text(
+                                'Pular',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: Cores.cinza1,
+                                ),
+                              ),
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                backgroundColor: Cores.cinza1,
+                              ),
+                              onPressed: () => setState(() {
+                                _controller.nextPage();
+                                pg++;
+                              }),
+                              child: const Text(
+                                'Próximo',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Row(
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                backgroundColor: Cores.cinza1,
+                              ),
+                              onPressed: () => setState(
+                                () => Navigator.pushNamed(context, '/login'),
+                              ),
+                              child: const Text(
+                                'Acessar',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                ],
+              )
+            ],
           ),
         ),
       ),

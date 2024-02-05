@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modulo01/pages/login.dart';
 import 'package:modulo01/pages/splash.dart';
 import 'package:modulo01/pages/tutorial.dart';
 import 'package:modulo01/styles/styles.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/splash': (context) => const Splash(),
         '/tutorial': (context) => const Tutorial(),
+        '/login': (context) => const Login(),
       },
       initialRoute: '/splash',
     );

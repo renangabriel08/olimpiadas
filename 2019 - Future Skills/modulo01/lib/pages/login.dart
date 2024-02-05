@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modulo01/controllers/cache.dart';
 import 'package:modulo01/controllers/login.dart';
 import 'package:modulo01/controllers/validator.dart';
 import 'package:modulo01/styles/styles.dart';
@@ -14,6 +15,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
 
+  TextEditingController _controller = TextEditingController();
   String user = '';
   String senha = '';
   bool obscureText = true;
@@ -24,6 +26,18 @@ class _LoginState extends State<Login> {
     } else {
       MyToast.gerarToast('Preencha todos os campos');
     }
+  }
+
+  getData(value) {
+    user = value[0];
+    _controller.text = user;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    Future.wait([CacheController.getUser()]).then((value) => getData(value));
+    super.initState();
   }
 
   @override
@@ -62,6 +76,7 @@ class _LoginState extends State<Login> {
                     ),
                     Container(height: height * .03),
                     TextFormField(
+                      controller: _controller,
                       validator: (value) => Validar.validarLogin(user),
                       onChanged: (value) => user = value,
                       keyboardType: TextInputType.emailAddress,

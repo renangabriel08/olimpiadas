@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modulo01/controllers/cache.dart';
 import 'package:modulo01/styles/styles.dart';
 
 class Splash extends StatefulWidget {
@@ -11,9 +12,19 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 3)).then(
-      (value) => Navigator.pushNamed(context, '/tutorial'),
-    );
+    Future.wait([CacheController.getLogs()]).then((value) {
+      Future.delayed(const Duration(seconds: 3)).then(
+        (i) {
+          if (value[0] == 0) {
+            Navigator.pushNamed(context, '/tutorial');
+          } else {
+            Navigator.pushNamed(context, '/login');
+          }
+
+          CacheController.salvarLogs();
+        },
+      );
+    });
     super.initState();
   }
 

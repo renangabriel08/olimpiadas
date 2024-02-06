@@ -41,6 +41,7 @@ dependencies:
   http: ^1.2.0
   fluttertoast: ^8.2.4
   image_picker: ^1.0.7
+  jwt_decoder: ^2.0.1
 
 dev_dependencies:
   flutter_test:

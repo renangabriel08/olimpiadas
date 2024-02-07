@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, '/'),
+                    onTap: () => Navigator.pushNamed(context, '/bussola'),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:modulo02/pages/bussola.dart';
 import 'package:modulo02/pages/home.dart';
 import 'package:modulo02/styles/styles.dart';
 
@@ -20,7 +21,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Cores.verde),
         useMaterial3: true,
       ),
-      routes: {'/home': (context) => const Home()},
+      routes: {
+        '/home': (context) => const Home(),
+        '/bussola': (context) => const Bussola(),
+      },
       initialRoute: '/home',
     );
   }

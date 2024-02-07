@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:modulo02/controllers/home.dart';
+import 'package:modulo02/pages/comentarios.dart';
 import 'package:modulo02/styles/styles.dart';
 import 'package:modulo02/widgets/card_slide.dart';
 
@@ -13,6 +14,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int pg = 0;
+  int userId = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +79,11 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, '/'),
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      Comentarios.routeName,
+                      arguments: ScreenArguments(userId),
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -112,6 +118,7 @@ class _HomeState extends State<Home> {
                     if (snapshot.hasData) {
                       List data = snapshot.data as List;
                       List desafios = data[0]['desafios_concluidos'];
+                      userId = data[0]['id'];
 
                       List<Widget>? slide = [];
 

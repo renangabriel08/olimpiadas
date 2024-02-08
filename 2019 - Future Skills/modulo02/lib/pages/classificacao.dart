@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modulo02/controllers/classificacao.dart';
 import 'package:modulo02/controllers/home.dart';
-import 'package:modulo02/controllers/lista.dart';
 import 'package:modulo02/styles/styles.dart';
 
 class Classificacao extends StatefulWidget {
@@ -74,7 +73,7 @@ class _ClassificacaoState extends State<Classificacao> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           Icons.emoji_events,
                                           size: 40,
                                         ),
@@ -112,7 +111,7 @@ class _ClassificacaoState extends State<Classificacao> {
                                     ),
                                   );
                                 }
-                                return Center(
+                                return const Center(
                                   child: CircularProgressIndicator(),
                                 );
                               },
@@ -157,7 +156,7 @@ class _ClassificacaoState extends State<Classificacao> {
                         ),
                       );
                     }
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   },

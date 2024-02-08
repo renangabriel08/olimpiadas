@@ -106,34 +106,37 @@ class _ListaDeDesafiosState extends State<ListaDeDesafios> {
                       return Column(
                         children: [
                           for (var desafio in desafios)
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 7, 0, 7),
-                              child: Container(
-                                width: width,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Cores.preto,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        desafio['nome'],
-                                        style: TextStyle(
+                            GestureDetector(
+                              onTap: () => Navigator.pushNamed(context, '/classificacao'),
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 7, 0, 7),
+                                child: Container(
+                                  width: width,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Cores.preto,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          desafio['nome'],
+                                          style: TextStyle(
+                                            color: Cores.vermelho,
+                                          ),
+                                        ),
+                                        Icon(
+                                          Icons.arrow_circle_right_rounded,
                                           color: Cores.vermelho,
                                         ),
-                                      ),
-                                      Icon(
-                                        Icons.arrow_circle_right_rounded,
-                                        color: Cores.vermelho,
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

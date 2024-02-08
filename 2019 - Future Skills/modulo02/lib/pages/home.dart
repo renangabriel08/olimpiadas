@@ -58,7 +58,7 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, '/'),
+                    onTap: () => Navigator.pushNamed(context, '/lista'),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

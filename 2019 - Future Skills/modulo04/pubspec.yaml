@@ -39,6 +39,8 @@ dependencies:
   firebase_core: ^2.25.4
   firebase_database: ^10.4.5
   image_picker: ^1.0.7
+  sensors_plus: ^4.0.2
+  percent_indicator: ^4.2.3
 
 dev_dependencies:
   flutter_test:

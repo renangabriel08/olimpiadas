@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:modulo04/firebase_options.dart';
 import 'package:modulo04/pages/esqSenha.dart';
 import 'package:modulo04/pages/perfil.dart';
+import 'package:modulo04/pages/tarefa.dart';
 import 'package:modulo04/styles/styles.dart';
 
 void main() async {
@@ -27,8 +28,9 @@ class MyApp extends StatelessWidget {
       routes: {
         '/perfil': (context) => const Perfil(),
         '/esqSenha': (context) => const EsqSenha(),
+        '/tarefa': (context) => const Tarefa(),
       },
-      initialRoute: '/perfil',
+      initialRoute: '/tarefa',
     );
   }
 }

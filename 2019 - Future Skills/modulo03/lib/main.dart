@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modulo03/pages/feedback.dart';
 import 'package:modulo03/pages/home.dart';
 import 'package:modulo03/styles/styles.dart';
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/home': (context) => const Home(),
+        Feedbacks.routeName: (context) => const Feedbacks(),
       },
       initialRoute: '/home',
     );

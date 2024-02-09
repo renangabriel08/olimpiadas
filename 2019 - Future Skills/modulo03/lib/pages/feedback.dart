@@ -144,7 +144,7 @@ class _FeedbacksState extends State<Feedbacks> {
                   ),
                   onPressed: () {
                     Navigator.pushNamed(context, '/home');
-                    MyToast.gerarToast('Comentário feito com sucesso!');
+                    MyToast.gerarToast('Feedback enviado com sucesso!');
                   },
                   child: Textos.rText(
                     'Enviar',

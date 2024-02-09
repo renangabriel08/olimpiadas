@@ -15,6 +15,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  TextEditingController _txtController = TextEditingController();
+  String coment = '';
   int userId = 1;
   int slide = 0;
   String desafio = '';
@@ -34,6 +36,8 @@ class _HomeState extends State<Home> {
     tarefas = value['tarefas'];
     comentarios = value['comentarios'];
     favorito = value['favorito'];
+
+    comentarios.sort((a, b) => a['horario'].compareTo(b['horario']));
 
     for (String img in value['imgs']) {
       imgs.add(
@@ -199,6 +203,8 @@ class _HomeState extends State<Home> {
                                   onChanged: (value) => setState(() {
                                     values[i] = value;
                                     if (!values.contains(false)) {
+                                      status = 'Concluído';
+                                      setState(() {});
                                       Navigator.pushNamed(
                                         context,
                                         Feedbacks.routeName,
@@ -211,6 +217,9 @@ class _HomeState extends State<Home> {
                                       MyToast.gerarToast(
                                         'Parabens! Você completou o desafio',
                                       );
+                                    } else {
+                                      status = 'Em andamento';
+                                      setState(() {});
                                     }
                                   }),
                                 ),
@@ -370,6 +379,17 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                       Container(height: height * .03),
+                      TextFormField(
+                        controller: _txtController,
+                        onChanged: (value) => coment = value,
+                        decoration: InputDecoration(
+                          label: Text(
+                            'Escreva seu comentário...',
+                            style: TextStyle(color: Cores.verde),
+                          ),
+                        ),
+                      ),
+                      Container(height: height * .03),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Cores.verde,
@@ -378,11 +398,18 @@ class _HomeState extends State<Home> {
                           ),
                           fixedSize: Size(width, 42),
                         ),
-                        onPressed: () => Navigator.pushNamed(
-                          context,
-                          Feedbacks.routeName,
-                          arguments: ScreenArguments(desafio, status, favorito),
-                        ),
+                        onPressed: () {
+                          if (coment == '') {
+                            MyToast.gerarToast('Escreva algo para comentar');
+                          } else {
+                            _txtController.text = '';
+                            coment = '';
+                            MyToast.gerarToast(
+                              'Comentário adicionado com sucesso!',
+                            );
+                            setState(() {});
+                          }
+                        },
                         child: Textos.rText(
                           'Comentar',
                           16,

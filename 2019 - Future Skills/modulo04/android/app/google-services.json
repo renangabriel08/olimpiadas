@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "999437205944",
+    "firebase_url": "https://modulo04-71536-default-rtdb.firebaseio.com",
+    "project_id": "modulo04-71536",
+    "storage_bucket": "modulo04-71536.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999437205944:android:c88eba533bf8d4ef130f4d",
+        "android_client_info": {
+          "package_name": "com.example.modulo04"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4NugDt3TbEw6osZvLHWS8CdFXKdup2WA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,8 +2,14 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:modulo04/widgets/toast.dart';
 
 class PerfilController {
-  static Future<bool> criar(String nome, String apelido, String cidade,
-      String sobrenome, String imagem, String email) async {
+  static Future<bool> criar(
+    String nome,
+    String apelido,
+    String cidade,
+    String sobrenome,
+    String imagem,
+    String email,
+  ) async {
     try {
       DatabaseReference ref = FirebaseDatabase.instance.ref("user/");
 

@@ -240,7 +240,10 @@ class _PerfilState extends State<Perfil> {
                               onPressed: () => setState(() {
                                 edit = true;
                               }),
-                              icon: const Icon(Icons.edit_square),
+                              icon: Icon(
+                                Icons.edit_square,
+                                color: Cores.cinza1,
+                              ),
                               label: Textos.getText(
                                 'Editar',
                                 16,
@@ -257,7 +260,10 @@ class _PerfilState extends State<Perfil> {
                                 ),
                               ),
                               onPressed: () => salvar(),
-                              icon: const Icon(Icons.save),
+                              icon: Icon(
+                                Icons.save,
+                                color: Cores.cinza1,
+                              ),
                               label: Textos.getText(
                                 'Salvar',
                                 16,

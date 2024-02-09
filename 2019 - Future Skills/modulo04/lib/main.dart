@@ -14,6 +14,8 @@ void main() async {
   runApp(const MyApp());
 }
 
+final navKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -21,6 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      navigatorKey: navKey,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Cores.verde),
         useMaterial3: true,

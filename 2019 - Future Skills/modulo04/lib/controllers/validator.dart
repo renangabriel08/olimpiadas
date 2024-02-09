@@ -5,4 +5,14 @@ class Validator {
     }
     return null;
   }
+
+  static validarCnSenha(String nSenha, String cnSenha) {
+    if (cnSenha.isEmpty) {
+      return 'Campo obrigatório';
+    }
+    if (nSenha != cnSenha) {
+      return 'Senhas são diferentes';
+    }
+    return null;
+  }
 }

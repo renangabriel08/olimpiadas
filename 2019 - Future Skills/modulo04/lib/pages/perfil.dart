@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:modulo04/controllers/geolocator.dart';
 import 'package:modulo04/controllers/perfil.dart';
 import 'package:modulo04/controllers/validator.dart';
 import 'package:modulo04/styles/styles.dart';
@@ -69,6 +71,22 @@ class _PerfilState extends State<Perfil> {
     } else {
       MyToast.gerarToast('Preencha todos os dados');
     }
+  }
+
+  editar() async {
+    edit = true;
+
+    final loc = await GeolocatorController.determinePosition();
+
+    final a = await placemarkFromCoordinates(
+      loc.latitude,
+      loc.longitude,
+    );
+
+    cidade = a[0].locality.toString();
+    cidadeController.text = cidade;
+
+    setState(() {});
   }
 
   setarVariaveis(value) {
@@ -237,9 +255,7 @@ class _PerfilState extends State<Perfil> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              onPressed: () => setState(() {
-                                edit = true;
-                              }),
+                              onPressed: () => editar(),
                               icon: Icon(
                                 Icons.edit_square,
                                 color: Cores.cinza1,

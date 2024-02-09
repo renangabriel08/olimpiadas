@@ -163,7 +163,15 @@ class _TarefaState extends State<Tarefa> {
                       ),
                     ],
                   ),
-                  progressColor: Cores.vermelho,
+                  progressColor: passos / meta > 0.8
+                      ? Cores.verde
+                      : passos / meta > 0.6
+                          ? Cores.azul
+                          : passos / meta > 0.4
+                              ? Cores.amarelo
+                              : passos / meta > 0.2
+                                  ? Cores.vermelho
+                                  : Cores.cinza2,
                 ),
               ),
               Container(height: height * .1),

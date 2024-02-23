@@ -99,7 +99,7 @@ class _ExercicioState extends State<Exercicio> {
                           child: Textos.getTxt('Iniciar', 20, Cores.cinza),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               );

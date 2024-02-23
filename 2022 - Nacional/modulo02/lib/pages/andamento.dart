@@ -2,7 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:modulo02/controllers/mapa.dart';
+import 'package:modulo02/controllers/user.dart';
+import 'package:modulo02/pages/progresso.dart';
 import 'package:modulo02/styles/styles.dart';
+import 'package:modulo02/widgets/toast.dart';
 
 class Andamento extends StatefulWidget {
   const Andamento({super.key});
@@ -37,7 +40,7 @@ class _AndamentoState extends State<Andamento> {
 
   start() async {
     setState(() {});
-    // MapaController.atualizarPos();
+    MapaController.atualizarPos();
     if (started == null || !started!) {
       started = true;
       timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
@@ -55,7 +58,7 @@ class _AndamentoState extends State<Andamento> {
         mF = m < 10 ? '0$m' : '$m';
         hF = h < 10 ? '0$h' : '$h';
 
-        // distancia = await MapaController.getDistancia(origem);
+        distancia = await MapaController.getDistancia(origem);
 
         setState(() {});
       });
@@ -72,6 +75,7 @@ class _AndamentoState extends State<Andamento> {
 
   setar(value) {
     origem = LatLng(value.latitude, value.longitude);
+    MapaController.points.add(origem);
     setState(() {});
   }
 
@@ -90,6 +94,27 @@ class _AndamentoState extends State<Andamento> {
     double height = MediaQuery.of(context).size.height;
 
     final args = ModalRoute.of(context)!.settings.arguments as DadosExercicios;
+
+    String dia =
+        args.horario.day < 10 ? '0${args.horario.day}' : '${args.horario.day}';
+    String mes = args.horario.month < 10
+        ? '0${args.horario.month}'
+        : '${args.horario.month}';
+
+    String data = '${args.horario.year}-$mes-$dia';
+
+    String sec = args.horario.second < 10
+        ? '0${args.horario.second}'
+        : '${args.horario.second}';
+    String min = args.horario.minute < 10
+        ? '0${args.horario.minute}'
+        : '${args.horario.minute}';
+    String hr = args.horario.hour < 10
+        ? '0${args.horario.hour}'
+        : '${args.horario.hour}';
+
+    String hora = '$hr:$min:$sec';
+
     return Scaffold(
       body: Container(
         width: width,
@@ -159,8 +184,10 @@ class _AndamentoState extends State<Andamento> {
                               height: width * .35,
                               decoration: BoxDecoration(
                                 color: Cores.branco,
-                                border:
-                                    Border.all(width: 2, color: Cores.cinza),
+                                border: Border.all(
+                                  width: 2,
+                                  color: Cores.cinza,
+                                ),
                                 borderRadius: BorderRadius.circular(999),
                                 boxShadow: [
                                   BoxShadow(
@@ -181,14 +208,34 @@ class _AndamentoState extends State<Andamento> {
                           ),
                           Container(width: 20),
                           GestureDetector(
-                            onTap: () => (),
+                            onTap: () {
+                              MyToast.gerar('Parabéns! Você concluiu');
+                              UserController.salvar(
+                                '$data $hora',
+                                distancia / 1000,
+                                '$hF:$mF:$sF',
+                              );
+                              Navigator.pushNamed(
+                                context,
+                                Progresso.routeName,
+                                arguments: DadosProgresso(
+                                  args.horario,
+                                  args.localizacao,
+                                  args.tipo,
+                                  '$hF:$mF:$sF',
+                                  '${distancia / 1000} Km',
+                                ),
+                              );
+                            },
                             child: Container(
                               width: width * .35,
                               height: width * .35,
                               decoration: BoxDecoration(
                                 color: Cores.branco,
-                                border:
-                                    Border.all(width: 2, color: Cores.cinza),
+                                border: Border.all(
+                                  width: 2,
+                                  color: Cores.cinza,
+                                ),
                                 borderRadius: BorderRadius.circular(999),
                                 boxShadow: [
                                   BoxShadow(
@@ -199,8 +246,11 @@ class _AndamentoState extends State<Andamento> {
                                 ],
                               ),
                               child: Center(
-                                child:
-                                    Textos.getTxt('Concluír', 20, Cores.cinza),
+                                child: Textos.getTxt(
+                                  'Concluír',
+                                  20,
+                                  Cores.cinza,
+                                ),
                               ),
                             ),
                           ),

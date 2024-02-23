@@ -11,11 +11,14 @@ class MapaController {
   static double longitude = 0.0;
 
   static late StreamSubscription<Position> posAtual;
+  static List<LatLng> points = [];
 
   static atualizarPos() async {
     posAtual = Geolocator.getPositionStream().listen((loc) {
       latitude = loc.latitude;
       longitude = loc.longitude;
+
+      points.add(LatLng(latitude, longitude));
     });
   }
 

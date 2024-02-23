@@ -19,6 +19,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         shadowColor: Cores.azul,
+        automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () => (),
           icon: const Icon(

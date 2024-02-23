@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modulo02/pages/andamento.dart';
 import 'package:modulo02/pages/exercicio.dart';
 import 'package:modulo02/pages/home.dart';
 
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/home': (context) => const Home(),
-        '/exercicio': (context) => const Exercicio(),
+        Exercicio.routeName: (context) => const Exercicio(),
+        Andamento.routeName: (context) => const Andamento(),
       },
       initialRoute: '/home',
     );

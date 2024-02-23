@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modulo02/pages/exercicio.dart';
 import 'package:modulo02/styles/styles.dart';
 import 'package:modulo02/widgets/card.dart';
 
@@ -34,7 +35,11 @@ class _HomeState extends State<Home> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               GestureDetector(
-                onTap: () => Navigator.pushNamed(context, '/exercicio'),
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  Exercicio.routeName,
+                  arguments: ScreenArguments('Corrida'),
+                ),
                 child: const MyCard(
                   label: 'Corrida',
                   icone: Icons.directions_run_outlined,
@@ -42,7 +47,11 @@ class _HomeState extends State<Home> {
               ),
               Container(width: width * .1),
               GestureDetector(
-                onTap: () => Navigator.pushNamed(context, '/exercicio'),
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  Exercicio.routeName,
+                  arguments: ScreenArguments('Caminhada'),
+                ),
                 child: const MyCard(
                   label: 'Caminhada',
                   icone: Icons.directions_walk_outlined,

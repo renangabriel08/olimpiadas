@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'dart:math';
 
 class MapaController {
   static Set<Marker> markers = {};
@@ -9,6 +10,7 @@ class MapaController {
   static double longitude = 0;
   static List lugares = [];
   static List<LatLng> points = [];
+  static List<bool> proximo = [];
 
   static Future<Position> init() async {
     final pos = await posicaoAtual();
@@ -53,7 +55,7 @@ class MapaController {
   static pesquisar(String tipo) async {
     try {
       final url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=2000&types=$tipo&key=AIzaSyD5v_ENMQDCUKIb2o9q_PVhnGaAUaTfedk',
+        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$latitude,$longitude&radius=2000&types=$tipo&key=AIzaSyD5v_ENMQDCUKIb2o9q_PVhnGaAUaTfedk',
       );
       final req = await http.get(url);
       if (req.statusCode == 200) {
@@ -62,17 +64,18 @@ class MapaController {
 
         for (var local in locais) {
           lugares.add(local);
-
-          print(
-            Geolocator.bearingBetween(
-                  latitude,
-                  longitude,
-                  local['geometry']['location']['lat'],
-                  local['geometry']['location']['lng'],
-                ) *
-                -1 *
-                5,
+          final distancia = calculateDistance(
+            latitude,
+            longitude,
+            local['geometry']['location']['lat'],
+            local['geometry']['location']['lng'],
           );
+
+          if ((distancia * 1000).toInt() < 500) {
+            proximo.add(false);
+          } else {
+            proximo.add(true);
+          }
 
           markers.add(
             Marker(
@@ -95,7 +98,7 @@ class MapaController {
     points = [];
     try {
       final url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/directions/json?destination=${d.latitude},${d.longitude}&origin=${latitude},${longitude}&key=AIzaSyD5v_ENMQDCUKIb2o9q_PVhnGaAUaTfedk',
+        'https://maps.googleapis.com/maps/api/directions/json?destination=${d.latitude},${d.longitude}&origin=$latitude,$longitude&key=AIzaSyD5v_ENMQDCUKIb2o9q_PVhnGaAUaTfedk',
       );
       final req = await http.get(url);
       if (req.statusCode == 200) {
@@ -111,5 +114,29 @@ class MapaController {
     } catch (e) {
       print('deu erro');
     }
+  }
+
+  static double degreesToRadians(double degrees) {
+    return degrees * pi / 180.0;
+  }
+
+  static double calculateDistance(
+      double lat1, double lon1, double lat2, double lon2) {
+    const double earthRadius = 6371.0;
+
+    double dLat = degreesToRadians(lat2 - lat1);
+    double dLon = degreesToRadians(lon2 - lon1);
+
+    double a = sin(dLat / 2) * sin(dLat / 2) +
+        cos(degreesToRadians(lat1)) *
+            cos(degreesToRadians(lat2)) *
+            sin(dLon / 2) *
+            sin(dLon / 2);
+
+    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+    double distance = earthRadius * c;
+
+    return distance;
   }
 }

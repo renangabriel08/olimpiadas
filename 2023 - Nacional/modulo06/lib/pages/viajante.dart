@@ -19,7 +19,9 @@ class _ViajanteState extends State<Viajante> {
     setState(() {});
   }
 
-  Future<void> _showMyDialog(nome, end, loc) async {
+  checkIn() {}
+
+  Future<void> _showMyDialog(nome, end, loc, img) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
@@ -29,9 +31,14 @@ class _ViajanteState extends State<Viajante> {
           content: SingleChildScrollView(
               child: Column(
             children: [
-              Image.network(
-                'https://i0.wp.com/www.sinhoresosasco.com.br/storage/2022/01/WhatsApp-Image-2022-01-28-at-17.08.45-1.jpeg',
-              ),
+              img != null
+                  ? Image.network(
+                      'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=$img&key=AIzaSyD5v_ENMQDCUKIb2o9q_PVhnGaAUaTfedk',
+                    )
+                  : const Icon(
+                      Icons.image,
+                      size: 100,
+                    ),
               Textos.txt1(end, Cores.azul1),
             ],
           )),
@@ -56,7 +63,14 @@ class _ViajanteState extends State<Viajante> {
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: Container(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(context, '/pontos'),
+        child: const Icon(
+          Icons.person,
+          color: Colors.white,
+        ),
+      ),
+      body: SizedBox(
           width: width,
           height: height,
           child: FutureBuilder(
@@ -111,7 +125,7 @@ class _ViajanteState extends State<Viajante> {
                             markers: MapaController.markers,
                             polylines: {
                               Polyline(
-                                polylineId: PolylineId('Rota'),
+                                polylineId: const PolylineId('Rota'),
                                 points: MapaController.points,
                                 color: Cores.azul1,
                                 width: 4,
@@ -122,15 +136,23 @@ class _ViajanteState extends State<Viajante> {
                         Container(height: 20),
                         Column(
                           children: [
-                            for (var lugar in MapaController.lugares)
+                            for (int i = 0;
+                                i < MapaController.lugares.length;
+                                i++)
                               GestureDetector(
                                 onTap: () => _showMyDialog(
-                                  lugar['name'],
-                                  lugar['vicinity'],
+                                  MapaController.lugares[i]['name'],
+                                  MapaController.lugares[i]['vicinity'],
                                   LatLng(
-                                    lugar['geometry']['location']['lat'],
-                                    lugar['geometry']['location']['lng'],
+                                    MapaController.lugares[i]['geometry']
+                                        ['location']['lat'],
+                                    MapaController.lugares[i]['geometry']
+                                        ['location']['lng'],
                                   ),
+                                  MapaController.lugares[i]['photos'] != null
+                                      ? MapaController.lugares[i]['photos'][0]
+                                          ['photo_reference']
+                                      : null,
                                 ),
                                 child: Padding(
                                   padding:
@@ -146,15 +168,46 @@ class _ViajanteState extends State<Viajante> {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
+                                      padding: const EdgeInsets.fromLTRB(
+                                        5,
+                                        0,
+                                        5,
+                                        0,
+                                      ),
+                                      child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Textos.txt1(
-                                              lugar['name'], Cores.azul1)
+                                          Text(
+                                            MapaController.lugares[i]['name'],
+                                            style: TextStyle(
+                                              fontFamily: Fontes.fonte,
+                                              fontSize: 14,
+                                              color: Cores.azul2,
+                                            ),
+                                          ),
+                                          MapaController.proximo[i]
+                                              ? IconButton(
+                                                  onPressed: () => checkIn(),
+                                                  icon: Container(
+                                                    width: 30,
+                                                    height: 30,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        width: 2,
+                                                        color: Cores.verde3,
+                                                      ),
+                                                    ),
+                                                    child: Center(
+                                                      child: Icon(
+                                                        Icons.check,
+                                                        size: 20,
+                                                        color: Cores.verde3,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              : Container(),
                                         ],
                                       ),
                                     ),

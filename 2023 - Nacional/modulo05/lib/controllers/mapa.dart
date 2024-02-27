@@ -57,6 +57,26 @@ class MapaController {
     }
   }
 
+  static buscarPontos(LatLng o, LatLng d) async {
+    final url = Uri.parse(
+      'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$latitude,$longitude&radius=15000&types=tourist_attraction&key=AIzaSyD5v_ENMQDCUKIb2o9q_PVhnGaAUaTfedk',
+    );
+
+    final req = await http.get(url);
+
+    if (req.statusCode == 200) {
+      final res = jsonDecode(utf8.decode(req.bodyBytes));
+      List pontos = res['routes'][0]['legs'][0]['steps'];
+
+      for (var ponto in pontos) {
+        final lt = ponto['end_location']['lat'];
+        final lg = ponto['end_location']['lng'];
+
+        adicionarPolylines(LatLng(lt, lg));
+      }
+    }
+  }
+
   static adicionarPolylines(LatLng point) {
     points.add(point);
   }

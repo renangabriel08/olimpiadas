@@ -74,19 +74,71 @@ class _HomeState extends State<Home> {
                           zoom: 17,
                         ),
                         markers: MapaController.markers,
-                        polylines: {
-                          Polyline(
-                            polylineId: const PolylineId('Rota'),
-                            points: MapaController.points,
-                            color: Cores.verde2,
-                            width: 4,
-                          ),
-                        },
+                        polylines: MapaController.polylines,
                         myLocationEnabled: true,
                         myLocationButtonEnabled: true,
                       ),
                     ),
+                    Column(
+                      children: [
+                        Container(height: height * .05),
+                        for (var ponto in MapaController.pontosTuristicos)
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 6, 0, 6),
+                            child: Container(
+                              width: width,
+                              height: 55,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 2,
+                                  color: Cores.verde3,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Textos.txt1(
+                                          ponto['name'],
+                                          Cores.azul2,
+                                        ),
+                                        IconButton(
+                                          onPressed: () => MapaController
+                                              .pontosTuristicosDeInteresse
+                                              .add(ponto),
+                                          icon: const Icon(Icons.add),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                      ],
+                    ),
                     Container(height: height * .05),
+                    OutlinedButton(
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: Size(width, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onPressed: () async {
+                        btn ? await MapaController.gerarNovaRota(end) : null;
+                        setState(() {});
+                      },
+                      child: Textos.txt1('GERAR NOVA ROTA', Cores.verde3),
+                    ),
+                    Container(height: height * .01),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         fixedSize: Size(width, 50),

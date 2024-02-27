@@ -1,6 +1,16 @@
 import 'package:geolocator/geolocator.dart';
 
 class MapaController {
+  static double latitude = 0.0;
+  static double longitude = 0.0;
+
+  static getPosition() async {
+    final pos = await posicaoAtual();
+
+    latitude = pos.latitude;
+    longitude = pos.longitude;
+  }
+
   static Future<Position> posicaoAtual() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -24,5 +34,18 @@ class MapaController {
     }
 
     return await Geolocator.getCurrentPosition();
+  }
+
+  static calcularDistancia(lat1, lng1, lat2, lng2) {
+    double distanceInMeters = Geolocator.distanceBetween(
+      lat1,
+      lng1,
+      lat2,
+      lng2,
+    );
+
+    print(distanceInMeters);
+
+    return distanceInMeters;
   }
 }

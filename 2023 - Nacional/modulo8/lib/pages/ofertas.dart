@@ -1,7 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:modulo8/controllers/cache.dart';
 import 'package:modulo8/controllers/json.dart';
+import 'package:modulo8/controllers/mapa.dart';
 import 'package:modulo8/pages/lista.dart';
 import 'package:modulo8/styles/styles.dart';
 
@@ -13,8 +17,8 @@ class Ofertas extends StatefulWidget {
 }
 
 class _OfertasState extends State<Ofertas> {
-  String precoSelecionado = 'R 500';
-  List precos = ['R 500', 'R 300', 'R 200', 'R 100'];
+  String precoSelecionado = '500';
+  List precos = ['500', '300', '200', '100'];
   int img = 0;
 
   List estados = CidadesEstados.json['estados'];
@@ -24,6 +28,12 @@ class _OfertasState extends State<Ofertas> {
   String cidadeSelecionada = 'Acrelândia';
 
   int idEstado = 0;
+
+  @override
+  void initState() {
+    MapaController.getPosition();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +78,7 @@ class _OfertasState extends State<Ofertas> {
                   enableInfiniteScroll: true,
                   reverse: false,
                   autoPlay: true,
-                  autoPlayInterval: const Duration(seconds: 3),
+                  autoPlayInterval: const Duration(seconds: 5),
                   autoPlayAnimationDuration: const Duration(milliseconds: 800),
                   autoPlayCurve: Curves.fastOutSlowIn,
                   enlargeCenterPage: true,
@@ -152,7 +162,9 @@ class _OfertasState extends State<Ofertas> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                onChanged: (value) => cidadeSelecionada = value.toString(),
+                onChanged: (value) {
+                  cidadeSelecionada = value.toString();
+                },
               ),
               Container(height: height * .03),
               Row(
@@ -175,7 +187,9 @@ class _OfertasState extends State<Ofertas> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                onChanged: (value) => precoSelecionado = value.toString(),
+                onChanged: (value) {
+                  precoSelecionado = value.toString();
+                },
               ),
               Container(height: height * .03),
               ElevatedButton(
@@ -185,15 +199,18 @@ class _OfertasState extends State<Ofertas> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                onPressed: () => Navigator.pushNamed(
-                  context,
-                  Lista.routeName,
-                  arguments: ScreenArguments(
-                    estadoSelecionado,
-                    cidadeSelecionada,
-                    precoSelecionado,
-                  ),
-                ),
+                onPressed: () async {
+                  await CacheController.salvarCidade(cidadeSelecionada);
+                  await CacheController.salvarPreco(precoSelecionado);
+                  Navigator.pushNamed(
+                    context,
+                    Lista.routeName,
+                    arguments: ScreenArguments(
+                      cidades,
+                      precoSelecionado,
+                    ),
+                  );
+                },
                 child: Textos.txt1('Buscar', Cores.azul1),
               ),
             ],

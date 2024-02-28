@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:geolocator/geolocator.dart';
@@ -8,12 +9,26 @@ import 'package:modulo05/styles/styles.dart';
 class MapaController {
   static double latitude = 0.0;
   static double longitude = 0.0;
+  static LatLng destino = const LatLng(0, 0);
   static Set<Marker> markers = {};
   static Set<Polyline> polylines = {};
   static List<LatLng> points = [];
   static List pontosTuristicos = [];
   static List pontosTuristicosDeInteresse = [];
   static List locPontosTuristicosDeInteresse = [];
+  static late StreamSubscription streamPosition;
+
+  static watchPosition() async {
+    streamPosition = Geolocator.getPositionStream().listen((event) {
+      latitude = event.latitude;
+      longitude = event.longitude;
+
+      if (latitude == points[points.length].latitude &&
+          longitude == points[points.length].longitude) {
+        encerrarCorrida();
+      }
+    });
+  }
 
   static Future getPosition() async {
     final Position pos = await posicaoAtual();
@@ -59,6 +74,7 @@ class MapaController {
     if (req.statusCode == 200) {
       final res = jsonDecode(utf8.decode(req.bodyBytes));
       List pontos = res['routes'][0]['legs'][0]['steps'];
+      points.clear();
 
       for (var ponto in pontos) {
         final lt = ponto['end_location']['lat'];
@@ -80,7 +96,7 @@ class MapaController {
 
   static buscarPontos() async {
     final url = Uri.parse(
-      'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$latitude,$longitude&radius=1500&types=tourist_attraction&key=AIzaSyD5v_ENMQDCUKIb2o9q_PVhnGaAUaTfedk',
+      'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$latitude,$longitude&radius=15000&types=tourist_attraction&key=AIzaSyD5v_ENMQDCUKIb2o9q_PVhnGaAUaTfedk',
     );
 
     final req = await http.get(url);
@@ -97,6 +113,7 @@ class MapaController {
   }
 
   static adicionarMarker(double latitude, double longitude, String id) {
+    destino = LatLng(latitude, longitude);
     markers.add(
       Marker(
         markerId: MarkerId(id),
@@ -144,6 +161,16 @@ class MapaController {
         );
       }
     }
+  }
+
+  static encerrarCorrida() {
+    markers.clear();
+    polylines.clear();
+    points.clear();
+    pontosTuristicos.clear();
+    pontosTuristicosDeInteresse.clear();
+    locPontosTuristicosDeInteresse.clear();
+    streamPosition.cancel();
   }
 
   static Future<Position> posicaoAtual() async {

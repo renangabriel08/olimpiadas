@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:modulo05/controllers/mapa.dart';
 import 'package:modulo05/styles/styles.dart';
+import 'package:modulo05/widgets/toast.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -15,6 +19,48 @@ class _HomeState extends State<Home> {
   bool loading = true;
 
   bool btn = false;
+  bool corrida = false;
+  List vs = [];
+  bool v = false;
+
+  Timer? timer;
+
+  start() {
+    if (corrida) {
+      timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        MapaController.getPosition();
+        MapaController.gerarRota(
+          LatLng(MapaController.latitude, MapaController.longitude),
+          MapaController.destino,
+        );
+
+        vs.clear();
+
+        for (var i in MapaController.pontosTuristicos) {
+          if (Geolocator.bearingBetween(
+                  MapaController.latitude,
+                  MapaController.longitude,
+                  i['geometry']['location']['lat'],
+                  i['geometry']['location']['lng']) <
+              500) {
+            vs.add(true);
+          }
+        }
+
+        if (vs.contains(true)) {
+          v = true;
+        } else {
+          v = false;
+        }
+
+        setState(() {});
+      });
+    }
+  }
+
+  cancel() {
+    timer!.cancel();
+  }
 
   @override
   void initState() {
@@ -48,8 +94,9 @@ class _HomeState extends State<Home> {
                             btn = true;
                             setState(() {});
                           },
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.search,
+                            color: Cores.verde3,
                           ),
                         ),
                         border: OutlineInputBorder(
@@ -110,10 +157,16 @@ class _HomeState extends State<Home> {
                                           Cores.azul2,
                                         ),
                                         IconButton(
-                                          onPressed: () => MapaController
-                                              .pontosTuristicosDeInteresse
-                                              .add(ponto),
-                                          icon: const Icon(Icons.add),
+                                          onPressed: () {
+                                            MapaController
+                                                .pontosTuristicosDeInteresse
+                                                .add(ponto);
+                                            MyToast.gerar('Ponto adicionado');
+                                          },
+                                          icon: Icon(
+                                            Icons.add,
+                                            color: Cores.azul1,
+                                          ),
                                         ),
                                       ],
                                     )
@@ -125,30 +178,52 @@ class _HomeState extends State<Home> {
                       ],
                     ),
                     Container(height: height * .05),
-                    OutlinedButton(
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: Size(width, 50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      onPressed: () async {
-                        btn ? await MapaController.gerarNovaRota(end) : null;
-                        setState(() {});
-                      },
-                      child: Textos.txt1('GERAR NOVA ROTA', Cores.verde3),
-                    ),
+                    !corrida
+                        ? OutlinedButton(
+                            style: ElevatedButton.styleFrom(
+                              fixedSize: Size(width, 50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: () async {
+                              btn
+                                  ? await MapaController.gerarNovaRota(end)
+                                  : null;
+                              setState(() {});
+                            },
+                            child: Textos.txt1('GERAR NOVA ROTA', Cores.verde3),
+                          )
+                        : Container(),
                     Container(height: height * .01),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: Size(width, 50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      onPressed: () => btn ? print('oi') : null,
-                      child: Textos.txt1('INICIAR VIAGEM', Cores.verde3),
-                    ),
+                    !corrida
+                        ? ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              fixedSize: Size(width, 50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: () {
+                              btn ? corrida = true : null;
+                              start();
+                            },
+                            child: Textos.txt1('INICIAR VIAGEM', Cores.verde3),
+                          )
+                        : ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              fixedSize: Size(width, 50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: () {
+                              corrida = false;
+                              MapaController.encerrarCorrida();
+                              setState(() {});
+                            },
+                            child: Textos.txt1('ENCERRAR VIAGEM', Cores.verde3),
+                          ),
                   ],
                 ),
               ),
@@ -156,6 +231,13 @@ class _HomeState extends State<Home> {
           : const Center(
               child: CircularProgressIndicator(),
             ),
+      floatingActionButton: Visibility(
+        visible: v,
+        child: FloatingActionButton(
+          onPressed: () => (),
+          child: const Icon(Icons.add),
+        ),
+      ),
     );
   }
 }

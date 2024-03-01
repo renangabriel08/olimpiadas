@@ -10,6 +10,7 @@ class MapaController {
 
   static Timer? timer;
   static int s = 0;
+  static int sF = 0;
   static bool started = false;
 
   static double op = 1.0;
@@ -31,6 +32,15 @@ class MapaController {
       op = 1;
       timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         s++;
+        sF++;
+
+        if (sF == 900) {
+          op = 0;
+          markers.clear();
+          for (var userPos in pos) {
+            MapaController.addMarker(userPos);
+          }
+        }
 
         if (op > .1) {
           if (s == 90) {

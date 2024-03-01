@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modulo05/pages/relogio/erro.dart';
 import 'package:modulo05/pages/relogio/login.dart';
+import 'package:modulo05/pages/relogio/tarefa.dart';
 import 'package:modulo05/styles/styles.dart';
 
 void main() {
@@ -26,9 +27,10 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/loginRelogio': (context) => const LoginRelogio(),
-        '/erroRelogio': (context) => const ErroRelogio()
+        '/erroRelogio': (context) => const ErroRelogio(),
+        '/tarefasRelogio': (context) => const TarefaRelogio()
       },
-      initialRoute: '/loginRelogio',
+      initialRoute: '/tarefasRelogio',
     );
   }
 }

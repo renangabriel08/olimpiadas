@@ -5,4 +5,11 @@ class Validar {
     }
     return null;
   }
+
+  static validarTv(String value) {
+    if (value.isEmpty) {
+      return 'Preencha todos os campos';
+    }
+    return null;
+  }
 }

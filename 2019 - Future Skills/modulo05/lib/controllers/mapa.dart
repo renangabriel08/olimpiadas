@@ -1,39 +1,56 @@
-import 'package:geolocator/geolocator.dart';
+import 'dart:async';
+
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapaController {
-  static double latitude = 0.0;
-  static double longitude = 0.0;
+  static double latitude = -22.0676093;
+  static double longitude = -50.2969931;
+  static List pos = [];
+  static Set<Marker> markers = {};
 
-  static getPosition() async {
-    final Position pos = await posicaoAtual();
+  static Timer? timer;
+  static int s = 0;
+  static bool started = false;
 
-    latitude = pos.latitude;
-    longitude = pos.longitude;
+  static double op = 1.0;
+
+  static addMarker(user) {
+    markers.add(
+      Marker(
+        markerId: MarkerId(user['nome']),
+        position: LatLng(user['latitude'], user['longitude']),
+        infoWindow: InfoWindow(title: user['nome']),
+        alpha: op,
+      ),
+    );
   }
 
-  static Future<Position> posicaoAtual() async {
-    bool serviceEnabled;
-    LocationPermission permission;
+  static start() {
+    if (!started) {
+      started = true;
+      op = 1;
+      timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        s++;
 
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
+        if (op > .1) {
+          if (s == 2) {
+            op = op - .1;
+            s = 0;
+            markers.clear();
+            for (var userPos in pos) {
+              MapaController.addMarker(userPos);
+            }
+          }
+        }
+      });
     }
+  }
 
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
+  static cancel() {
+    if (started) {
+      timer!.cancel();
+      s = 0;
+      started = false;
     }
-
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-        'Location permissions are permanently denied, we cannot request permissions.',
-      );
-    }
-
-    return await Geolocator.getCurrentPosition();
   }
 }

@@ -33,7 +33,7 @@ class MapaController {
         s++;
 
         if (op > .1) {
-          if (s == 2) {
+          if (s == 90) {
             op = op - .1;
             s = 0;
             markers.clear();

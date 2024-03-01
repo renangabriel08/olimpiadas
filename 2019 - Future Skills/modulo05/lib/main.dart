@@ -19,7 +19,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -39,7 +38,7 @@ class MyApp extends StatelessWidget {
         '/loginTv': (context) => const LoginTv(),
         '/mapa': (context) => const Mapa()
       },
-      initialRoute: '/mapa',
+      initialRoute: width < 500.0 ? '/loginRelogio' : '/mapa',
     );
   }
 }

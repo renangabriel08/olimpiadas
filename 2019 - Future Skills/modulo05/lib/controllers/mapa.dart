@@ -60,6 +60,7 @@ class MapaController {
     if (started) {
       timer!.cancel();
       s = 0;
+      sF = 0;
       started = false;
     }
   }

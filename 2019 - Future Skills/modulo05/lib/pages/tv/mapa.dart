@@ -159,10 +159,13 @@ class _MapaState extends State<Mapa> {
                           ),
                           Container(height: height * .12),
                           GestureDetector(
-                            onTap: () => Navigator.pushNamed(
-                              context,
-                              '/loginTv',
-                            ),
+                            onTap: () {
+                              MapaController.cancel();
+                              Navigator.pushNamed(
+                                context,
+                                '/loginTv',
+                              );
+                            },
                             child: Container(
                               width: 35,
                               height: 35,

@@ -31,21 +31,24 @@ class _ErroRelogioState extends State<ErroRelogio> {
                 Cores.vermelho,
                 FontWeight.w400,
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Cores.ciano,
-                  fixedSize: Size(width, 25),
-                  shape: RoundedRectangleBorder(
+              GestureDetector(
+                onTap: () => Navigator.pushNamed(context, '/loginRelogio'),
+                child: Container(
+                  width: width,
+                  height: 25,
+                  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
+                    color: Cores.ciano,
                   ),
-                ),
-                onPressed: () => Navigator.pushNamed(context, '/loginRelogio'),
-                child: Textos.txt(
-                  'Tente novamente',
-                  12,
-                  TextAlign.center,
-                  Cores.cinza,
-                  FontWeight.w700,
+                  child: Center(
+                    child: Textos.txt(
+                      'Tente novamente',
+                      12,
+                      TextAlign.center,
+                      Cores.cinza,
+                      FontWeight.w700,
+                    ),
+                  ),
                 ),
               ),
             ],

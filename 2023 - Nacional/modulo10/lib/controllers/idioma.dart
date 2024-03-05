@@ -22,7 +22,8 @@ class Palavras {
     'Voltar',
     'O aplicativo revolucionário EuVouNaTrip oferece uma experiência de viagem incomparável',
     'Com recursos inovadores como gamificação de pontos turísticos, roteiros sob medida baseados nas suas preferências',
-    'O EuVouNaTrip é o seu companheiro de viagem indispensável.'
+    'O EuVouNaTrip é o seu companheiro de viagem indispensável.',
+    'Sobre'
   ];
 
   static List<String> i = [
@@ -47,6 +48,7 @@ class Palavras {
     'The revolutionary EuVouNaTrip app offers an unparalleled travel experience',
     'With innovative features such as gamification of tourist attractions, tailored itineraries based on your preferences',
     'EuVouNaTrip is your indispensable travel companion.'
+        'About'
   ];
 
   static List<String> e = [
@@ -71,6 +73,7 @@ class Palavras {
     'La revolucionaria aplicación EuVouNaTrip ofrece una experiencia de viaje incomparable',
     'Con características innovadoras como gamificación de atracciones turísticas, itinerarios personalizados según tus preferencias',
     'EuVouNaTrip es su compañero de viaje indispensable.'
+        'Acerca de'
   ];
 }
 

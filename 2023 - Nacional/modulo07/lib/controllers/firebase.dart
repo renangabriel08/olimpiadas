@@ -104,8 +104,6 @@ class FirebaseController {
   static formatarData() async {
     final data = await getAvaliacoes();
 
-    print(data);
-
     List dataFormatada = [];
 
     for (int i = 0; i < data.length; i++) {

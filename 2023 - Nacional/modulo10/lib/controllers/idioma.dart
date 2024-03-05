@@ -20,6 +20,9 @@ class Palavras {
     'Médio',
     'Grande',
     'Voltar',
+    'O aplicativo revolucionário EuVouNaTrip oferece uma experiência de viagem incomparável',
+    'Com recursos inovadores como gamificação de pontos turísticos, roteiros sob medida baseados nas suas preferências',
+    'O EuVouNaTrip é o seu companheiro de viagem indispensável.'
   ];
 
   static List<String> i = [
@@ -41,6 +44,9 @@ class Palavras {
     'Average',
     'Big',
     'To go back',
+    'The revolutionary EuVouNaTrip app offers an unparalleled travel experience',
+    'With innovative features such as gamification of tourist attractions, tailored itineraries based on your preferences',
+    'EuVouNaTrip is your indispensable travel companion.'
   ];
 
   static List<String> e = [
@@ -62,6 +68,9 @@ class Palavras {
     'Promedio',
     'Grande',
     'Para volver',
+    'La revolucionaria aplicación EuVouNaTrip ofrece una experiencia de viaje incomparable',
+    'Con características innovadoras como gamificación de atracciones turísticas, itinerarios personalizados según tus preferencias',
+    'EuVouNaTrip es su compañero de viaje indispensable.'
   ];
 }
 

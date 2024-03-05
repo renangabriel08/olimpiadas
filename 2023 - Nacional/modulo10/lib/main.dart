@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modulo10/pages/config.dart';
+import 'package:modulo10/pages/sobre.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,8 +19,9 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/config': (context) => const Configs(),
+        '/sobre': (context) => const Sobre(),
       },
-      initialRoute: '/config',
+      initialRoute: '/sobre',
     );
   }
 }

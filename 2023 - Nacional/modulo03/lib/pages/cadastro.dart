@@ -84,7 +84,12 @@ class _CadastroState extends State<Cadastro> {
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(automaticallyImplyLeading: true),
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => modal(),
+          icon: const Icon(Icons.arrow_back),
+        ),
+      ),
       body: SizedBox(
         width: width,
         height: height,

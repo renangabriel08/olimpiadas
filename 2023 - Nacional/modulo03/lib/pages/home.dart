@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:modulo03/models/user.dart';
 import 'package:modulo03/styles/styles.dart';
 
@@ -10,12 +11,61 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Future<void> modal() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Textos.txt2(
+            'Atenção!',
+            TextAlign.start,
+            Cores.azul2,
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Textos.txt1(
+                  'Seu tempo de expiração chegou ao fim! Escolha uma opção!',
+                  TextAlign.start,
+                  Cores.azul1,
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Textos.txt1(
+                'Fechar app',
+                TextAlign.center,
+                Cores.azul1,
+              ),
+              onPressed: () {
+                SystemNavigator.pop();
+              },
+            ),
+            TextButton(
+              child: Textos.txt1(
+                'Voltar ao login',
+                TextAlign.center,
+                Cores.azul1,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/login');
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    print(User.user);
-    print(TimeOfDay.now().period);
+
+    print(TimeOfDay.now().hour);
 
     return Scaffold(
       body: Container(
@@ -38,11 +88,7 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
-              // ignore: prefer_const_constructors
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [],
-              ),
+              Container(height: height * .02),
               Row(
                 children: [
                   Container(
@@ -81,9 +127,28 @@ class _HomeState extends State<Home> {
                         Cores.verde3,
                       ),
                     ],
-                  )
+                  ),
                 ],
-              )
+              ),
+              Container(height: height * .06),
+              if (TimeOfDay.now().hour >= 0 && TimeOfDay.now().hour < 12)
+                Textos.txt1(
+                  'Bom dia, ${User.user!['name']}',
+                  TextAlign.start,
+                  Cores.verde3,
+                ),
+              if (TimeOfDay.now().hour >= 12 && TimeOfDay.now().hour < 18)
+                Textos.txt1(
+                  'Boa tarde, ${User.user!['name']}',
+                  TextAlign.start,
+                  Cores.verde3,
+                ),
+              if (TimeOfDay.now().hour >= 18 && TimeOfDay.now().hour < 24)
+                Textos.txt1(
+                  'Boa noite, ${User.user!['name']}',
+                  TextAlign.start,
+                  Cores.verde3,
+                ),
             ],
           ),
         ),

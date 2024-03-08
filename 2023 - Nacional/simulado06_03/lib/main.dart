@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:simulado06_03/pages/home.dart';
+import 'package:simulado06_03/pages/mapa.dart';
 import 'package:simulado06_03/pages/perfil.dart';
 import 'package:simulado06_03/styles/styles.dart';
 
@@ -19,8 +21,10 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/perfil': (context) => const Perfil(),
+        '/home': (context) => const Home(),
+        '/mapa': (context) => const Mapa(),
       },
-      initialRoute: '/perfil',
+      initialRoute: '/mapa',
     );
   }
 }

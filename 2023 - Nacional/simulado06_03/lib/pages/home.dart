@@ -131,81 +131,88 @@ class _HomeState extends State<Home> {
                             ),
                             Container(height: 20),
                             for (var local in locais)
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 8,
-                                  bottom: 8,
+                              GestureDetector(
+                                onTap: () => Navigator.pushNamed(
+                                  context,
+                                  '/mapa',
                                 ),
-                                child: Container(
-                                  width: width,
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 2,
-                                      color: t1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 8,
+                                    bottom: 8,
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              local['nome_local'].length < 15
-                                                  ? local['nome_local']
-                                                  : '${local['nome_local'].substring(0, 15)} [...]',
-                                              style: TextStyle(
-                                                fontFamily: Fonts.font,
-                                                fontSize: size,
+                                  child: Container(
+                                    width: width,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        width: 2,
+                                        color: t1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                local['nome_local'].length < 15
+                                                    ? local['nome_local']
+                                                    : '${local['nome_local'].substring(0, 15)} [...]',
+                                                style: TextStyle(
+                                                  fontFamily: Fonts.font,
+                                                  fontSize: size,
+                                                ),
                                               ),
-                                            ),
-                                            Text(
-                                              local['descricao_local'].length <
-                                                      30
-                                                  ? local['descricao_local']
-                                                  : '${local['descricao_local'].substring(0, 30)} [...]',
-                                              style: TextStyle(
-                                                fontFamily: Fonts.font,
-                                                fontSize: size * .8,
+                                              Text(
+                                                local['descricao_local']
+                                                            .length <
+                                                        30
+                                                    ? local['descricao_local']
+                                                    : '${local['descricao_local'].substring(0, 30)} [...]',
+                                                style: TextStyle(
+                                                  fontFamily: Fonts.font,
+                                                  fontSize: size * .8,
+                                                ),
                                               ),
-                                            ),
-                                            Text(
-                                              local['distancia'].toString(),
-                                              style: TextStyle(
-                                                fontFamily: Fonts.font,
-                                                fontSize: size,
+                                              Text(
+                                                local['distancia'].toString(),
+                                                style: TextStyle(
+                                                  fontFamily: Fonts.font,
+                                                  fontSize: size,
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                for (int i = 0;
-                                                    i <
-                                                        double.parse(local[
-                                                                'avaliacao_local'])
-                                                            .round();
-                                                    i++)
-                                                  Icon(
-                                                    Icons.star,
-                                                    color: Colors.yellow,
-                                                    size: 10,
-                                                  )
-                                              ],
-                                            ),
-                                          ],
-                                        )
-                                      ],
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  for (int i = 0;
+                                                      i <
+                                                          double.parse(local[
+                                                                  'avaliacao_local'])
+                                                              .round();
+                                                      i++)
+                                                    const Icon(
+                                                      Icons.star,
+                                                      color: Colors.yellow,
+                                                      size: 10,
+                                                    )
+                                                ],
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),

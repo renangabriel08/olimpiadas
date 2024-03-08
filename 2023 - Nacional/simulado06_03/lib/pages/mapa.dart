@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:simulado06_03/controllers/api.dart';
 import 'package:simulado06_03/controllers/cache.dart';
 import 'package:simulado06_03/controllers/mapa.dart';
+import 'package:simulado06_03/styles/styles.dart';
 
 class Mapa extends StatefulWidget {
   const Mapa({super.key});
@@ -14,6 +15,9 @@ class Mapa extends StatefulWidget {
 class _MapaState extends State<Mapa> {
   bool loading = true;
   double size = 16;
+
+  int min = 0;
+  int max = 0;
 
   Color t1 = const Color(0xFF00E1C2);
   Color t2 = const Color(0xFF2C2C2D);
@@ -41,6 +45,9 @@ class _MapaState extends State<Mapa> {
       bg = const Color(0xFF2C2C2D);
     }
 
+    min = value[3]['clima'][0]['min'];
+    max = value[3]['clima'][0]['max'];
+
     loading = false;
 
     setState(() {});
@@ -52,6 +59,7 @@ class _MapaState extends State<Mapa> {
       ApiController.getUser(),
       CacheController.getTamanho(),
       CacheController.getTema(),
+      ApiController.getTemp(),
       MapaController.getPosition(),
     ]).then((value) => setar(value));
     super.initState();
@@ -70,14 +78,72 @@ class _MapaState extends State<Mapa> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : GoogleMap(
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(
-                    MapaController.latitude,
-                    MapaController.longitude,
+            : Stack(
+                children: [
+                  GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(
+                        MapaController.latitude,
+                        MapaController.longitude,
+                      ),
+                    ),
+                    markers: MapaController.markers,
                   ),
-                ),
-                markers: MapaController.markers,
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () => Navigator.pushNamed(context, '/home'),
+                          child: Container(
+                            width: 100,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: bg,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Icon(
+                                  Icons.arrow_back,
+                                  color: t2,
+                                ),
+                                Text(
+                                  'Voltar',
+                                  style: TextStyle(
+                                    fontFamily: Fonts.font,
+                                    fontSize: size,
+                                    color: t2,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 170,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: bg,
+                          ),
+                          child: Center(
+                            child: Text(
+                              'min: $min | max: $max',
+                              style: TextStyle(
+                                fontFamily: Fonts.font,
+                                fontSize: size,
+                                color: t1,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
       ),
     );

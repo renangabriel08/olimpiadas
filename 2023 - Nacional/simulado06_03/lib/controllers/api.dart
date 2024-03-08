@@ -52,4 +52,17 @@ class ApiController {
       return res;
     }
   }
+
+  static Future getTemp() async {
+    final url = Uri.parse(
+      'https://brasilapi.com.br/api/cptec/v1/clima/previsao/4796',
+    );
+
+    final req = await http.get(url);
+
+    if (req.statusCode == 200) {
+      final res = jsonDecode(utf8.decode(req.bodyBytes));
+      return res;
+    }
+  }
 }

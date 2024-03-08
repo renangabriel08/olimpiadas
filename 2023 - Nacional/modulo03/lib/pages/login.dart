@@ -75,7 +75,7 @@ class _LoginState extends State<Login> {
                       onChanged: (value) => email = value,
                       validator: (value) => Validator.login(email),
                       decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.person),
+                        prefixIcon: const Icon(Icons.email),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -142,7 +142,9 @@ class _LoginState extends State<Login> {
                         if (bloquearLogin) {
                           null;
                         } else {
-                          timer!.cancel();
+                          if (timer != null) {
+                            timer!.cancel();
+                          }
                           Navigator.pushNamed(
                             context,
                             '/cadastro',

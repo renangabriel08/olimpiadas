@@ -33,4 +33,28 @@ class ApiController {
       MyToast.gerar('Erro ao realizar login!');
     }
   }
+
+  static cadastrar(String nome, String email, String senha, String dr) async {
+    try {
+      final url = Uri.parse(
+        'https://apieuvounatrip.azurewebsites.net/api/Usuarios',
+      );
+      final req = await http.post(url, body: {
+        "nome": nome,
+        "email": email,
+        "senha": senha,
+        "dr": dr,
+        "tipoUsuarioId": 1,
+      });
+
+      if (req.statusCode == 200) {
+        MyToast.gerar('Cadastro realizado com sucesso!');
+        navKey.currentState!.pushNamed('/login');
+      } else {
+        MyToast.gerar('Campos inválidos!');
+      }
+    } catch (e) {
+      MyToast.gerar('Campos inválidos!');
+    }
+  }
 }

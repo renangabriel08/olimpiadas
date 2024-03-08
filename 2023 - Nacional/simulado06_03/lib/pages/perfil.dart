@@ -16,6 +16,7 @@ class _PerfilState extends State<Perfil> {
   String img = '';
 
   bool loading = true;
+  bool modoEscuro = false;
 
   Map user = {};
 
@@ -49,11 +50,15 @@ class _PerfilState extends State<Perfil> {
       t2 = const Color(0xFF2C2C2D);
       t3 = const Color(0xFFE10051);
       bg = const Color(0xFFFFFFFF);
+
+      modoEscuro = false;
     } else {
       t1 = const Color(0xFFFFFFFF);
       t2 = const Color(0xFFFFFFFF);
       t3 = const Color(0xFFFFFFFF);
       bg = const Color(0xFF2C2C2D);
+
+      modoEscuro = true;
     }
 
     loading = false;
@@ -108,86 +113,103 @@ class _PerfilState extends State<Perfil> {
                       t2 = const Color(0xFF2C2C2D);
                       t3 = const Color(0xFFE10051);
                       bg = const Color(0xFFFFFFFF);
+
+                      modoEscuro = false;
                     } else {
                       t1 = const Color(0xFFFFFFFF);
                       t2 = const Color(0xFFFFFFFF);
                       t3 = const Color(0xFFFFFFFF);
                       bg = const Color(0xFF2C2C2D);
+
+                      modoEscuro = true;
                     }
 
-                    return Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 150,
-                            height: 150,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(999),
-                              border:
-                                  Border.all(width: 2, color: CoresClaro.t1),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(999),
-                              child: Image.network(
-                                img,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          Container(height: 40),
-                          TextFormField(
-                            controller: nomeController,
-                            style: TextStyle(
-                              fontFamily: Fonts.font,
-                              fontSize: size,
-                            ),
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              labelText: "Nome",
-                              labelStyle: TextStyle(
-                                fontFamily: Fonts.font,
-                                fontSize: size,
-                              ),
-                              prefixIcon: Icon(Icons.person, color: t1),
-                            ),
-                          ),
-                          Container(height: 20),
-                          TextFormField(
-                            controller: emailController,
-                            style: TextStyle(
-                              fontFamily: Fonts.font,
-                              fontSize: size,
-                            ),
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              labelText: "Email",
-                              labelStyle: TextStyle(
-                                fontFamily: Fonts.font,
-                                fontSize: size,
-                              ),
-                              prefixIcon: Icon(Icons.person, color: t1),
-                            ),
-                          ),
-                          Container(height: 40),
-                          Row(
-                            children: [
-                              Text(
-                                'Tamanho do texto',
-                                style: TextStyle(
-                                  fontFamily: Fonts.font,
-                                  fontSize: size * 1.3,
+                    return Container(
+                      width: width,
+                      height: height,
+                      color: bg,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 150,
+                              height: 150,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(999),
+                                border: Border.all(
+                                  width: 2,
+                                  color: t2,
                                 ),
                               ),
-                            ],
-                          ),
-                          Slider(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(999),
+                                child: Image.network(
+                                  img,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            Container(height: height * .07),
+                            TextFormField(
+                              controller: nomeController,
+                              style: TextStyle(
+                                fontFamily: Fonts.font,
+                                fontSize: size,
+                                color: t2,
+                              ),
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                labelText: "Nome",
+                                labelStyle: TextStyle(
+                                  fontFamily: Fonts.font,
+                                  fontSize: size,
+                                  color: t2,
+                                ),
+                                prefixIcon: Icon(Icons.person, color: t2),
+                              ),
+                            ),
+                            Container(height: 20),
+                            TextFormField(
+                              controller: emailController,
+                              style: TextStyle(
+                                fontFamily: Fonts.font,
+                                fontSize: size,
+                                color: t2,
+                              ),
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                labelText: "Email",
+                                labelStyle: TextStyle(
+                                  fontFamily: Fonts.font,
+                                  fontSize: size,
+                                  color: t2,
+                                ),
+                                prefixIcon: Icon(Icons.person, color: t2),
+                              ),
+                            ),
+                            Container(height: height * .07),
+                            Row(
+                              children: [
+                                Text(
+                                  'Tamanho do texto',
+                                  style: TextStyle(
+                                    fontFamily: Fonts.font,
+                                    fontSize: size * 1.3,
+                                    color: t1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Slider(
                               max: 3,
                               divisions: 2,
+                              activeColor: t1,
                               value: sliderValue,
                               onChanged: (value) async {
                                 sliderValue = value;
@@ -198,46 +220,64 @@ class _PerfilState extends State<Perfil> {
                                             ? 'M'
                                             : 'G');
                                 setState(() {});
-                              }),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Pequeno',
-                                style: TextStyle(
-                                  fontFamily: Fonts.font,
-                                  fontSize: size,
+                              },
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Pequeno',
+                                  style: TextStyle(
+                                    fontFamily: Fonts.font,
+                                    fontSize: size,
+                                    color: t2,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                'Medio',
-                                style: TextStyle(
-                                  fontFamily: Fonts.font,
-                                  fontSize: size,
+                                Text(
+                                  'Medio',
+                                  style: TextStyle(
+                                    fontFamily: Fonts.font,
+                                    fontSize: size,
+                                    color: t2,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                'Grande',
-                                style: TextStyle(
-                                  fontFamily: Fonts.font,
-                                  fontSize: size,
+                                Text(
+                                  'Grande',
+                                  style: TextStyle(
+                                    fontFamily: Fonts.font,
+                                    fontSize: size,
+                                    color: t2,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Container(height: 40),
-                          Row(
-                            children: [
-                              Text(
-                                'Modo escuro',
-                                style: TextStyle(
-                                  fontFamily: Fonts.font,
-                                  fontSize: size * 1.3,
+                              ],
+                            ),
+                            Container(height: height * .07),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Modo escuro',
+                                  style: TextStyle(
+                                    fontFamily: Fonts.font,
+                                    fontSize: size * 1.3,
+                                    color: t1,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                                Switch(
+                                  value: modoEscuro,
+                                  activeColor: t1,
+                                  onChanged: (value) async {
+                                    modoEscuro = value;
+                                    await CacheController.salvarTemam(
+                                      modoEscuro ? 'E' : 'C',
+                                    );
+                                    setState(() {});
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   }

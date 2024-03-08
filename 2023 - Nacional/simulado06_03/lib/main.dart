@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const Home(),
         '/mapa': (context) => const Mapa(),
       },
-      initialRoute: '/mapa',
+      initialRoute: '/perfil',
     );
   }
 }

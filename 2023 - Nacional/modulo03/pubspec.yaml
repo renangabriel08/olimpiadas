@@ -38,6 +38,7 @@ dependencies:
   fluttertoast: ^8.2.4
   http: ^1.2.0
   jwt_decoder: ^2.0.1
+  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:modulo03/models/user.dart';
 import 'package:modulo03/styles/styles.dart';
 
@@ -11,7 +14,35 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Timer? timer;
+
+  int s = 0;
+  int m = 1;
+  int h = 1;
+
+  start() {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (s == 0 && m == 0 && h == 0) {
+        modal();
+      } else if (s == 0 && m == 0) {
+        h--;
+        s = 59;
+        m = 59;
+      } else if (s == 0) {
+        s = 59;
+        if (m != 0) {
+          m--;
+        }
+      } else {
+        s--;
+      }
+      setState(() {});
+    });
+  }
+
   Future<void> modal() async {
+    timer!.cancel();
+
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -61,11 +92,17 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  void initState() {
+    start();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    print(TimeOfDay.now().hour);
+    print(User.user);
 
     return Scaffold(
       body: Container(
@@ -79,6 +116,7 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Textos.txt1('Inicio', TextAlign.start, Cores.verde3),
+                  Textos.txt1('$h:$m:$s', TextAlign.start, Cores.verde3),
                   IconButton(
                     onPressed: () => Navigator.pushNamed(context, '/login'),
                     icon: Icon(
@@ -109,7 +147,10 @@ class _HomeState extends State<Home> {
                     children: [
                       User.user!['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] !=
                               'Comum'
-                          ? const Icon(Icons.crop)
+                          ? FaIcon(
+                              FontAwesomeIcons.crown,
+                              color: Cores.azul1,
+                            )
                           : Container(),
                       Textos.txt1(
                         User.user!['name'],

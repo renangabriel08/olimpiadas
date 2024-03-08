@@ -85,9 +85,17 @@ class _PerfilState extends State<Perfil> {
       body: Container(
         width: width,
         height: height,
+        color: bg,
         child: loading
-            ? const Center(
-                child: CircularProgressIndicator(),
+            ? Container(
+                width: width,
+                height: height,
+                color: bg,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: t1,
+                  ),
+                ),
               )
             : FutureBuilder(
                 future: Future.wait([
@@ -133,6 +141,18 @@ class _PerfilState extends State<Perfil> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () =>
+                                      Navigator.pushNamed(context, '/home'),
+                                  icon: Icon(
+                                    Icons.arrow_back,
+                                    color: t2,
+                                  ),
+                                ),
+                              ],
+                            ),
                             Container(
                               width: 150,
                               height: 150,
@@ -281,8 +301,15 @@ class _PerfilState extends State<Perfil> {
                       ),
                     );
                   }
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                  return Container(
+                    width: width,
+                    height: height,
+                    color: bg,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: t1,
+                      ),
+                    ),
                   );
                 },
               ),

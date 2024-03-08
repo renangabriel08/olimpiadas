@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -8,14 +9,32 @@ class MapaController {
   static double latitude = 0.0;
   static double longitude = 0.0;
   static Set<Marker> markers = {};
+  static dynamic idLocal = 0;
+  static List locais = [];
 
-  static Future getPosition() async {
+  static Future getPosition(context) async {
     final pos = await posicaoAtual();
-
-    await ApiController.getLocais();
 
     latitude = pos.latitude;
     longitude = pos.longitude;
+
+    await ApiController.getLocais(context);
+  }
+
+  static Future atualizarPosicao() async {
+    final pos = await posicaoAtual();
+
+    latitude = pos.latitude;
+    longitude = pos.longitude;
+  }
+
+  static Future adicionarDistancias() async {
+    for (var local in MapaController.locais) {
+      local['distancia'] = await MapaController.getDistancia(LatLng(
+        double.parse(local['latitude_local']),
+        double.parse(local['longitude_local']),
+      ));
+    }
   }
 
   static Future<Position> posicaoAtual() async {
@@ -52,8 +71,44 @@ class MapaController {
 
     if (req.statusCode == 200) {
       final res = jsonDecode(utf8.decode(req.bodyBytes));
-      return 'opa';
+      if (res['status'] == 'ZERO_RESULTS') {
+        return 'Sem dados';
+      }
+      return res['routes'][0]['legs'][0]['distance']['text'];
     }
-    return '2KM';
+    return 'Erro';
+  }
+
+  static Future<void> showModal(context) async {
+    Map local = await ApiController.getLocal(MapaController.idLocal) as Map;
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(local['nome_local']),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(local['tipo_local']),
+                Text(local['descricao_local']),
+                Text(local['endereco_local']),
+                Text(local['avaliacao_local']),
+                Text(local['distancia']),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

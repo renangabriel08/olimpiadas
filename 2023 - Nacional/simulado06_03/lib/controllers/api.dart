@@ -15,7 +15,7 @@ class ApiController {
     }
   }
 
-  static Future getLocais() async {
+  static Future getLocais(context) async {
     final url = Uri.parse('https://fredaugusto.com.br/simuladodrs/locais');
 
     final req = await http.get(url);
@@ -32,9 +32,20 @@ class ApiController {
               double.parse(local['latitude_local']),
               double.parse(local['longitude_local']),
             ),
+            onTap: () {
+              MapaController.idLocal = local['id_local'];
+              MapaController.showModal(context);
+            },
           ),
         );
       }
+
+      MapaController.locais = res as List;
+      await MapaController.adicionarDistancias();
+
+      MapaController.locais.sort(
+        (a, b) => a['distancia'].compareTo(b['distancia']),
+      );
 
       return res;
     }
@@ -49,6 +60,15 @@ class ApiController {
 
     if (req.statusCode == 200) {
       final res = jsonDecode(utf8.decode(req.bodyBytes));
+
+      MapaController.locais = res as List;
+
+      await MapaController.adicionarDistancias();
+
+      MapaController.locais.sort(
+        (a, b) => a['distancia'].compareTo(b['distancia']),
+      );
+
       return res;
     }
   }
@@ -63,6 +83,23 @@ class ApiController {
     if (req.statusCode == 200) {
       final res = jsonDecode(utf8.decode(req.bodyBytes));
       return res;
+    }
+  }
+
+  static Future getLocal(id) async {
+    final url = Uri.parse('https://fredaugusto.com.br/simuladodrs/locais/$id');
+
+    final req = await http.get(url);
+
+    if (req.statusCode == 200) {
+      final res = jsonDecode(utf8.decode(req.bodyBytes));
+
+      res[0]['distancia'] = await MapaController.getDistancia(LatLng(
+        double.parse(res[0]['latitude_local']),
+        double.parse(res[0]['longitude_local']),
+      ));
+
+      return res[0];
     }
   }
 }

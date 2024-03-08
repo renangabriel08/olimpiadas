@@ -1,3 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:simulado06_03/controllers/api.dart';
@@ -13,6 +16,15 @@ class Mapa extends StatefulWidget {
 }
 
 class _MapaState extends State<Mapa> {
+  Timer? timer;
+
+  start() async {
+    timer = Timer.periodic(const Duration(seconds: 10), (timer) async {
+      await MapaController.atualizarPosicao();
+      setState(() {});
+    });
+  }
+
   bool loading = true;
   double size = 16;
 
@@ -51,6 +63,10 @@ class _MapaState extends State<Mapa> {
     loading = false;
 
     setState(() {});
+
+    MapaController.showModal(context);
+
+    start();
   }
 
   @override
@@ -60,7 +76,7 @@ class _MapaState extends State<Mapa> {
       CacheController.getTamanho(),
       CacheController.getTema(),
       ApiController.getTemp(),
-      MapaController.getPosition(),
+      MapaController.getPosition(context),
     ]).then((value) => setar(value));
     super.initState();
   }

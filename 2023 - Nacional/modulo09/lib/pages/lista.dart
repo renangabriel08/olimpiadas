@@ -91,7 +91,6 @@ class _ListaState extends State<Lista> with SingleTickerProviderStateMixin {
                           TextFormField(
                             keyboardType: TextInputType.name,
                             onChanged: (value) {
-                              print(data[0]);
                               pes = value;
                               if (pes != '') {
                                 reclamacoes.clear();
@@ -136,7 +135,9 @@ class _ListaState extends State<Lista> with SingleTickerProviderStateMixin {
                                     color: Cores.branco,
                                     borderRadius: BorderRadius.circular(10),
                                     border: Border.all(
-                                        width: 2, color: Cores.verde3),
+                                      width: 2,
+                                      color: Cores.verde3,
+                                    ),
                                     boxShadow: [
                                       BoxShadow(
                                         blurRadius: 1,
@@ -163,7 +164,19 @@ class _ListaState extends State<Lista> with SingleTickerProviderStateMixin {
                                               Textos.txt1(
                                                 reclamacoes[i]['titulo'],
                                                 TextAlign.left,
-                                                Cores.azul2,
+                                                reclamacoes[i][
+                                                            'tipoReclamacaoId'] ==
+                                                        1
+                                                    ? Colors.green
+                                                    : reclamacoes[i][
+                                                                'tipoReclamacaoId'] ==
+                                                            2
+                                                        ? Colors.blue
+                                                        : reclamacoes[i][
+                                                                    'tipoReclamacaoId'] ==
+                                                                3
+                                                            ? Colors.orange
+                                                            : Colors.purple,
                                               ),
                                               Textos.txt1(
                                                 reclamacoes[i]['descricao'],

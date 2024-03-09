@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Fonts {
-  static String font = '';
+  static String font = 'MontserratAlternates';
 }
 
 class Textos {

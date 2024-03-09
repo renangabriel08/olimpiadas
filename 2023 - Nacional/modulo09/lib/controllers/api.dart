@@ -32,4 +32,25 @@ class ApiController {
       MyToast.gerar('Erro ao deletar reclamação');
     }
   }
+
+  static Future cadastrarReclamacao(String titulo, String desc, int id) async {
+    try {
+      final url = Uri.parse(
+        'https://apieuvounatrip.azurewebsites.net/api/Reclamacoes',
+      );
+
+      final req = await http.post(url, body: {
+        "titulo": titulo,
+        "descricao": desc,
+        "ordem": 3,
+        "usuarioId": 2,
+        "tipoReclamacaoId": id,
+        "tipoReclamacao": null,
+        "usuario": null
+      });
+      if (req.statusCode == 200) {
+        MyToast.gerar('Reclamação cadastrada com sucesso');
+      }
+    } catch (e) {}
+  }
 }

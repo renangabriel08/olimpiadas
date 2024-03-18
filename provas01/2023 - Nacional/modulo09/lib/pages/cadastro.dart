@@ -52,7 +52,7 @@ class _CadastroState extends State<Cadastro>
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Textos.txt2(
+                Textos.txt1(
                   'Sua conexão com a internet está indisponível! Aguarde!',
                   TextAlign.start,
                   Cores.azul1,
@@ -79,7 +79,8 @@ class _CadastroState extends State<Cadastro>
         }
       } else {
         if (modalAberto) {
-          Navigator.of(context).pop();
+          modalAberto = false;
+          Navigator.pop(context);
         }
       }
     });
@@ -89,7 +90,7 @@ class _CadastroState extends State<Cadastro>
   void initState() {
     start();
     super.initState();
-    _controller = TabController(length: 2, vsync: this);
+    _controller = TabController(length: 2, vsync: this, initialIndex: 1);
   }
 
   @override

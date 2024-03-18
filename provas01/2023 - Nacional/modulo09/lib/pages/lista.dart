@@ -130,7 +130,7 @@ class _ListaState extends State<Lista> with SingleTickerProviderStateMixin {
                                     const EdgeInsets.only(top: 8, bottom: 8),
                                 child: Container(
                                   width: width,
-                                  height: 70,
+                                  height: 100,
                                   decoration: BoxDecoration(
                                     color: Cores.branco,
                                     borderRadius: BorderRadius.circular(10),

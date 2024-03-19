@@ -1,35 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:modulo03/controllers/cadastro.dart';
 import 'package:modulo03/controllers/login.dart';
 import 'package:modulo03/controllers/validator.dart';
 import 'package:modulo03/styles/styles.dart';
 import 'package:modulo03/widgets/toast.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class Cadastro extends StatefulWidget {
+  const Cadastro({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Cadastro> createState() => _CadastroState();
 }
 
-class _LoginState extends State<Login> {
+class _CadastroState extends State<Cadastro> {
   final _formKey = GlobalKey<FormState>();
 
+  String nome = '';
   String email = '';
   String senha = '';
+  String csenha = '';
 
-  bool obscureText = true;
+  bool obscureText1 = true;
+  bool obscureText2 = true;
 
-  logar() async {
+  cadastrar() async {
     if (_formKey.currentState!.validate()) {
-      await LoginController.logar(email, senha);
-      if (LoginController.erros % 3 == 0) {
-        LoginController.enabled = false;
-        setState(() {});
-        MyToast.gerar('Login bloqueado: aguarde 30s!');
-        Future.delayed(const Duration(seconds: 30));
-        LoginController.enabled = true;
-        setState(() {});
-      }
+      await CadastroController.cadastrar(nome, email, senha);
     } else {
       MyToast.gerar('Usuário/Senha inválidos!');
     }
@@ -39,7 +35,6 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-
     return Scaffold(
       body: SizedBox(
         width: width,
@@ -58,7 +53,22 @@ class _LoginState extends State<Login> {
                     Textos.titulo('Login', TextAlign.center, Cores.verdeEscuro),
                     Container(height: height * .1),
                     TextFormField(
-                      validator: (value) => Validator.validarLogin(email),
+                      validator: (value) => Validator.validarNome(nome),
+                      onChanged: (value) => nome = value,
+                      keyboardType: TextInputType.emailAddress,
+                      enabled: LoginController.enabled,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: 'Nome',
+                        labelStyle: TextStyle(fontFamily: Fonts.font),
+                        prefixIcon: const Icon(Icons.person),
+                      ),
+                    ),
+                    Container(height: height * .01),
+                    TextFormField(
+                      validator: (value) => Validator.validarEmail(email),
                       onChanged: (value) => email = value,
                       keyboardType: TextInputType.emailAddress,
                       enabled: LoginController.enabled,
@@ -74,8 +84,8 @@ class _LoginState extends State<Login> {
                     Container(height: height * .01),
                     TextFormField(
                       enabled: LoginController.enabled,
-                      obscureText: obscureText,
-                      validator: (value) => Validator.validarLogin(senha),
+                      obscureText: obscureText1,
+                      validator: (value) => Validator.validarSenha(senha),
                       onChanged: (value) => senha = value,
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
@@ -87,9 +97,34 @@ class _LoginState extends State<Login> {
                         prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
                           onPressed: () => setState(() {
-                            obscureText = !obscureText;
+                            obscureText1 = !obscureText1;
                           }),
-                          icon: Icon(obscureText
+                          icon: Icon(obscureText1
+                              ? Icons.visibility
+                              : Icons.visibility_off_outlined),
+                        ),
+                      ),
+                    ),
+                    Container(height: height * .01),
+                    TextFormField(
+                      enabled: LoginController.enabled,
+                      obscureText: obscureText2,
+                      validator: (value) =>
+                          Validator.validarCsenha(csenha, senha),
+                      onChanged: (value) => csenha = value,
+                      keyboardType: TextInputType.visiblePassword,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: 'Confirmar Senha',
+                        labelStyle: TextStyle(fontFamily: Fonts.font),
+                        prefixIcon: const Icon(Icons.lock_outline),
+                        suffixIcon: IconButton(
+                          onPressed: () => setState(() {
+                            obscureText2 = !obscureText2;
+                          }),
+                          icon: Icon(obscureText2
                               ? Icons.visibility
                               : Icons.visibility_off_outlined),
                         ),
@@ -103,9 +138,9 @@ class _LoginState extends State<Login> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      onPressed: () => LoginController.enabled ? logar() : null,
+                      onPressed: () => cadastrar(),
                       child: Textos.padrao(
-                        'Acessar',
+                        'Cadastrar',
                         TextAlign.center,
                         Cores.verdeEscuro,
                       ),
@@ -118,11 +153,9 @@ class _LoginState extends State<Login> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      onPressed: () => LoginController.enabled
-                          ? Navigator.pushNamed(context, '/cadastro')
-                          : null,
+                      onPressed: () => Navigator.pushNamed(context, '/login'),
                       child: Textos.padrao(
-                        'Cadastre-se',
+                        'Entrar',
                         TextAlign.center,
                         Cores.verdeEscuro,
                       ),

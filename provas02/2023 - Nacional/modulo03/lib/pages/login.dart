@@ -17,18 +17,21 @@ class _LoginState extends State<Login> {
   String email = '';
   String senha = '';
 
+  bool enabled = true;
   bool obscureText = true;
 
   logar() async {
     if (_formKey.currentState!.validate()) {
-      await LoginController.logar(email, senha);
-      if (LoginController.erros % 3 == 0) {
-        LoginController.enabled = false;
-        setState(() {});
-        MyToast.gerar('Login bloqueado: aguarde 30s!');
-        Future.delayed(const Duration(seconds: 30));
-        LoginController.enabled = true;
-        setState(() {});
+      var a = await LoginController.logar(email, senha);
+      if (a == false) {
+        if (LoginController.erros % 3 == 0) {
+          enabled = false;
+          setState(() {});
+          MyToast.gerar('Login bloqueado: aguarde 30s!');
+          await Future.delayed(const Duration(seconds: 30));
+          enabled = true;
+          setState(() {});
+        }
       }
     } else {
       MyToast.gerar('Usuário/Senha inválidos!');
@@ -61,7 +64,7 @@ class _LoginState extends State<Login> {
                       validator: (value) => Validator.validarLogin(email),
                       onChanged: (value) => email = value,
                       keyboardType: TextInputType.emailAddress,
-                      enabled: LoginController.enabled,
+                      enabled: enabled,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -73,7 +76,7 @@ class _LoginState extends State<Login> {
                     ),
                     Container(height: height * .01),
                     TextFormField(
-                      enabled: LoginController.enabled,
+                      enabled: enabled,
                       obscureText: obscureText,
                       validator: (value) => Validator.validarLogin(senha),
                       onChanged: (value) => senha = value,
@@ -103,7 +106,7 @@ class _LoginState extends State<Login> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      onPressed: () => LoginController.enabled ? logar() : null,
+                      onPressed: () => enabled ? logar() : null,
                       child: Textos.padrao(
                         'Acessar',
                         TextAlign.center,
@@ -118,7 +121,7 @@ class _LoginState extends State<Login> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      onPressed: () => LoginController.enabled
+                      onPressed: () => enabled
                           ? Navigator.pushNamed(context, '/cadastro')
                           : null,
                       child: Textos.padrao(

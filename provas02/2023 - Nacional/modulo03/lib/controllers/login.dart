@@ -24,8 +24,7 @@ class LoginController {
     } else {
       erros++;
       MyToast.gerar('Usuário/Senha inválidos!');
+      return false;
     }
-
-    print(req.statusCode);
   }
 }

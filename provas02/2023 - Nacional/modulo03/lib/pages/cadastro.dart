@@ -27,8 +27,49 @@ class _CadastroState extends State<Cadastro> {
     if (_formKey.currentState!.validate()) {
       await CadastroController.cadastrar(nome, email, senha);
     } else {
-      MyToast.gerar('Usuário/Senha inválidos!');
+      MyToast.gerar('Campos inválidos!');
     }
+  }
+
+  Future<void> modal() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Textos.subtitulo(
+            'Cancelar',
+            TextAlign.start,
+            Cores.azulEscuro,
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Textos.padrao(
+                  'Deseja realmente cancelar seu cadastro?',
+                  TextAlign.start,
+                  Cores.azulEscuro,
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Textos.padrao('Sim', TextAlign.center, Cores.azulClaro),
+              onPressed: () {
+                Navigator.pushNamed(context, '/login');
+              },
+            ),
+            TextButton(
+              child: Textos.padrao('Não', TextAlign.center, Cores.azulEscuro),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -153,9 +194,9 @@ class _CadastroState extends State<Cadastro> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      onPressed: () => Navigator.pushNamed(context, '/login'),
+                      onPressed: () => modal(),
                       child: Textos.padrao(
-                        'Entrar',
+                        'Cancelar',
                         TextAlign.center,
                         Cores.verdeEscuro,
                       ),

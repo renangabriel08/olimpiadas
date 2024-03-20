@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:modulo03/controllers/login.dart';
 import 'package:modulo03/styles/styles.dart';
@@ -55,10 +56,18 @@ class _HomeState extends State<Home> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              Textos.subtitulo(
-                '$msg, ${user['name']}!',
-                TextAlign.center,
-                Cores.verdeMedio,
+              Row(
+                children: [
+                  Textos.subtitulo(
+                    '$msg, ${user['name']}!',
+                    TextAlign.center,
+                    Cores.verdeMedio,
+                  ),
+                  user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ==
+                          'Comum'
+                      ? Container()
+                      : const FaIcon(FontAwesomeIcons.crown),
+                ],
               ),
               Container(height: height * .05),
               Row(

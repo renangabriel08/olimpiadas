@@ -13,6 +13,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool loading = true;
   bool btn = false;
+  bool rota = false;
 
   String pesquisa = '';
   pesquisar() async {
@@ -20,11 +21,18 @@ class _HomeState extends State<Home> {
     MapaController.polylines.clear();
     await MapaController.pesquisar(pesquisa);
     btn = true;
-    Future.delayed(const Duration(seconds: 1));
+    Future.delayed(const Duration(seconds: 2));
     setState(() {});
   }
 
   iniciar() {}
+
+  adicionarPonto(Map ponto) async {
+    rota = true;
+    MapaController.pontosRota.add(ponto);
+
+    setState(() {});
+  }
 
   setar() {
     loading = false;
@@ -93,6 +101,44 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       Container(height: 20),
+                      Column(
+                        children: [
+                          for (var ponto in MapaController.pontosTuristicos)
+                            ListTile(
+                              title: Textos.padrao(
+                                ponto['nome'],
+                                TextAlign.start,
+                                Cores.azulClaro,
+                              ),
+                              leading: IconButton(
+                                onPressed: () => adicionarPonto(ponto),
+                                icon: Icon(Icons.add, color: Cores.verdeEscuro),
+                              ),
+                            ),
+                        ],
+                      ),
+                      Container(height: 20),
+                      rota
+                          ? ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                fixedSize: Size(width, 50),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: () async {
+                                await MapaController.gerarNovaRota();
+                                Future.delayed(const Duration(seconds: 2));
+                                setState(() {});
+                              },
+                              child: Textos.padrao(
+                                'GERAR NOVA ROTA',
+                                TextAlign.center,
+                                Cores.verdeEscuro,
+                              ),
+                            )
+                          : Container(),
+                      Container(height: 10),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           fixedSize: Size(width, 50),

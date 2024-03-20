@@ -22,6 +22,7 @@ class Textos {
         fontFamily: Fonts.font,
         fontSize: 48,
         fontWeight: FontWeight.bold,
+        color: cor,
       ),
     );
   }
@@ -34,6 +35,7 @@ class Textos {
         fontFamily: Fonts.font,
         fontSize: 32,
         fontWeight: FontWeight.normal,
+        color: cor,
       ),
     );
   }
@@ -46,6 +48,7 @@ class Textos {
         fontFamily: Fonts.font,
         fontSize: 16,
         fontWeight: FontWeight.normal,
+        color: cor,
       ),
     );
   }

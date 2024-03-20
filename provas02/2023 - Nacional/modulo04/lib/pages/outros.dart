@@ -13,11 +13,14 @@ class _OutrosState extends State<Outros> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Textos.subtitulo(
-          widget.titulo,
-          TextAlign.center,
-          Cores.verdeEscuro,
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Center(
+          child: Textos.subtitulo(
+            widget.titulo,
+            TextAlign.center,
+            Cores.verdeMedio,
+          ),
         ),
       ),
     );

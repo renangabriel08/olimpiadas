@@ -38,6 +38,7 @@ dependencies:
   http: ^1.2.0
   local_auth: ^2.2.0
   fluttertoast: ^8.2.4
+  jwt_decoder: ^2.0.1
 
 dev_dependencies:
   flutter_test:

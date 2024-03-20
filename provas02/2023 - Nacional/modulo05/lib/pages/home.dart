@@ -16,6 +16,8 @@ class _HomeState extends State<Home> {
 
   String pesquisa = '';
   pesquisar() async {
+    MapaController.markers.clear();
+    MapaController.polylines.clear();
     await MapaController.pesquisar(pesquisa);
     btn = true;
     Future.delayed(const Duration(seconds: 1));
@@ -85,6 +87,9 @@ class _HomeState extends State<Home> {
                             zoom: 17,
                           ),
                           markers: MapaController.markers,
+                          polylines: MapaController.polylines,
+                          myLocationEnabled: true,
+                          myLocationButtonEnabled: true,
                         ),
                       ),
                       Container(height: 20),

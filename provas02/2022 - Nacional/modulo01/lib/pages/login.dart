@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:modulo01/controllers/login.dart';
 import 'package:modulo01/controllers/validator.dart';
 import 'package:modulo01/styles/styles.dart';
@@ -50,6 +51,8 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     return Scaffold(
       body: SizedBox(

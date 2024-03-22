@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:modulo02/controllers/mapa.dart';
+import 'package:modulo02/pages/andamento.dart';
 import 'package:modulo02/styles/styles.dart';
 
 class Iniciar extends StatefulWidget {
@@ -58,21 +60,46 @@ class _IniciarState extends State<Iniciar> {
                   Container(
                     width: width,
                     height: height * .65,
-                  ),
-                  Container(
-                    width: width * .3,
-                    height: width * .3,
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 2, color: Cores.cinza),
-                      borderRadius: BorderRadius.circular(999),
+                    child: GoogleMap(
+                      initialCameraPosition: CameraPosition(
+                        target: LatLng(
+                          MapaController.latitudeInicial,
+                          MapaController.longitudeInicial,
+                        ),
+                        zoom: 17,
+                      ),
+                      markers: MapaController.markers,
+                      polylines: MapaController.polylines,
                     ),
-                    child: Center(
-                      child: Texto(
-                        txt: 'INICIAR',
-                        textAlign: TextAlign.center,
-                        size: 16,
-                        weight: FontWeight.normal,
-                        cor: Cores.cinza,
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      Andamento.routeName,
+                      arguments: AndamentoArguments(
+                        args.tipo,
+                        LatLng(
+                          MapaController.latitudeInicial,
+                          MapaController.longitudeInicial,
+                        ),
+                        DateTime.now(),
+                      ),
+                    ),
+                    child: Container(
+                      width: width * .3,
+                      height: width * .3,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 2, color: Cores.cinza),
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                      child: Center(
+                        child: Texto(
+                          txt: 'INICIAR',
+                          textAlign: TextAlign.center,
+                          size: 16,
+                          weight: FontWeight.normal,
+                          cor: Cores.cinza,
+                        ),
                       ),
                     ),
                   )

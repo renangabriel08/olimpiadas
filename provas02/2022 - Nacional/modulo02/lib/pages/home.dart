@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:modulo02/pages/iniciar.dart';
-import 'package:modulo02/styles/styles.dart';
 import 'package:modulo02/widgets/card.dart';
 
 class Home extends StatefulWidget {

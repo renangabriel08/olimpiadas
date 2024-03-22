@@ -1,9 +1,12 @@
 import 'package:geolocator/geolocator.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapaController {
   static double latitudeInicial = 0.0;
   static double longitudeInicial = 0.0;
+
+  static Set<Polyline> polylines = {};
+  static Set<Marker> markers = {};
 
   static Future getPosition() async {
     final Position pos = await determinePosition();

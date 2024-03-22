@@ -39,6 +39,7 @@ dependencies:
   fluttertoast: ^8.2.4
   jwt_decoder: ^2.0.1
   font_awesome_flutter: ^10.7.0
+  slide_countdown: ^1.5.2
 
 dev_dependencies:
   flutter_test:

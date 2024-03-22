@@ -88,6 +88,7 @@ class MapaController {
       if (req.statusCode == 200) {
         final res = jsonDecode(utf8.decode(req.bodyBytes));
         steps = res['routes'][0]['legs'][0]['steps'];
+        points.clear();
 
         for (var step in steps) {
           points.add(
@@ -97,7 +98,7 @@ class MapaController {
             ),
           );
 
-          buscarPontosTuristicos(LatLng(
+          await buscarPontosTuristicos(LatLng(
             step['start_location']['lat'],
             step['start_location']['lng'],
           ));
@@ -109,7 +110,7 @@ class MapaController {
             ),
           );
 
-          buscarPontosTuristicos(LatLng(
+          await buscarPontosTuristicos(LatLng(
             step['end_location']['lat'],
             step['end_location']['lng'],
           ));
@@ -125,13 +126,15 @@ class MapaController {
   static buscarPontosTuristicos(LatLng d) async {
     try {
       final url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${d.latitude},${d.longitude}&radius=15000&types=tourist_attraction&key=AIzaSyD5v_ENMQDCUKIb2o9q_PVhnGaAUaTfedk',
+        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${d.latitude},${d.longitude}&radius=1500&types=tourist_attraction&key=AIzaSyD5v_ENMQDCUKIb2o9q_PVhnGaAUaTfedk',
       );
       final req = await http.get(url);
 
       if (req.statusCode == 200) {
         final res = jsonDecode(utf8.decode(req.bodyBytes));
         List pontos = res['results'];
+
+        pontosTuristicos.clear();
 
         for (var ponto in pontos) {
           LatLng pos = LatLng(
@@ -152,6 +155,10 @@ class MapaController {
   }
 
   static gerarNovaRota() async {
+    pontosRota.clear();
+    points.clear();
+    polylines.clear();
+
     pontosRota.insert(0, {
       'dis': 0,
       'pos': LatLng(latitude, longitude),
@@ -164,8 +171,6 @@ class MapaController {
     });
 
     pontosRota.sort((a, b) => a['dis'].compareTo(b['dis']));
-
-    polylines.clear();
 
     for (int i = 0; i < pontosRota.length - 1; i++) {
       gerarRota(pontosRota[i]['pos'], pontosRota[i + 1]['pos'], 'Rota$i');

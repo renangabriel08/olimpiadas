@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:modulo03/controllers/login.dart';
 import 'package:modulo03/styles/styles.dart';
+import 'package:slide_countdown/slide_countdown.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -31,6 +33,51 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+  Future<void> modal() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Textos.subtitulo('Atenção', TextAlign.start, Cores.azulEscuro),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Textos.padrao(
+                  'Seu tempo de expiração chegou ao fim! Escolha uma opção!',
+                  TextAlign.start,
+                  Cores.azulClaro,
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Textos.padrao(
+                'Fechar app',
+                TextAlign.start,
+                Cores.azulEscuro,
+              ),
+              onPressed: () {
+                SystemNavigator.pop();
+              },
+            ),
+            TextButton(
+              child: Textos.padrao(
+                'Voltar ao login',
+                TextAlign.start,
+                Cores.azulEscuro,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/login');
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -41,7 +88,18 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Textos.padrao('Início', TextAlign.start, Cores.verdeEscuro),
+        leading: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Textos.padrao('Início', TextAlign.start, Cores.verdeEscuro)
+          ],
+        ),
+        centerTitle: true,
+        title: SlideCountdownSeparated(
+          duration: const Duration(hours: 1, minutes: 30),
+          style: TextStyle(fontFamily: Fonts.font, color: Cores.branco),
+          onDone: () => modal(),
+        ),
         actions: [
           IconButton(
             onPressed: () => Navigator.pushNamed(context, '/login'),

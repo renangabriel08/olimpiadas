@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:modulo03/styles/styles.dart';
@@ -9,13 +12,62 @@ class Splash extends StatefulWidget {
   State<Splash> createState() => _SplashState();
 }
 
-class _SplashState extends State<Splash> {
+class _SplashState extends State<Splash> with TickerProviderStateMixin {
+  late AnimationController controller;
+
+  Timer? timer;
+  int i = 0;
+  int tempo = 0;
+
+  atualiza() {
+    while (true) {
+      int n = Random().nextInt(3);
+      if (n != i) {
+        return n;
+      }
+    }
+  }
+
+  start() {
+    timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
+      setState(() {
+        i = atualiza();
+        tempo++;
+
+        if (tempo == 10) {
+          timer.cancel();
+          Navigator.pushNamed(context, '/login');
+        }
+      });
+    });
+  }
+
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 3))
-        .then((value) => Navigator.pushNamed(context, '/login'));
+    start();
+    controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 5),
+    )..addListener(() {
+        setState(() {});
+      });
+    controller.repeat(reverse: true);
     super.initState();
   }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  List gradients = [
+    LinearGradient(colors: [Cores.azulEscuro, Cores.azulClaro]),
+    LinearGradient(colors: [Cores.verdeClaro, Cores.verdeMedio]),
+    LinearGradient(
+      colors: [Cores.verdeClaro, Cores.verdeMedio, Cores.verdeEscuro],
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +86,16 @@ class _SplashState extends State<Splash> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/images/Logo.png', height: 80),
+              ShaderMask(
+                shaderCallback: (Rect rect) {
+                  return gradients[i].createShader(rect);
+                },
+                child: Textos.subtitulo(
+                  'EUVOUNATRIP',
+                  TextAlign.center,
+                  Cores.branco,
+                ),
+              ),
               Container(height: height * .2),
               Textos.padrao(
                 'Carregando...',
@@ -42,7 +103,9 @@ class _SplashState extends State<Splash> {
                 Cores.verdeEscuro,
               ),
               Container(height: height * .02),
-              const CircularProgressIndicator(),
+              LinearProgressIndicator(
+                value: controller.value,
+              ),
             ],
           ),
         ),

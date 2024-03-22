@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:modulo05/controllers/mapa.dart';
@@ -13,19 +15,105 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool loading = true;
   bool btn = false;
+  bool started = false;
   bool rota = false;
-
   String pesquisa = '';
+  Timer? timer;
+
+  Future<void> avaliar() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Textos.subtitulo(
+            'Avaliar local',
+            TextAlign.center,
+            Cores.verdeEscuro,
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Textos.padrao(
+                'Ruim',
+                TextAlign.start,
+                Cores.verdeMedio,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Textos.padrao(
+                'Médio',
+                TextAlign.start,
+                Cores.verdeMedio,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Textos.padrao(
+                'Bom',
+                TextAlign.start,
+                Cores.verdeMedio,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  start() {
+    started = true;
+    setState(() {});
+
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      MapaController.polylines.clear();
+      await MapaController.getPosition();
+      await MapaController.gerarRota(
+        LatLng(MapaController.latitude, MapaController.longitude),
+        LatLng(MapaController.latDestino, MapaController.lngDestino),
+        'Rota',
+      );
+
+      if (LatLng(MapaController.latitude, MapaController.longitude) ==
+          LatLng(MapaController.latDestino, MapaController.lngDestino)) {
+        finalizar();
+      }
+
+      setState(() {});
+    });
+  }
+
+  finalizar() async {
+    started = false;
+    btn = false;
+    MapaController.markers.clear();
+    MapaController.polylines.clear();
+    timer?.cancel();
+
+    await Future.delayed(const Duration(seconds: 2));
+
+    setState(() {});
+  }
+
   pesquisar() async {
     MapaController.markers.clear();
     MapaController.polylines.clear();
     await MapaController.pesquisar(pesquisa);
     btn = true;
-    Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     setState(() {});
   }
 
-  iniciar() {}
+  iniciar() {
+    start();
+  }
 
   adicionarPonto(Map ponto) async {
     rota = true;
@@ -110,6 +198,13 @@ class _HomeState extends State<Home> {
                                 TextAlign.start,
                                 Cores.azulClaro,
                               ),
+                              subtitle: ponto['dis'] < 100
+                                  ? TextButton(
+                                      onPressed: () => avaliar(),
+                                      child: Textos.padrao('Avaliar',
+                                          TextAlign.start, Cores.verdeClaro),
+                                    )
+                                  : Container(),
                               leading: IconButton(
                                 onPressed: () => adicionarPonto(ponto),
                                 icon: Icon(Icons.add, color: Cores.verdeEscuro),
@@ -139,20 +234,35 @@ class _HomeState extends State<Home> {
                             )
                           : Container(),
                       Container(height: 10),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          fixedSize: Size(width, 50),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        onPressed: () => btn ? iniciar() : null,
-                        child: Textos.padrao(
-                          'INICIAR VIAGEM',
-                          TextAlign.center,
-                          Cores.verdeEscuro,
-                        ),
-                      ),
+                      !started
+                          ? ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                fixedSize: Size(width, 50),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: () => btn ? iniciar() : null,
+                              child: Textos.padrao(
+                                'INICIAR VIAGEM',
+                                TextAlign.center,
+                                Cores.verdeEscuro,
+                              ),
+                            )
+                          : ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                fixedSize: Size(width, 50),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: () => finalizar(),
+                              child: Textos.padrao(
+                                'FINALIZAR VIAGEM',
+                                TextAlign.center,
+                                Cores.verdeEscuro,
+                              ),
+                            ),
                     ],
                   ),
                 ),

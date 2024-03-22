@@ -6,6 +6,19 @@ class Validator {
     return null;
   }
 
+  static acesso(String value) {
+    if (value.isEmpty) {
+      return 'Campo obrigatório';
+    }
+
+    for (int i = 0; i < value.length; i++) {
+      if (!value[i].contains(RegExp(r'[0-9]'))) {
+        return 'Apenas números';
+      }
+    }
+    return null;
+  }
+
   static nome(String value) {
     if (value.isEmpty) {
       return 'Campo obrigatório';

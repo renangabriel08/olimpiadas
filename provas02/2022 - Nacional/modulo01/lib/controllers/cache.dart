@@ -10,4 +10,14 @@ class CacheController {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('log', true);
   }
+
+  static Future<String?> getToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
+  }
+
+  static Future setToken(String tkn) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('token', tkn);
+  }
 }

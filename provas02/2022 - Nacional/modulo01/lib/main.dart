@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:modulo01/pages/cadastro.dart';
+import 'package:modulo01/pages/home.dart';
 import 'package:modulo01/pages/login.dart';
+import 'package:modulo01/pages/primeiroAcesso.dart';
 import 'package:modulo01/pages/splash.dart';
 import 'package:modulo01/styles/styles.dart';
 
@@ -26,8 +28,10 @@ class MyApp extends StatelessWidget {
         '/splash': (context) => const Splash(),
         '/login': (context) => const Login(),
         '/cadastro': (context) => const Cadastro(),
+        '/primeiroAcesso': (context) => const PrimeiroAcesso(),
+        '/home': (context) => const Home(),
       },
-      initialRoute: '/cadastro',
+      initialRoute: '/splash',
     );
   }
 }

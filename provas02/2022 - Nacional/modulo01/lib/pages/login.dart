@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:modulo01/controllers/cache.dart';
 import 'package:modulo01/controllers/login.dart';
 import 'package:modulo01/controllers/validator.dart';
 import 'package:modulo01/styles/styles.dart';
@@ -45,6 +46,12 @@ class _LoginState extends State<Login> {
     setState(() {
       obscureText = !obscureText;
     });
+  }
+
+  @override
+  void initState() {
+    CacheController.setLog();
+    super.initState();
   }
 
   @override

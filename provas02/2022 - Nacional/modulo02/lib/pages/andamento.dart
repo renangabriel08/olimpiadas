@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:modulo02/controllers/mapa.dart';
+import 'package:modulo02/pages/finalizar.dart';
 import 'package:modulo02/styles/styles.dart';
 
 class Andamento extends StatefulWidget {
@@ -19,6 +23,18 @@ class AndamentoArguments {
 }
 
 class _AndamentoState extends State<Andamento> {
+  String dis = '00KM';
+
+  Timer? timer;
+
+  int h = 0;
+  int m = 0;
+  int s = 0;
+
+  String hF = '00';
+  String mF = '00';
+  String sF = '00';
+
   bool iniciado = false;
   bool started = false;
 
@@ -27,15 +43,35 @@ class _AndamentoState extends State<Andamento> {
     started = true;
 
     setState(() {});
+
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      s++;
+
+      if (s == 60) {
+        m++;
+        s = 0;
+      }
+      if (m == 60) {
+        h++;
+        m = 0;
+      }
+
+      hF = h < 10 ? '0$h' : h.toString();
+      mF = m < 10 ? '0$m' : m.toString();
+      sF = s < 10 ? '0$s' : s.toString();
+
+      dis = await MapaController.getDistance();
+
+      setState(() {});
+    });
   }
 
   pausar() {
     started = false;
+    timer!.cancel();
 
     setState(() {});
   }
-
-  concluir() {}
 
   @override
   Widget build(BuildContext context) {
@@ -45,15 +81,71 @@ class _AndamentoState extends State<Andamento> {
     final args =
         ModalRoute.of(context)!.settings.arguments as AndamentoArguments;
 
+    concluir() {
+      Navigator.pushNamed(
+        context,
+        Finalizar.routeName,
+        arguments: FinalizarArguments(
+          args.tipo,
+          args.locInicial,
+          args.hrInicio,
+          '$hF:$mF:$sF',
+          dis,
+        ),
+      );
+    }
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 20, bottom: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
+            SizedBox(
               width: width,
               height: height * .65,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      Texto(
+                        txt: 'Tempo',
+                        textAlign: TextAlign.center,
+                        size: 20,
+                        weight: FontWeight.normal,
+                        cor: Cores.cinza,
+                      ),
+                      Texto(
+                        txt: '$hF:$mF:$sF',
+                        textAlign: TextAlign.center,
+                        size: 38,
+                        weight: FontWeight.bold,
+                        cor: Cores.cinza,
+                      ),
+                    ],
+                  ),
+                  Container(height: height * .1),
+                  Column(
+                    children: [
+                      Texto(
+                        txt: 'Distância (KM)',
+                        textAlign: TextAlign.center,
+                        size: 20,
+                        weight: FontWeight.normal,
+                        cor: Cores.cinza,
+                      ),
+                      Texto(
+                        txt: dis,
+                        textAlign: TextAlign.center,
+                        size: 38,
+                        weight: FontWeight.bold,
+                        cor: Cores.cinza,
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
             started
                 ? GestureDetector(

@@ -70,24 +70,20 @@ class _FinalizarState extends State<Finalizar> {
                   Container(
                     width: width,
                     height: height * .65,
-                  ),
-                  Container(
-                    width: width * .3,
-                    height: width * .3,
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 2, color: Cores.cinza),
-                      borderRadius: BorderRadius.circular(999),
-                    ),
-                    child: Center(
-                      child: Texto(
-                        txt: 'Finalizar',
-                        textAlign: TextAlign.center,
-                        size: 16,
-                        weight: FontWeight.normal,
-                        cor: Cores.cinza,
+                    child: GoogleMap(
+                      initialCameraPosition: CameraPosition(
+                        target: LatLng(
+                          MapaController.latitudeInicial,
+                          MapaController.longitudeInicial,
+                        ),
+                        zoom: 17,
                       ),
+                      myLocationEnabled: true,
+                      myLocationButtonEnabled: true,
+                      markers: MapaController.markers,
+                      polylines: MapaController.polylines,
                     ),
-                  )
+                  ),
                 ],
               )
             : Center(

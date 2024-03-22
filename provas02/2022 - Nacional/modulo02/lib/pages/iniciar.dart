@@ -44,7 +44,7 @@ class _IniciarState extends State<Iniciar> {
         title: Texto(
           txt: args.tipo,
           textAlign: TextAlign.center,
-          size: 16,
+          size: 25,
           weight: FontWeight.bold,
           cor: Cores.cinza,
         ),
@@ -68,6 +68,8 @@ class _IniciarState extends State<Iniciar> {
                         ),
                         zoom: 17,
                       ),
+                      myLocationEnabled: true,
+                      myLocationButtonEnabled: true,
                       markers: MapaController.markers,
                       polylines: MapaController.polylines,
                     ),

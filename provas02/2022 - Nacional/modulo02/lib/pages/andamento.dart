@@ -109,7 +109,7 @@ class _AndamentoState extends State<Andamento> {
       body: Padding(
         padding: const EdgeInsets.only(top: 20, bottom: 20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
               width: width,
@@ -117,42 +117,94 @@ class _AndamentoState extends State<Andamento> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Column(
-                    children: [
-                      Texto(
-                        txt: 'Tempo',
-                        textAlign: TextAlign.center,
-                        size: 20,
-                        weight: FontWeight.normal,
-                        cor: Cores.cinza,
-                      ),
-                      Texto(
-                        txt: '$hF:$mF:$sF',
-                        textAlign: TextAlign.center,
-                        size: 38,
-                        weight: FontWeight.bold,
-                        cor: Cores.cinza,
-                      ),
-                    ],
+                  Container(
+                    width: width * .8,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      color: Cores.branco,
+                      border: Border.all(width: 2, color: Cores.cinza),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 6,
+                          offset: const Offset(0, 0),
+                          color: Cores.cinza,
+                          spreadRadius: 1,
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.timer, size: 80),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Texto(
+                              txt: 'Tempo',
+                              textAlign: TextAlign.center,
+                              size: 20,
+                              weight: FontWeight.normal,
+                              cor: Cores.cinza,
+                            ),
+                            Texto(
+                              txt: '$hF:$mF:$sF',
+                              textAlign: TextAlign.center,
+                              size: 38,
+                              weight: FontWeight.bold,
+                              cor: Cores.cinza,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   Container(height: height * .1),
-                  Column(
-                    children: [
-                      Texto(
-                        txt: 'Distância (KM)',
-                        textAlign: TextAlign.center,
-                        size: 20,
-                        weight: FontWeight.normal,
-                        cor: Cores.cinza,
-                      ),
-                      Texto(
-                        txt: dis,
-                        textAlign: TextAlign.center,
-                        size: 38,
-                        weight: FontWeight.bold,
-                        cor: Cores.cinza,
-                      ),
-                    ],
+                  Container(
+                    width: width * .8,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      color: Cores.branco,
+                      border: Border.all(width: 2, color: Cores.cinza),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 6,
+                          offset: const Offset(0, 0),
+                          color: Cores.cinza,
+                          spreadRadius: 1,
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.directions_run_outlined, size: 80),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Texto(
+                              txt: 'Distância (KM)',
+                              textAlign: TextAlign.center,
+                              size: 20,
+                              weight: FontWeight.normal,
+                              cor: Cores.cinza,
+                            ),
+                            Texto(
+                              txt: dis,
+                              textAlign: TextAlign.center,
+                              size: 38,
+                              weight: FontWeight.bold,
+                              cor: Cores.cinza,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   )
                 ],
               ),

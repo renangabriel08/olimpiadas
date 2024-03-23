@@ -24,6 +24,10 @@ class MapaController {
 
     latitudeInicial = pos.latitude;
     longitudeInicial = pos.longitude;
+
+    markers.clear();
+    polylines.clear();
+    points.clear();
   }
 
   static Future atualizarPos() async {
@@ -107,7 +111,7 @@ class MapaController {
   static addRoute() async {
     polylines.add(
       Polyline(
-        polylineId: PolylineId('Percurso'),
+        polylineId: const PolylineId('Percurso'),
         points: points,
         width: 4,
         color: Cores.ciano,

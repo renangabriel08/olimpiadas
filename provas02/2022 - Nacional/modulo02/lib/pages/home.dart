@@ -19,6 +19,8 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Image.asset('assets/images/logo.png', height: 50),
         centerTitle: true,
+        automaticallyImplyLeading: false,
+        leading: const Icon(Icons.arrow_back),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

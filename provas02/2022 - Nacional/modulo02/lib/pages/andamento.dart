@@ -82,6 +82,16 @@ class _AndamentoState extends State<Andamento> {
         ModalRoute.of(context)!.settings.arguments as AndamentoArguments;
 
     concluir() {
+      MapaController.addRoute();
+      MapaController.addMarker(
+        'Início',
+        LatLng(MapaController.latitudeInicial, MapaController.longitudeInicial),
+      );
+      MapaController.addMarker(
+        'Fim',
+        LatLng(MapaController.latitudeAtual, MapaController.longitudeAtual),
+      );
+
       Navigator.pushNamed(
         context,
         Finalizar.routeName,

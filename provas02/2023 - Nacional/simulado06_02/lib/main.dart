@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simulado06_02/pages/cadastro.dart';
+import 'package:simulado06_02/pages/home.dart';
 import 'package:simulado06_02/pages/login.dart';
 import 'package:simulado06_02/pages/splash.dart';
 import 'package:simulado06_02/styles/styles.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         '/splash': (context) => const Splash(),
         '/login': (context) => const Login(),
         '/cadastro': (context) => const Cadastro(),
+        '/inicio': (context) => const Home(),
       },
       initialRoute: '/splash',
     );

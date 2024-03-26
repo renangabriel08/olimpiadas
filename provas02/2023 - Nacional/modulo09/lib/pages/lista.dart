@@ -184,8 +184,7 @@ class _ListaState extends State<Lista> {
                             child: Row(
                               children: [
                                 GestureDetector(
-                                  onTap: () =>
-                                      Navigator.pushNamed(context, '/lista'),
+                                  onTap: () => (),
                                   child: Container(
                                     width: width * .5,
                                     height: height * .1,
@@ -206,7 +205,8 @@ class _ListaState extends State<Lista> {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () => (),
+                                  onTap: () =>
+                                      Navigator.pushNamed(context, '/cadastro'),
                                   child: Container(
                                     width: width * .5,
                                     height: height * .1,

@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:simulado06_02/main.dart';
 import 'package:simulado06_02/widgets/toast.dart';
 
@@ -14,8 +17,11 @@ class LoginController {
       final reqSend = await req.send();
 
       if (reqSend.statusCode == 200) {
-        MyToast.gerar('Bem vindo');
-        navKey.currentState!.pushNamed('/home');
+        final response = await http.Response.fromStream(reqSend);
+        final res = jsonDecode(response.body);
+        Map<String, dynamic> user = JwtDecoder.decode(res['access_token']);
+        MyToast.gerar('Bem vindo ${user['nome_user']}!');
+        navKey.currentState!.pushNamed('/inicio');
       } else {
         MyToast.gerar('Email/senha incorretos');
       }

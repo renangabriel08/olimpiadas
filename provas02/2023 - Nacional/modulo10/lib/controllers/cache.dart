@@ -36,4 +36,16 @@ class CacheController {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('tamanho', tamanho);
   }
+
+  static getDaltonismo() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? daltonismo = prefs.getString('daltonismo');
+
+    return daltonismo ?? 'd';
+  }
+
+  static setDaltonismo(String daltonismo) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('daltonismo', daltonismo);
+  }
 }

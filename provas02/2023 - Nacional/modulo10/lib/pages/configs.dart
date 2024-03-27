@@ -82,11 +82,33 @@ class _ConfigsState extends State<Configs> {
       vSlider = 1;
     }
 
+    if (value[3] == 'd') {
+      t1 = const Color(0xFF283B87);
+      t2 = const Color(0xFF86D35A);
+      bg = Colors.white;
+    } else {
+      if (value[2] == 'c') {
+        t1 = const Color(0xFF004576);
+        t2 = const Color(0xFFEBB565);
+        bg = Colors.white;
+      }
+      if (value[2] == 'e') {
+        t1 = Colors.white;
+        t2 = Colors.white;
+        bg = Colors.black;
+      }
+    }
+
     loading = false;
     setState(() {});
   }
 
-  setTema(value) async {}
+  setTema(value) async {
+    CacheController.setTema(value);
+
+    setState(() {});
+  }
+
   setTamanho(value) async {
     vSlider = value;
 
@@ -111,6 +133,7 @@ class _ConfigsState extends State<Configs> {
   }
 
   setDautonismo(value) async {
+    CacheController.setDaltonismo(value);
     setState(() {});
   }
 

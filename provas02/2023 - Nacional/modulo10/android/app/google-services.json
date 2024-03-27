@@ -1,0 +1,155 @@
+{
+  "project_info": {
+    "project_number": "1097388093254",
+    "firebase_url": "https://treinamento-spskills-default-rtdb.firebaseio.com",
+    "project_id": "treinamento-spskills",
+    "storage_bucket": "treinamento-spskills.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1097388093254:android:206ab069d52c8d21ecbf47",
+        "android_client_info": {
+          "package_name": "com.example.firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1097388093254-rfc7kolhuukj1mbls8a5vp81uo6ke2mm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAY5p0mhs6x38jgpo7xseRmk03NrRQPHj4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1097388093254-rfc7kolhuukj1mbls8a5vp81uo6ke2mm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1097388093254-01a8l7f8ktk1nerbcb4b6p2725023hi6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.firebase.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1097388093254:android:b4555cc02464d711ecbf47",
+        "android_client_info": {
+          "package_name": "com.example.flutter_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1097388093254-rfc7kolhuukj1mbls8a5vp81uo6ke2mm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAY5p0mhs6x38jgpo7xseRmk03NrRQPHj4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1097388093254-rfc7kolhuukj1mbls8a5vp81uo6ke2mm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1097388093254-01a8l7f8ktk1nerbcb4b6p2725023hi6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.firebase.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1097388093254:android:ca346ab55e8b0b77ecbf47",
+        "android_client_info": {
+          "package_name": "com.example.modulo07"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1097388093254-rfc7kolhuukj1mbls8a5vp81uo6ke2mm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAY5p0mhs6x38jgpo7xseRmk03NrRQPHj4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1097388093254-rfc7kolhuukj1mbls8a5vp81uo6ke2mm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1097388093254-01a8l7f8ktk1nerbcb4b6p2725023hi6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.firebase.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1097388093254:android:c5cac2c334cf70d3ecbf47",
+        "android_client_info": {
+          "package_name": "com.example.modulo10"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1097388093254-rfc7kolhuukj1mbls8a5vp81uo6ke2mm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAY5p0mhs6x38jgpo7xseRmk03NrRQPHj4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1097388093254-rfc7kolhuukj1mbls8a5vp81uo6ke2mm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1097388093254-01a8l7f8ktk1nerbcb4b6p2725023hi6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.firebase.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

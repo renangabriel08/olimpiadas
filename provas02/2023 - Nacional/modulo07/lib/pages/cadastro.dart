@@ -69,7 +69,7 @@ class _CadastroState extends State<Cadastro> {
       data =
           '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}';
 
-      CadastroController.cadastrar(
+      await CadastroController.cadastrar(
         user,
         local,
         cidade,
@@ -79,10 +79,14 @@ class _CadastroState extends State<Cadastro> {
         status,
         img!.path,
       );
+
+      Navigator.pushNamed(context, '/lista');
     }
   }
 
-  voltar() async {}
+  voltar() async {
+    Navigator.pushNamed(context, '/lista');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +94,7 @@ class _CadastroState extends State<Cadastro> {
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         width: width,
         height: height,
         child: Padding(

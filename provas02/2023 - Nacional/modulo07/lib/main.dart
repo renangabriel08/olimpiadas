@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         '/cadastro': (context) => const Cadastro(),
         '/lista': (context) => const Lista(),
       },
-      initialRoute: '/cadastro',
+      initialRoute: '/lista',
     );
   }
 }

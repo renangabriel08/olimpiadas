@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1097388093254-700ns5guosjpa54klk0dhh6o4qhvle70.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1097388093254-700ns5guosjpa54klk0dhh6o4qhvle70</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC6uztXjN9XaYxaRWtfU9cqOC0Wzwfnn64</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1097388093254</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.modulo07</string>
+	<key>PROJECT_ID</key>
+	<string>treinamento-spskills</string>
+	<key>STORAGE_BUCKET</key>
+	<string>treinamento-spskills.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1097388093254:ios:6be96779930b2543ecbf47</string>
+	<key>DATABASE_URL</key>
+	<string>https://treinamento-spskills-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

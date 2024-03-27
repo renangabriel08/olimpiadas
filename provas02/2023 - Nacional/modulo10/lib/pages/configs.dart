@@ -82,14 +82,14 @@ class _ConfigsState extends State<Configs> {
       vSlider = 1;
     }
 
-    if (value[3] == 'd') {
-      t1 = const Color(0xFF283B87);
-      t2 = const Color(0xFF86D35A);
+    if (value[3] == 'a') {
+      t1 = const Color(0xFF004576);
+      t2 = const Color(0xFFEBB565);
       bg = Colors.white;
     } else {
       if (value[2] == 'c') {
-        t1 = const Color(0xFF004576);
-        t2 = const Color(0xFFEBB565);
+        t1 = const Color(0xFF283B87);
+        t2 = const Color(0xFF86D35A);
         bg = Colors.white;
       }
       if (value[2] == 'e') {
@@ -154,7 +154,6 @@ class _ConfigsState extends State<Configs> {
           ? Container(
               width: width,
               height: height,
-              color: bg,
               child: FutureBuilder(
                 future: ConfigsController.getConfigs(),
                 builder: (context, snapshot) {
@@ -211,215 +210,236 @@ class _ConfigsState extends State<Configs> {
                       vSlider = 1;
                     }
 
-                    return Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              IconButton(
-                                onPressed: () => (),
-                                icon: const Icon(Icons.arrow_back),
-                              ),
-                              Text(
-                                palavras[1],
-                                style: TextStyle(
-                                  fontFamily: Fonts.font,
-                                  fontSize: size * 1.7,
-                                  color: t1,
+                    if (snapshot.data![3] == 'a') {
+                      t1 = const Color(0xFF004576);
+                      t2 = const Color(0xFFEBB565);
+                      bg = Colors.white;
+                    } else {
+                      if (snapshot.data![2] == 'c') {
+                        t1 = const Color(0xFF283B87);
+                        t2 = const Color(0xFF86D35A);
+                        bg = Colors.white;
+                      }
+                      if (snapshot.data![2] == 'e') {
+                        t1 = Colors.white;
+                        t2 = Colors.white;
+                        bg = Colors.black;
+                      }
+                    }
+
+                    return Container(
+                      color: bg,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () => (),
+                                  icon: const Icon(Icons.arrow_back),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Container(height: 30),
-                          Row(
-                            children: [
-                              Text(
-                                palavras[2],
-                                style: TextStyle(
-                                  fontFamily: Fonts.font,
-                                  fontSize: size * 1.3,
-                                  color: t1,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(height: 15),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                palavras[3],
-                                style: TextStyle(
-                                  fontFamily: Fonts.font,
-                                  fontSize: size,
-                                  color: t1,
-                                ),
-                              ),
-                              SizedBox(
-                                width: width * .5,
-                                child: DropdownButtonFormField(
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
+                                Text(
+                                  palavras[1],
+                                  style: TextStyle(
+                                    fontFamily: Fonts.font,
+                                    fontSize: size * 1.7,
+                                    color: t1,
                                   ),
-                                  value: idiomaS,
-                                  items: [
-                                    for (var i in idiomas)
-                                      DropdownMenuItem(
-                                        value: i['id'],
-                                        child: Text(
-                                          i['value'],
-                                          style: TextStyle(
-                                            fontFamily: Fonts.font,
-                                            fontSize: size,
-                                            color: t1,
+                                ),
+                              ],
+                            ),
+                            Container(height: 30),
+                            Row(
+                              children: [
+                                Text(
+                                  palavras[2],
+                                  style: TextStyle(
+                                    fontFamily: Fonts.font,
+                                    fontSize: size * 1.3,
+                                    color: t1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(height: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  palavras[3],
+                                  style: TextStyle(
+                                    fontFamily: Fonts.font,
+                                    fontSize: size,
+                                    color: t2,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: width * .5,
+                                  child: DropdownButtonFormField(
+                                    decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                    ),
+                                    value: idiomaS,
+                                    items: [
+                                      for (var i in idiomas)
+                                        DropdownMenuItem(
+                                          value: i['id'],
+                                          child: Text(
+                                            i['value'],
+                                            style: TextStyle(
+                                              fontFamily: Fonts.font,
+                                              fontSize: size,
+                                              color: t2,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                  ],
-                                  onChanged: (value) => setIdioma(value),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(height: 15),
-                          Row(
-                            children: [
-                              Text(
-                                palavras[7],
-                                style: TextStyle(
-                                  fontFamily: Fonts.font,
-                                  fontSize: size * 1.3,
-                                  color: t1,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(height: 15),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                palavras[8],
-                                style: TextStyle(
-                                  fontFamily: Fonts.font,
-                                  fontSize: size,
-                                  color: t1,
-                                ),
-                              ),
-                              SizedBox(
-                                width: width * .5,
-                                child: DropdownButtonFormField(
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
+                                    ],
+                                    onChanged: (value) => setIdioma(value),
                                   ),
-                                  value: temaS,
-                                  items: [
-                                    for (var i in temas)
-                                      DropdownMenuItem(
-                                        value: i['id'],
-                                        child: Text(
-                                          i['value'],
-                                          style: TextStyle(
-                                            fontFamily: Fonts.font,
-                                            fontSize: size,
-                                            color: t1,
+                                ),
+                              ],
+                            ),
+                            Container(height: 15),
+                            Row(
+                              children: [
+                                Text(
+                                  palavras[7],
+                                  style: TextStyle(
+                                    fontFamily: Fonts.font,
+                                    fontSize: size * 1.3,
+                                    color: t1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(height: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  palavras[8],
+                                  style: TextStyle(
+                                    fontFamily: Fonts.font,
+                                    fontSize: size,
+                                    color: t2,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: width * .5,
+                                  child: DropdownButtonFormField(
+                                    decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                    ),
+                                    value: temaS,
+                                    items: [
+                                      for (var i in temas)
+                                        DropdownMenuItem(
+                                          value: i['id'],
+                                          child: Text(
+                                            i['value'],
+                                            style: TextStyle(
+                                              fontFamily: Fonts.font,
+                                              fontSize: size,
+                                              color: t2,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                  ],
-                                  onChanged: (value) => setTema(value),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(height: 15),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                palavras[11],
-                                style: TextStyle(
-                                  fontFamily: Fonts.font,
-                                  fontSize: size,
-                                  color: t1,
-                                ),
-                              ),
-                              SizedBox(
-                                width: width * .5,
-                                child: DropdownButtonFormField(
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
+                                    ],
+                                    onChanged: (value) => setTema(value),
                                   ),
-                                  value: dautonismoS,
-                                  items: [
-                                    for (var i in dautonismos)
-                                      DropdownMenuItem(
-                                        value: i['id'],
-                                        child: Text(
-                                          i['value'],
-                                          style: TextStyle(
-                                            fontFamily: Fonts.font,
-                                            fontSize: size,
-                                            color: t1,
+                                ),
+                              ],
+                            ),
+                            Container(height: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  palavras[11],
+                                  style: TextStyle(
+                                    fontFamily: Fonts.font,
+                                    fontSize: size,
+                                    color: t2,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: width * .5,
+                                  child: DropdownButtonFormField(
+                                    decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                    ),
+                                    value: dautonismoS,
+                                    items: [
+                                      for (var i in dautonismos)
+                                        DropdownMenuItem(
+                                          value: i['id'],
+                                          child: Text(
+                                            i['value'],
+                                            style: TextStyle(
+                                              fontFamily: Fonts.font,
+                                              fontSize: size,
+                                              color: t2,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                  ],
-                                  onChanged: (value) => setDautonismo(value),
+                                    ],
+                                    onChanged: (value) => setDautonismo(value),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Container(height: 15),
-                          Row(
-                            children: [
-                              Text(
-                                palavras[14],
-                                style: TextStyle(
-                                  fontFamily: Fonts.font,
-                                  fontSize: size * 1.3,
-                                  color: t1,
+                              ],
+                            ),
+                            Container(height: 15),
+                            Row(
+                              children: [
+                                Text(
+                                  palavras[14],
+                                  style: TextStyle(
+                                    fontFamily: Fonts.font,
+                                    fontSize: size * 1.3,
+                                    color: t1,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Container(height: 15),
-                          Slider(
-                            divisions: 2,
-                            value: vSlider,
-                            onChanged: (value) => setTamanho(value),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                palavras[15],
-                                style: TextStyle(
-                                  fontFamily: Fonts.font,
-                                  fontSize: size,
-                                  color: t1,
+                              ],
+                            ),
+                            Container(height: 15),
+                            Slider(
+                              divisions: 2,
+                              value: vSlider,
+                              onChanged: (value) => setTamanho(value),
+                              activeColor: t1,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  palavras[15],
+                                  style: TextStyle(
+                                    fontFamily: Fonts.font,
+                                    fontSize: size,
+                                    color: t2,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                palavras[16],
-                                style: TextStyle(
-                                  fontFamily: Fonts.font,
-                                  fontSize: size,
-                                  color: t1,
+                                Text(
+                                  palavras[16],
+                                  style: TextStyle(
+                                    fontFamily: Fonts.font,
+                                    fontSize: size,
+                                    color: t2,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                palavras[17],
-                                style: TextStyle(
-                                  fontFamily: Fonts.font,
-                                  fontSize: size,
-                                  color: t1,
+                                Text(
+                                  palavras[17],
+                                  style: TextStyle(
+                                    fontFamily: Fonts.font,
+                                    fontSize: size,
+                                    color: t2,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     );
                   }

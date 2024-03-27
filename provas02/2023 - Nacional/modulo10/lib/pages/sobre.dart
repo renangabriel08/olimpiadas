@@ -83,6 +83,23 @@ class _SobreState extends State<Sobre> {
       vSlider = 1;
     }
 
+    if (value[3] == 'a') {
+      t1 = const Color(0xFF004576);
+      t2 = const Color(0xFFEBB565);
+      bg = Colors.white;
+    } else {
+      if (value[2] == 'c') {
+        t1 = const Color(0xFF283B87);
+        t2 = const Color(0xFF86D35A);
+        bg = Colors.white;
+      }
+      if (value[2] == 'e') {
+        t1 = Colors.white;
+        t2 = Colors.white;
+        bg = Colors.black;
+      }
+    }
+
     loading = false;
     setState(() {});
   }
@@ -101,7 +118,8 @@ class _SobreState extends State<Sobre> {
 
     return Scaffold(
       body: !loading
-          ? SizedBox(
+          ? Container(
+              color: bg,
               width: width,
               height: height,
               child: Padding(
@@ -239,6 +257,7 @@ class _SobreState extends State<Sobre> {
                           width: width * .2,
                           child: Icon(
                             Icons.map,
+                            color: t1,
                             size: width * .2,
                           ),
                         )
@@ -264,6 +283,7 @@ class _SobreState extends State<Sobre> {
                           width: width * .2,
                           child: Icon(
                             Icons.map,
+                            color: t1,
                             size: width * .2,
                           ),
                         ),

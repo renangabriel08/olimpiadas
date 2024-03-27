@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:modulo07/controllers/lista.dart';
+import 'package:modulo07/pages/admin.dart';
 import 'package:modulo07/styles/styles.dart';
 
 class Lista extends StatefulWidget {
@@ -37,7 +38,7 @@ class _ListaState extends State<Lista> {
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         width: width,
         height: height,
         child: SingleChildScrollView(
@@ -69,10 +70,7 @@ class _ListaState extends State<Lista> {
                                 borderRadius: BorderRadius.circular(0),
                               ),
                             ),
-                            onPressed: () => Navigator.pushNamed(
-                              context,
-                              '/admin',
-                            ),
+                            onPressed: () => (),
                             child: Textos.txt1(
                               'Admin',
                               Cores.verdeEscuro,
@@ -122,43 +120,50 @@ class _ListaState extends State<Lista> {
                       ),
                       Container(height: height * .03),
                       for (var av in avaliacoes)
-                        Slidable(
-                          key: ValueKey(av['id']),
-                          startActionPane: ActionPane(
-                            motion: const ScrollMotion(),
-                            dismissible: DismissiblePane(
-                              onDismissed: () => deletar(av['id']),
-                            ),
-                            children: [
-                              SlidableAction(
-                                onPressed: (context) => deletar(av['id']),
-                                backgroundColor: const Color(0xFFFE4A49),
-                                foregroundColor: Colors.white,
-                                icon: Icons.delete,
-                                label: 'Deletar',
-                              ),
-                            ],
+                        GestureDetector(
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            Admin.routeName,
+                            arguments: ScreenArguments(av),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 6, bottom: 6),
-                            child: Container(
-                              width: width,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 2, color: Cores.azulEscuro),
-                                borderRadius: BorderRadius.circular(10),
+                          child: Slidable(
+                            key: ValueKey(av['id']),
+                            startActionPane: ActionPane(
+                              motion: const ScrollMotion(),
+                              dismissible: DismissiblePane(
+                                onDismissed: () => deletar(av['id']),
                               ),
-                              child: ListTile(
-                                title: Textos.txt1(
-                                  'Avaliação ${av['id']}',
-                                  Cores.azulEscuro,
-                                  TextAlign.start,
+                              children: [
+                                SlidableAction(
+                                  onPressed: (context) => deletar(av['id']),
+                                  backgroundColor: const Color(0xFFFE4A49),
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.delete,
+                                  label: 'Deletar',
                                 ),
-                                subtitle: Textos.txt1(
-                                  '${av['status']}',
-                                  Cores.azulClaro,
-                                  TextAlign.start,
+                              ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 6, bottom: 6),
+                              child: Container(
+                                width: width,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 2, color: Cores.azulEscuro),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: ListTile(
+                                  title: Textos.txt1(
+                                    'Avaliação ${av['id']}',
+                                    Cores.azulEscuro,
+                                    TextAlign.start,
+                                  ),
+                                  subtitle: Textos.txt1(
+                                    '${av['status']}',
+                                    Cores.azulClaro,
+                                    TextAlign.start,
+                                  ),
                                 ),
                               ),
                             ),

@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:modulo07/firebase_options.dart';
+import 'package:modulo07/pages/admin.dart';
 import 'package:modulo07/pages/cadastro.dart';
 import 'package:modulo07/pages/lista.dart';
 import 'package:modulo07/styles/styles.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/cadastro': (context) => const Cadastro(),
         '/lista': (context) => const Lista(),
+        Admin.routeName: (context) => const Admin(),
       },
       initialRoute: '/lista',
     );

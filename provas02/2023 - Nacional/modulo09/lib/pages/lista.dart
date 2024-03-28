@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modulo09/controllers/deletar.dart';
 import 'package:modulo09/controllers/lista.dart';
 import 'package:modulo09/styles/styles.dart';
 
@@ -25,6 +26,11 @@ class _ListaState extends State<Lista> {
 
     loading = false;
 
+    setState(() {});
+  }
+
+  deletar(i) async {
+    await DeletarController.deletar(reclamacoes[i]['id']);
     setState(() {});
   }
 
@@ -105,6 +111,7 @@ class _ListaState extends State<Lista> {
                                     Container(height: height * .03),
                                     for (int i = 0; i < reclamacoes.length; i++)
                                       GestureDetector(
+                                        key: ValueKey('$i'),
                                         onLongPress: () => setState(() {
                                           visible[i] = true;
                                         }),
@@ -126,7 +133,8 @@ class _ListaState extends State<Lista> {
                                             ),
                                             child: Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 8),
+                                                left: 8,
+                                              ),
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -153,21 +161,27 @@ class _ListaState extends State<Lista> {
                                                     visible: visible[i],
                                                     child: Row(
                                                       children: [
-                                                        Container(
-                                                          width: 50,
-                                                          height: 50,
-                                                          child:
-                                                              Icon(Icons.edit),
-                                                        ),
-                                                        Container(
+                                                        const SizedBox(
                                                           width: 50,
                                                           height: 50,
                                                           child: Icon(
-                                                              Icons.delete),
-                                                        )
+                                                            Icons.edit,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 50,
+                                                          height: 50,
+                                                          child: IconButton(
+                                                            onPressed: () =>
+                                                                deletar(i),
+                                                            icon: const Icon(
+                                                              Icons.delete,
+                                                            ),
+                                                          ),
+                                                        ),
                                                       ],
                                                     ),
-                                                  )
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -231,13 +245,13 @@ class _ListaState extends State<Lista> {
                         ],
                       );
                     }
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   },
                 ),
               )
-            : Center(
+            : const Center(
                 child: CircularProgressIndicator(),
               ),
       ),

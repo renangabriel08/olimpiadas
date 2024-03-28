@@ -150,6 +150,13 @@ class _ConfigsState extends State<Configs> {
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(
+          context,
+          '/sobre',
+        ),
+        child: const Icon(Icons.info),
+      ),
       body: !loading
           ? Container(
               width: width,
@@ -236,7 +243,10 @@ class _ConfigsState extends State<Configs> {
                             Row(
                               children: [
                                 IconButton(
-                                  onPressed: () => (),
+                                  onPressed: () => Navigator.pushNamed(
+                                    context,
+                                    '/sobre',
+                                  ),
                                   icon: const Icon(Icons.arrow_back),
                                 ),
                                 Text(

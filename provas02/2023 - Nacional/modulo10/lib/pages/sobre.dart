@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:modulo10/controllers/configs.dart';
 import 'package:modulo10/styles/styles.dart';
@@ -13,6 +14,7 @@ class Sobre extends StatefulWidget {
 
 class _SobreState extends State<Sobre> {
   bool loading = true;
+  bool animado = false;
 
   double vSlider = 0;
   List palavras = [];
@@ -104,6 +106,14 @@ class _SobreState extends State<Sobre> {
     setState(() {});
   }
 
+  animar() async {
+    animado = !animado;
+    setState(() {});
+    await Future.delayed(Duration(milliseconds: 1000));
+    animado = false;
+    setState(() {});
+  }
+
   @override
   void initState() {
     Future.wait([ConfigsController.getConfigs()])
@@ -126,33 +136,50 @@ class _SobreState extends State<Sobre> {
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () => (),
-                          icon: const Icon(Icons.arrow_back),
-                        ),
-                        Text(
-                          palavras[18],
-                          style: TextStyle(
-                            fontFamily: Fonts.font,
-                            fontSize: size * 1.7,
-                            color: t1,
+                    GestureDetector(
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        '/configs',
+                      ),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: () => Navigator.pushNamed(
+                              context,
+                              '/configs',
+                            ),
+                            icon: const Icon(Icons.arrow_back),
                           ),
-                        ),
-                      ],
+                          Text(
+                            palavras[18],
+                            style: TextStyle(
+                              fontFamily: Fonts.font,
+                              fontSize: size * 1.7,
+                              color: t1,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     Container(
-                      width: 200,
-                      height: 200,
+                      width: 230,
+                      height: 230,
                       decoration: BoxDecoration(
                         color: const Color(0xFF283b87),
                         borderRadius: BorderRadius.circular(999),
                       ),
                       child: Center(
-                        child: Image.asset(
-                          'assets/images/logo.png',
-                          width: 150,
+                        child: GestureDetector(
+                          onTap: () => animar(),
+                          child: animado
+                              ? Image.asset(
+                                  'assets/images/logo.png',
+                                  width: 110,
+                                ).animate().slideX(duration: 1000.ms)
+                              : Image.asset(
+                                  'assets/images/logo.png',
+                                  width: 170,
+                                ),
                         ),
                       ),
                     ),
@@ -305,6 +332,13 @@ class _SobreState extends State<Sobre> {
               ),
             )
           : Container(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(
+          context,
+          '/configs',
+        ),
+        child: const Icon(Icons.settings),
+      ),
     );
   }
 }
